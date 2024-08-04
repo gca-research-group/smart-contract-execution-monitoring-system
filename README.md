@@ -14,17 +14,26 @@
 <br/>
 
 ## Table of contents
-  - <details open>
+  <details open>
     <summary><a href="#architectural-design">Architectural Design</a></summary>
 
-    - [Inbound Events Queue](#inbound-events-queue)
-    - [Event Handler](#event-handler)
-    - [Smart Contract Execution Queue](#smart-contract-execution-queue)
-    - [Contract Invoker](#contract-invoker)
-    - [Smart Contract Outbound Queue](#smart-contract-outbound-queue)
-    - [Event Updater](#event-updater)
+  - [Inbound Events Queue](#inbound-events-queue)
+  - [Event Handler](#event-handler)
+  - [Smart Contract Execution Queue](#smart-contract-execution-queue)
+  - [Contract Invoker](#contract-invoker)
+  - [Smart Contract Outbound Queue](#smart-contract-outbound-queue)
+  - [Event Updater](#event-updater)
   
-  </details> 
+  </details>
+  
+<details open>
+    <summary><a>Docs</a></summary>
+
+  - [Requirements](#requirements)
+  - [Developing](#developing)
+  - [Building](#building)
+
+  </details>
 
 ## Architectural Design
 
@@ -36,6 +45,34 @@
 ### Contract Invoker
 ### Smart Contract Outbound Queue
 ### Event Updater
+
+## Docs
+
+> This project uses [mkdocs](https://www.mkdocs.org/) as documentation tool
+
+### Requirements
+- [Python +3.11](https://www.python.org/)
+- [Poetry](https://python-poetry.org/)
+
+### Developing
+
+```shell
+cd mkdocs
+
+poetry shell
+
+mkdocs serve
+```
+
+### Building
+
+```shell
+cd mkdocs
+
+poetry shell
+
+mkdocs build --site-dir ../docs
+```
 
 ## License
 Copyright © 2024 [The Applied Computing Research Group (GCA)](https://github.com/gca-research-group).<br />

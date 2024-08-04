@@ -27,7 +27,7 @@
   </details>
   
 <details open>
-    <summary><a>Docs</a></summary>
+    <summary><a href="#docs">Docs</a></summary>
 
   - [Requirements](#requirements)
   - [Developing](#developing)

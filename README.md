@@ -14,13 +14,17 @@
 <br/>
 
 ## Table of contents
-  - [Architectural Design](#architectural-design)
+  - <details open>
+    <summary><a href="#architectural-design">Architectural Design</a></summary>
+
     - [Inbound Events Queue](#inbound-events-queue)
     - [Event Handler](#event-handler)
     - [Smart Contract Execution Queue](#smart-contract-execution-queue)
     - [Contract Invoker](#contract-invoker)
     - [Smart Contract Outbound Queue](#smart-contract-outbound-queue)
     - [Event Updater](#event-updater)
+  
+  </details> 
 
 ## Architectural Design
 <img src="assets/architecture.png">

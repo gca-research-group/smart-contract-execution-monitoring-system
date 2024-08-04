@@ -27,6 +27,7 @@
   </details> 
 
 ## Architectural Design
+
 <img src="assets/architecture.png">
 
 ### Inbound Events Queue

@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="assets/logo-background-white-256x256.png" alt="Nectar Logo">
+  <img src="assets/logo-background-white-256.png" alt="Nectar Logo">
   <br>
   Nectar Framework
   <br>

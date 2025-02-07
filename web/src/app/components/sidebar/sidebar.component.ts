@@ -5,6 +5,7 @@ import { IconComponent } from '@app/components/icon';
 import { NgFor, NgIf } from '@angular/common';
 import { IconButtonComponent } from '@app/components/icon-button';
 import { RouterLink } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-sidebar',
@@ -18,15 +19,16 @@ import { RouterLink } from '@angular/router';
     RouterLink,
     NgFor,
     NgIf,
+    TranslateModule,
   ],
 })
 export class SidebarComponent {
   isCollapsed = true;
 
   items = [
-    { label: 'Home', icon: 'home', url: '' },
-    { label: 'Smart Contracts', icon: 'article', url: 'smart-contracts' },
-    { label: 'Settings', icon: 'settings' },
+    { label: 'home', icon: 'home', url: '' },
+    { label: 'smart-contracts', icon: 'article', url: 'smart-contracts' },
+    { label: 'settings', icon: 'settings' },
   ];
 
   toggleMenu() {

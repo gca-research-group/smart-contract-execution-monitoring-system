@@ -1,0 +1,5 @@
+site_name: Nectar Framework
+site_dir: ./bin
+
+theme:
+  name: readthedocs

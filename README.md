@@ -2,7 +2,7 @@
   <br>
   <img src="assets/logo-rounded-background-256.png" alt="Nectar Logo">
   <br>
-  Nectar Framework
+  Smart Contract Execution Monitoring System
   <br>
 </h1>
 

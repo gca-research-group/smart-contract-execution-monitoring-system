@@ -20,6 +20,10 @@ mat-sidenav.collapsed {
   width: $sidenav-collapsed-width;
 }
 
+mat-sidenav-content {
+  padding: 0 4px;
+}
+
 .mat-drawer-side {
   border-radius: 0;
 } 

@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { IconComponent } from '@app/components/icon';
-import { NgFor, NgIf } from '@angular/common';
-import { IconButtonComponent } from '@app/components/icon-button';
+import { NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { SidebarService } from '@app/services/sidebar';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
@@ -15,14 +16,12 @@ import { TranslateModule } from '@ngx-translate/core';
     MatSidenavModule,
     MatButtonModule,
     IconComponent,
-    IconButtonComponent,
     RouterLink,
-    NgFor,
     NgIf,
     TranslateModule,
   ],
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit, OnDestroy {
   isCollapsed = true;
 
   items = [
@@ -31,7 +30,19 @@ export class SidebarComponent {
     { label: 'settings', icon: 'settings' },
   ];
 
-  toggleMenu() {
-    this.isCollapsed = !this.isCollapsed;
+  private sidebarService = inject(SidebarService);
+
+  private onDestroy$ = new Subject();
+
+  ngOnInit(): void {
+    this.sidebarService.isCollapsed$
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(value => {
+        this.isCollapsed = value;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.unsubscribe();
   }
 }

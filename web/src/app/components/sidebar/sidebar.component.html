@@ -1,15 +1,10 @@
-<mat-sidenav-container class="sidenav-container">
+<mat-sidenav-container class="sidenav-container" autosize>
   <mat-sidenav
     #sidenav
     mode="side"
     [opened]="true"
     [class.collapsed]="isCollapsed"
   >
-    <app-icon-button
-      [icon]="isCollapsed ? 'menu' : 'close'"
-      (click)="toggleMenu()"
-      (keydown.enter)="toggleMenu()"
-    />
     <ul>
       @for (item of items; track item.icon) {
         <li tabindex="0" [routerLink]="item.url">
@@ -19,4 +14,5 @@
       }
     </ul>
   </mat-sidenav>
+  <mat-sidenav-content><ng-content /></mat-sidenav-content>
 </mat-sidenav-container>

@@ -1,24 +1,28 @@
-$sidenav-collapsed-width: 50px;
+@import './../../variables';
 
 .sidenav-container {
-  height: 100vh;
+  height: calc(100vh - $toolbar-height);
 }
 
 mat-sidenav {
+  padding-top: 8px;
   width: 250px;
   transition: width 0.3s ease;
   background-color: #333;
   color: white;
 }
 
-.sidenav-container app-icon,
-.sidenav-container app-icon-button {
+.sidenav-container app-icon {
   min-width: $sidenav-collapsed-width;
 }
 
 mat-sidenav.collapsed {
   width: $sidenav-collapsed-width;
 }
+
+.mat-drawer-side {
+  border-radius: 0;
+} 
 
 ul {
   list-style: none;

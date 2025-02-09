@@ -1,0 +1,8 @@
+<mat-toolbar>
+  <app-icon-button
+      [icon]="isCollapsed ? 'menu' : 'close'"
+      (click)="toggleSadebar()"
+      (keydown.enter)="toggleSadebar()"
+    />
+  <span>Monitoring System</span>
+</mat-toolbar>

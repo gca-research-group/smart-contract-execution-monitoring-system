@@ -1,0 +1,10 @@
+@import './../../variables';
+
+mat-toolbar {
+  padding: 0;
+  height: $toolbar-height;
+}
+
+app-icon-button {
+  width: $sidenav-collapsed-width;
+}

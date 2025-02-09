@@ -14,7 +14,7 @@ ng-select {
     padding: 0 !important;
     display: flex;
     justify-content: center;
-    border-top: 0;
+    border-top: 0 !important;
   }
 
   .ng-value,
@@ -31,11 +31,11 @@ ng-select {
     display: none;
   }
 
-  .ng-arrow-wrapper{
+  .ng-arrow-wrapper {
     font-size: 12px;
     line-height: initial;
-    bottom: initial;
-    align-self: initial;
+    bottom: initial !important;
+    align-self: initial !important;
   }
 
 }

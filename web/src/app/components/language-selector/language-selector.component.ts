@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
 
@@ -10,7 +10,10 @@ import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
 })
 export class LanguageSelectorComponent {
   @Input()
-  selectedLanguage: string = 'pt';
+  current = 'pt';
+
+  @Output()
+  select = new EventEmitter<string>();
 
   languages = [
     { id: 'pt', name: 'Português', flag: 'https://flagcdn.com/br.svg' },

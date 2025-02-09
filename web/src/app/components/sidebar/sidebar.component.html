@@ -8,8 +8,13 @@
     <ul>
       @for (item of items; track item.icon) {
         <li tabindex="0" [routerLink]="item.url">
-          <app-icon [icon]="item.icon" [tooltip]="isCollapsed ? (item.label | translate) : ''"/>
-          <span class="menu-text" *ngIf="!isCollapsed">{{ item.label | translate }}</span>
+          <app-icon
+            [icon]="item.icon"
+            [tooltip]="isCollapsed ? (item.label | translate) : ''"
+          />
+          <span class="menu-text" *ngIf="!isCollapsed">{{
+            item.label | translate
+          }}</span>
         </li>
       }
     </ul>

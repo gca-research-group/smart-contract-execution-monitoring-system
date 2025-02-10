@@ -1,4 +1,4 @@
-import { QueryInterface, DataTypes } from 'sequelize';
+import { DataTypes, QueryInterface } from 'sequelize';
 
 module.exports = {
   up: (queryInterface: QueryInterface) => {
@@ -22,11 +22,7 @@ module.exports = {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      apiKey: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      profile: {
+      role: {
         type: DataTypes.STRING,
         allowNull: false,
       },

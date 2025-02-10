@@ -1,6 +1,5 @@
-import { Request, Response } from 'express';
-
 import { LoginService, RefreshTokenService } from '@app/services/Auth';
+import { Request, Response } from 'express';
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -18,7 +17,6 @@ export const login = async (req: Request, res: Response) => {
 
   res.json({ id, name, email, isSuper, token });
 };
-
 
 export const refresh = async (req: Request, res: Response) => {
   const refreshToken: string = req.cookies?.refreshToken;

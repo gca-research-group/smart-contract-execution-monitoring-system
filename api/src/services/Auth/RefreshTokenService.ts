@@ -1,6 +1,8 @@
 import { AppError } from '@app/errors';
 import jwt from 'jsonwebtoken';
 
+const EXPIRES_IN = 60 * 1 // '1h'
+
 export const RefreshTokenService = (refreshToken: string) => {
   const SECRET_KEY = process.env.SECRET_KEY;
 
@@ -14,11 +16,11 @@ export const RefreshTokenService = (refreshToken: string) => {
     };
 
     const token = jwt.sign({ id: verifiedToken.id }, SECRET_KEY, {
-      expiresIn: 60 * 1,
-    }); // '1h'
+      expiresIn: EXPIRES_IN,
+    });
 
     return token;
-  } catch (error) {
+  } catch {
     throw new AppError('ERR_SESSION_EXPIRED', 401);
   }
 };

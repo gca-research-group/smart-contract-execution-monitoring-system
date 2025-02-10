@@ -1,30 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
-
 import { AppError } from '@app/errors';
-import { ShowUserByApiKeyService } from '@app/services/User';
+import jwt from 'jsonwebtoken';
 
 export const isAuthenticatedMiddleware = async (
   req: Request,
-  res: Response,
+  _res: Response,
   next: NextFunction,
 ) => {
-  const apiKey = req.header('apiKey');
-
-  if (apiKey) {
-    const user = await ShowUserByApiKeyService(apiKey);
-
-    if (!user) {
-      throw new AppError('ERROR_INVALID_API_KEY', 401);
-    }
-
-    req.user = { id: user.id };
-
-    next();
-
-    return;
-  }
-
   const token =
     req.headers.authorization && req.headers.authorization.split(' ')[1];
 
@@ -42,9 +24,7 @@ export const isAuthenticatedMiddleware = async (
     const decoded = jwt.verify(token, SECRET_KEY) as unknown as { id: number };
     req.user = decoded;
     next();
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (error) {
+  } catch {
     throw new AppError('TOKEN_IS_INVALID_OR_EXPIRED', 403);
   }
 };

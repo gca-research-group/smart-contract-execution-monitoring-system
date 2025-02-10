@@ -1,9 +1,8 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import * as Yup from 'yup';
+import * as bcrypt from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
 
 import { AppError } from '@app/errors';
-
 import { ShowUserByEmailService } from '../User';
 
 export const LoginService = async (email: string, password: string) => {

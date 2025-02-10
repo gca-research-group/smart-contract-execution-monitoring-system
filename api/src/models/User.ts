@@ -2,12 +2,14 @@ import {
   AutoIncrement,
   Column,
   CreatedAt,
+  DataType,
   Model,
   PrimaryKey,
   Table,
   Unique,
   UpdatedAt,
 } from 'sequelize-typescript';
+import { UserRoles } from '@app/enums';
 
 @Table
 export class User extends Model<User> {
@@ -27,13 +29,12 @@ export class User extends Model<User> {
   password: string;
 
   @Column
-  apiKey: string;
-
-  @Column
   isSuper: boolean;
 
-  @Column
-  profile: string;
+  @Column({
+    type: DataType.ENUM(...Object.values(UserRoles))
+  })
+  role: UserRoles;
 
   @CreatedAt
   createdAt: Date;

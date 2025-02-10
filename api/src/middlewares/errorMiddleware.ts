@@ -6,7 +6,7 @@ import { logger } from '@app/utils';
 
 export const errorMiddleware = (
   error: Error,
-  req: Request,
+  _req: Request,
   res: Response,
   _nf: NextFunction,
 ): any => {

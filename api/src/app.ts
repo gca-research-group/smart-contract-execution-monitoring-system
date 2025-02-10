@@ -2,13 +2,11 @@ import './bootstrap';
 import './database';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 require('express-async-errors');
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import { errorMiddleware } from './middlewares/errorMiddleware';
 import express from 'express';
 import path from 'path';
-import cors from 'cors';
-
-import cookieParser from 'cookie-parser';
-
-import { errorMiddleware } from './middlewares/errorMiddleware';
 import routes from './routes';
 
 const app = express();

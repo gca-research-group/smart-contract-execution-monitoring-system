@@ -1,4 +1,7 @@
 import { Op, QueryInterface } from 'sequelize';
+import { UserRoles } from '@app/enums';
+
+import bcrypt from 'bcrypt';
 
 module.exports = {
   async up(queryInterface: QueryInterface) {
@@ -12,11 +15,9 @@ module.exports = {
       entities.push({
         name: 'Admin',
         email: 'admin@admin.com',
-        password:
-          process.env.ADMIN_PASSWORD ||
-          '$2b$08$13dwW0xPoQIUnXCtTXrpk.hsJpW4HoabMeCXeWmzrK7XiIZrlF07e',
+        password: bcrypt.hashSync(process.env.ADMIN_PASSWORD || '123456', 8),
         isSuper: true,
-        profile: 'admin',
+        role: UserRoles.ADMIN,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
@@ -31,7 +32,7 @@ module.exports = {
 
   async down(queryInterface: QueryInterface) {
     return queryInterface.bulkDelete('Users', {
-      email: { [Op.in]: ['admin@admin.com', 'api@api.com'] },
+      email: { [Op.in]: ['admin@admin.com'] },
     });
   },
 };

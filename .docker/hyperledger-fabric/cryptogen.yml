@@ -1,0 +1,9 @@
+services:
+  cryptogen:
+    image: hyperledger/fabric-tools:latest
+    container_name: cryptogen
+    command: cryptogen generate --config=/etc/hyperledger/fabric/crypto-config.yml --output=/etc/hyperledger/fabric/crypto-config
+    volumes:
+      - ./crypto-config:/etc/hyperledger/fabric/crypto-config
+      - ./crypto-config.yml:/etc/hyperledger/fabric/crypto-config.yml
+    working_dir: /etc/hyperledger/fabric

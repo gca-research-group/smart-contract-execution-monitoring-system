@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "prepare": "cd .. && husky web/.husky"
+    "prepare": "cd ./.. && husky install web/.husky"
   },
   "private": true,
   "dependencies": {

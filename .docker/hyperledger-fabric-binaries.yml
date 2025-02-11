@@ -1,0 +1,23 @@
+services:
+  fabric-orderer:
+    image: hyperledger/fabric-orderer:2.5
+    container_name: fabric-orderer
+    environment:
+      - FABRIC_LOGLEVEL=INFO
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_LISTENPORT=7050
+      - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/fabric/orderer/genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+    volumes:
+      - ./volumes/orderer:/var/hyperledger/orderer
+      - ./hyperledger-fabric/crypto-config/ordererOrganizations/supplychain.com/msp:/etc/hyperledger/fabric/orderer/msp
+      - ./hyperledger-fabric/SupplayChainGenesis.block:/etc/hyperledger/fabric/orderer/genesis.block
+    ports:
+      - "7050:7050"
+    networks:
+      - fabric-network
+
+networks:
+  fabric-network:
+    driver: bridge
+

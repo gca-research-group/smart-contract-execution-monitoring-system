@@ -4,16 +4,16 @@ source ./scripts/config/_colors.sh
 source ./scripts/config/_icons.sh
 
 CONFIG_TX_FILE=./.docker/hyperledger-fabric/configtx.yml
-DOCKER_COMPOSE_FILE=./.docker/fabric-tools.yml
+DOCKER_COMPOSE_FILE=./.docker/hyperledger-fabric-tools.yml
 CRYPTO_CONFIG_FOLDER=./.docker/hyperledger-fabric/crypto-config
 
 GITIGNORE_FILE=$(dirname $CRYPTO_CONFIG_FOLDER)/.gitignore
 
-CONTAINER_NAME=fabric-tools
+CONTAINER_NAME=hyperledger-fabric-tools
 
 OUTPUT_BLOCK=./SupplayChainGenesis.block
 PROFILE=SupplyChainOrdererGenesis
-CHANNEL_ID=ordererChannel
+CHANNEL_ID=ordererchannel
 CONFIG_TX_COMMAND="configtxgen -outputBlock $OUTPUT_BLOCK -profile $PROFILE -channelID $CHANNEL_ID"
 
 verifyIfTheConfigTxFileExists() {

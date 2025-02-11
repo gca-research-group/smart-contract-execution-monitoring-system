@@ -6,8 +6,8 @@ source ./scripts/config/_icons.sh
 CRYPTO_CONFIG_FOLDER=./.docker/hyperledger-fabric/crypto-config
 CRYPTO_CONFIG_FILE=./.docker/hyperledger-fabric/crypto-config.yml
 GITIGNORE_FILE=$(dirname $CRYPTO_CONFIG_FOLDER)/.gitignore
-DOCKER_COMPOSE_FILE=./.docker/fabric-tools.yml
-CONTAINER_NAME=fabric-tools
+DOCKER_COMPOSE_FILE=./.docker/hyperledger-fabric-tools.yml
+CONTAINER_NAME=hyperledger-fabric-tools
 CRYPTO_CONFIG_COMMAND="cryptogen generate --config=/etc/hyperledger/fabric/crypto-config.yml --output=/etc/hyperledger/fabric/crypto-config"
 
 verifyIfTheCryptoConfigFileExists() {
@@ -107,7 +107,7 @@ removeTheCryptoConfigFolder
 runTheContainer
 verifyIfTheContainerIsRunning
 generateCryptoMaterials
-removeContainersInExecution
+#removeContainersInExecution
 
 echo -e "${SUCCESS_ICON} Finished succesfully."
 exit 0

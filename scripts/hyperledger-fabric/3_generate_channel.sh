@@ -75,16 +75,6 @@ runTheContainer() {
 generateChannel() {
   echo -e "${PROCESSING_ICON} Generating the channel."
   exec_command=$(docker exec -it $CONTAINER_NAME bash -c "$CONFIG_TX_COMMAND" 2>&1)
-  
-  if [[ ! -f $GITIGNORE_FILE ]]; then
-    echo "$(basename $OUTPUT_CHANNEL)" > $GITIGNORE_FILE
-  else
-    if ! grep -q "$(basename $OUTPUT_CHANNEL)" $GITIGNORE_FILE; then
-      echo -e "${PROCESSING_ICON} Adding $(basename $OUTPUT_CHANNEL) to .gitignore."
-      echo "$(basename $OUTPUT_CHANNEL)" >> "$GITIGNORE_FILE"
-    fi
-  fi
-  
   echo -e "${SUCCESS_ICON} Channel generated."
 }
 

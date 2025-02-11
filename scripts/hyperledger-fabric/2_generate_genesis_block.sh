@@ -74,17 +74,7 @@ runTheContainer() {
 
 generateGenesisBlock() {
   echo -e "${PROCESSING_ICON} Generating genesis block."
-  exec_command=$(docker exec -it $CONTAINER_NAME bash -c "$CONFIG_TX_COMMAND" 2>&1)
-
-  if [[ ! -f $GITIGNORE_FILE ]]; then
-    echo "$(basename $OUTPUT_BLOCK)" > $GITIGNORE_FILE
-  else
-    if ! grep -q "$(basename $OUTPUT_BLOCK)" $GITIGNORE_FILE; then
-      echo -e "${PROCESSING_ICON} Adding $(basename $OUTPUT_BLOCK) to .gitignore."
-      echo "$(basename $OUTPUT_BLOCK)" >> "$GITIGNORE_FILE"
-    fi
-  fi
-  
+  exec_command=$(docker exec -it $CONTAINER_NAME bash -c "$CONFIG_TX_COMMAND" 2>&1)  
   echo -e "${SUCCESS_ICON} Genesis block generated."
 }
 

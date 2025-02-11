@@ -1,6 +1,3 @@
 crypto-config
-genesis.block
-supply-chain.tx
-ManufacturerAnchors.tx
-DistributorAnchors.tx
-RetailerAnchors.tx
+*.tx
+*.block

@@ -76,16 +76,6 @@ generateAnchorPeersTx() {
   OUTPUT_ANCHOR_PEERS_UPDATE=./${1}Anchors.tx
   CONFIG_TX_COMMAND="configtxgen -outputAnchorPeersUpdate $OUTPUT_ANCHOR_PEERS_UPDATE -profile $PROFILE -channelID $CHANNEL_ID -asOrg $1"
   exec_command=$(docker exec -it $CONTAINER_NAME bash -c "$CONFIG_TX_COMMAND" 2>&1)
-  
-  if [[ ! -f $GITIGNORE_FILE ]]; then
-    echo "$(basename $OUTPUT_ANCHOR_PEERS_UPDATE)" > $GITIGNORE_FILE
-  else
-    if ! grep -q "$(basename $OUTPUT_ANCHOR_PEERS_UPDATE)" $GITIGNORE_FILE; then
-      echo -e "${PROCESSING_ICON} Adding $(basename $OUTPUT_ANCHOR_PEERS_UPDATE) to .gitignore."
-      echo "$(basename $OUTPUT_ANCHOR_PEERS_UPDATE)" >> "$GITIGNORE_FILE"
-    fi
-  fi
-  
   echo -e "${SUCCESS_ICON} Anchor peer transaction generated: $1."
 }
 
@@ -95,9 +85,11 @@ verifyIfTheCryptoMaterialsExist
 removeContainersInExecution
 runTheContainer
 verifyIfTheContainerIsRunning
+
 for organization in $ORGANIZATIONS; do
-    generateAnchorPeersTx "$organization"
+  generateAnchorPeersTx "$organization"
 done
+
 removeContainersInExecution
 
 echo -e "${SUCCESS_ICON} Finished succesfully."

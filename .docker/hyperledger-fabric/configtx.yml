@@ -1,0 +1,201 @@
+Capabilities:
+  Application: &ApplicationCapabilities
+    V2_0: true
+  Orderer: &OrdererCapabilities
+    V2_0: true
+  Channel: &ChannelCapabilities
+    V2_0: true
+
+# Orgs defined as anchors (&) to avoid repetitions
+Organizations:
+  - &Orderer
+    Name: Orderer
+    ID: OrdererMSP
+    MSPDir: ./crypto-config/ordererOrganizations/supplychain.com/msp
+    Policies:
+      Readers:
+          Type: Signature
+          Rule: "OR('OrdererMSP.member')"
+      Writers:
+          Type: Signature
+          Rule: "OR('OrdererMSP.member')"
+      Admins:
+          Type: Signature
+          Rule: "OR('OrdererMSP.member')"
+      Endorsement:
+          Type: Signature
+          Rule: "OR('OrdererMSP.member')"
+
+  - &Manufacturer
+    Name: Manufacturer
+    ID: ManufacturerMSP
+    MSPDir: ./crypto-config/peerOrganizations/manufacturer.supplychain.com/msp
+    AnchorPeers:
+      - Host: localhost
+        Port: 7051
+    Policies:
+      Readers:
+          Type: Signature
+          Rule: "OR('Manufacturer.member')"
+      Writers:
+          Type: Signature
+          Rule: "OR('Manufacturer.member')"
+      Admins:
+          Type: Signature
+          Rule: "OR('Manufacturer.admin')"
+      Endorsement:
+          Type: Signature
+          Rule: "OR('Manufacturer.member')"
+
+  - &Distributor
+    Name: Distributor
+    ID: DistributorMSP
+    MSPDir: ./crypto-config/peerOrganizations/distributor.supplychain.com/msp
+    AnchorPeers:
+      - Host: localhost
+        Port: 7052
+    Policies:
+      Readers:
+          Type: Signature
+          Rule: "OR('Distributor.member')"
+      Writers:
+          Type: Signature
+          Rule: "OR('Distributor.member')"
+      Admins:
+          Type: Signature
+          Rule: "OR('Distributor.admin')"
+      Endorsement:
+          Type: Signature
+          Rule: "OR('Distributor.member')"
+
+  - &Retailer
+    Name: Retailer
+    ID: RetailerMSP
+    MSPDir: ./crypto-config/peerOrganizations/retailer.supplychain.com/msp
+    AnchorPeers:
+      - Host: localhost
+        Port: 7053
+    Policies:
+      Readers:
+          Type: Signature
+          Rule: "OR('RetailerMSP.member')"
+      Writers:
+          Type: Signature
+          Rule: "OR('RetailerMSP.member')"
+      Admins:
+          Type: Signature
+          Rule: "OR('RetailerMSP.admin')"
+      Endorsement:
+          Type: Signature
+          Rule: "OR('RetailerMSP.member')"
+
+Orderer: &OrdererDefaults
+
+  # solo | kafka | etcdraft
+  OrdererType: solo
+
+  Addresses:
+    - localhost:7050
+
+  Capabilities:
+    <<: *OrdererCapabilities
+
+  Policies:
+    Readers:
+        Type: ImplicitMeta
+        Rule: "ANY Readers"
+    Writers:
+        Type: ImplicitMeta
+        Rule: "ANY Writers"
+    Admins:
+        Type: ImplicitMeta
+        Rule: "ANY Admins"
+        # Rule: "MAJORITY Admins"
+
+    BlockValidation:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+
+  BatchTimeout: 2s
+
+  BatchSize:
+    MaxMessageCount: 10
+    AbsoluteMaxBytes: 98 MB
+    PreferredMaxBytes: 512 KB
+
+Application: &ApplicationDefaults
+  # Default policies
+  Policies: &ApplicationDefaultPolicies
+
+    # approveformyorg
+    LifecycleEndorsement:
+        Type: ImplicitMeta
+        # Rule: "MAJORITY Endorsement"
+        Rule: "ANY Endorsement"
+    
+    # --channel-config-policy
+    Endorsement:
+        Type: ImplicitMeta
+        Rule: "MAJORITY Endorsement"
+    Readers:
+        Type: ImplicitMeta
+        Rule: "ANY Readers"
+    Writers:
+        Type: ImplicitMeta
+        Rule: "ANY Writers"
+    Admins:
+        Type: ImplicitMeta
+        Rule: "MAJORITY Admins"
+
+  Organizations:
+    - <<: *Manufacturer
+    - <<: *Distributor
+    - <<: *Retailer
+  
+  Capabilities:
+    <<: *ApplicationCapabilities
+
+Channel: &ChannelDefaults
+  Policies:
+    Readers:
+        Type: ImplicitMeta
+        Rule: "ANY Readers"
+    Writers:
+        Type: ImplicitMeta
+        Rule: "ANY Writers"
+    Admins:
+        Type: ImplicitMeta
+        Rule: "MAJORITY Admins"
+
+  Capabilities:
+    <<: *ChannelCapabilities
+
+Profiles:
+  SupplyChainOrdererGenesis:
+    <<: *ChannelDefaults
+    Orderer:
+      <<: *OrdererDefaults
+      Organizations:
+        - <<: *Orderer
+    Consortiums:
+      SupplyChainConsortium:
+        Organizations:
+          - <<: *Manufacturer
+          - <<: *Distributor
+          - <<: *Retailer
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - <<: *Manufacturer
+        - <<: *Distributor
+        - <<: *Retailer
+
+  SupplyChainChannel:
+    <<: *ChannelDefaults
+    Consortium: SupplyChainConsortium
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - <<: *Manufacturer
+        - <<: *Distributor
+        - <<: *Retailer

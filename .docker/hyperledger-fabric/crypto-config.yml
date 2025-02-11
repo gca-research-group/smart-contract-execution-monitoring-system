@@ -1,12 +1,12 @@
 OrdererOrgs:
   - Name: OrdererOrg
-    Domain: example.com
+    Domain: supplychain.com
     Specs:
       - Hostname: orderer
 
 PeerOrgs:
   - Name: Manufacturer
-    Domain: manufacturer.example.com
+    Domain: manufacturer.supplychain.com
     EnableNodeOUs: true
     Template:
       Count: 2
@@ -14,7 +14,7 @@ PeerOrgs:
       Count: 1
 
   - Name: Distributor
-    Domain: distributor.example.com
+    Domain: distributor.supplychain.com
     EnableNodeOUs: true
     Specs:
       - Hostname: peer0
@@ -22,7 +22,7 @@ PeerOrgs:
       Count: 1
 
   - Name: Retailer
-    Domain: retailer.example.com
+    Domain: retailer.supplychain.com
     EnableNodeOUs: true
     Specs:
       - Hostname: peer0

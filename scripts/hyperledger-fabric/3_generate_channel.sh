@@ -11,7 +11,7 @@ GITIGNORE_FILE=$(dirname $CRYPTO_CONFIG_FOLDER)/.gitignore
 
 CONTAINER_NAME=fabric-tools
 
-OUTPUT_CHANNEL=./supply-chain.tx
+OUTPUT_CHANNEL=./SupplayChainChannel.tx
 PROFILE=SupplyChainChannel
 CHANNEL_ID=supplayChainChannel
 CONFIG_TX_COMMAND="configtxgen -outputCreateChannelTx $OUTPUT_CHANNEL -profile $PROFILE -channelID $CHANNEL_ID"

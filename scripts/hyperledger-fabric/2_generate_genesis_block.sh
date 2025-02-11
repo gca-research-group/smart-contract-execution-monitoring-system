@@ -80,7 +80,7 @@ generateGenesisBlock() {
     echo "$(basename $OUTPUT_BLOCK)" > $GITIGNORE_FILE
   else
     if ! grep -q "$(basename $OUTPUT_BLOCK)" $GITIGNORE_FILE; then
-      echo -e "${PROCESSING_ICON} Adding $(basename $OUTPUT_BLOCK) to .gitignore"
+      echo -e "${PROCESSING_ICON} Adding $(basename $OUTPUT_BLOCK) to .gitignore."
       echo "$(basename $OUTPUT_BLOCK)" >> "$GITIGNORE_FILE"
     fi
   fi
@@ -93,6 +93,7 @@ verifyIfTheDockerComposeFileExists
 verifyIfTheCryptoMaterialsExist
 removeContainersInExecution
 runTheContainer
+verifyIfTheContainerIsRunning
 generateGenesisBlock
 removeContainersInExecution
 

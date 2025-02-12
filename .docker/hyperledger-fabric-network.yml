@@ -19,7 +19,9 @@ services:
 
   peer0.manufacturer.supplychain.com:
     container_name: peer0.manufacturer.supplychain.com
-    image: hyperledger/fabric-peer:latest
+    build:
+      context: .
+      dockerfile: hyperledger-fabric-peer.Dockerfile
     environment:
       - CORE_PEER_ID=peer0.manufacturer.supplychain.com
       - CORE_PEER_LOCALMSPID=ManufacturerMSP
@@ -37,6 +39,7 @@ services:
       - ./hyperledger-fabric/crypto-config/peerOrganizations/manufacturer.supplychain.com/users/Admin@manufacturer.supplychain.com/tls:/etc/hyperledger/fabric/tls
       - ./hyperledger-fabric/supplychainchannel.tx:/etc/hyperledger/fabric/supplychainchannel.tx
       - ./hyperledger-fabric/supplychain.block:/etc/hyperledger/fabric/supplychain.block
+      - ./hyperledger-fabric/chaincode:/etc/hyperledger/fabric/chaincode
       - /var/run/docker.sock:/host/var/run/docker.sock
     ports:
       - 7051:7051

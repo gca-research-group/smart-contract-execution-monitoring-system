@@ -15,7 +15,7 @@ if [[ "$1" == "down" ]]; then
 fi
 
 echo -e "${PROCESSING_ICON} Initializing the network."
-resunt=$(docker-compose -f $DOCKER_COMPOSE_FILE up --build -d)
+docker-compose -f $DOCKER_COMPOSE_FILE up --build -d > /dev/null 2>&1
 echo -e "${SUCCESS_ICON} Network initialized."
 
 echo -e "${PROCESSING_ICON} Joining peer to the channel."

@@ -10,9 +10,9 @@ CRYPTO_CONFIG_FOLDER=./.docker/hyperledger-fabric/crypto-config
 
 CONTAINER_NAME=hyperledger-fabric-tools
 
-OUTPUT_CHANNEL=./SupplayChainChannel.tx
+OUTPUT_CHANNEL=./supplychainchannel.tx
 PROFILE=SupplyChainChannel
-CHANNEL_ID=supplaychainchannel
+CHANNEL_ID=supplychainchannel
 CONFIG_TX_COMMAND="configtxgen -outputCreateChannelTx $OUTPUT_CHANNEL -profile $PROFILE -channelID $CHANNEL_ID"
 
 generateChannel() {

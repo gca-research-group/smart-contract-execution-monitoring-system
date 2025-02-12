@@ -36,16 +36,16 @@ Organizations:
     Policies:
       Readers:
           Type: Signature
-          Rule: "OR('Manufacturer.member')"
+          Rule: "OR('ManufacturerMSP.member')"
       Writers:
           Type: Signature
-          Rule: "OR('Manufacturer.member')"
+          Rule: "OR('ManufacturerMSP.member')"
       Admins:
           Type: Signature
-          Rule: "OR('Manufacturer.admin')"
+          Rule: "OR('ManufacturerMSP.admin')"
       Endorsement:
           Type: Signature
-          Rule: "OR('Manufacturer.member')"
+          Rule: "OR('ManufacturerMSP.member')"
 
   - &Distributor
     Name: Distributor
@@ -57,16 +57,16 @@ Organizations:
     Policies:
       Readers:
           Type: Signature
-          Rule: "OR('Distributor.member')"
+          Rule: "OR('DistributorMSP.member')"
       Writers:
           Type: Signature
-          Rule: "OR('Distributor.member')"
+          Rule: "OR('DistributorMSP.member')"
       Admins:
           Type: Signature
-          Rule: "OR('Distributor.admin')"
+          Rule: "OR('DistributorMSP.admin')"
       Endorsement:
           Type: Signature
-          Rule: "OR('Distributor.member')"
+          Rule: "OR('DistributorMSP.member')"
 
   - &Retailer
     Name: Retailer
@@ -91,7 +91,6 @@ Organizations:
 
 Orderer: &OrdererDefaults
 
-  # solo | kafka | etcdraft
   OrdererType: solo
 
   Addresses:
@@ -136,7 +135,7 @@ Application: &ApplicationDefaults
     # --channel-config-policy
     Endorsement:
         Type: ImplicitMeta
-        Rule: "MAJORITY Endorsement"
+        Rule: "ANY Endorsement"
     Readers:
         Type: ImplicitMeta
         Rule: "ANY Readers"
@@ -145,7 +144,7 @@ Application: &ApplicationDefaults
         Rule: "ANY Writers"
     Admins:
         Type: ImplicitMeta
-        Rule: "MAJORITY Admins"
+        Rule: "ANY Admins"
 
   Organizations:
     - <<: *Manufacturer
@@ -165,7 +164,7 @@ Channel: &ChannelDefaults
         Rule: "ANY Writers"
     Admins:
         Type: ImplicitMeta
-        Rule: "MAJORITY Admins"
+        Rule: "ANY Admins"
 
   Capabilities:
     <<: *ChannelCapabilities

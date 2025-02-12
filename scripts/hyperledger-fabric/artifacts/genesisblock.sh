@@ -10,14 +10,14 @@ CRYPTO_CONFIG_FOLDER=./.docker/hyperledger-fabric/crypto-config
 
 CONTAINER_NAME=hyperledger-fabric-tools
 
-OUTPUT_BLOCK=./SupplayChainGenesis.block
+OUTPUT_BLOCK=./supplychain.block
 PROFILE=SupplyChainOrdererGenesis
-CHANNEL_ID=ordererchannel
+CHANNEL_ID=supplychainchannel
 CONFIG_TX_COMMAND="configtxgen -outputBlock $OUTPUT_BLOCK -profile $PROFILE -channelID $CHANNEL_ID"
 
 generateGenesisBlock() {
   echo -e "${PROCESSING_ICON} Generating genesis block."
-  exec_command=$(docker exec -it $1 bash -c "$2" 2>&1)  
+  command=$(docker exec -it $1 bash -c "$2" 2>&1)
   echo -e "${SUCCESS_ICON} Genesis block generated."
 }
 

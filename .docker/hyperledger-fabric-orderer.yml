@@ -1,7 +1,7 @@
 services:
-  fabric-orderer:
+  hyperledger-fabric-orderer:
     image: hyperledger/fabric-orderer:2.5
-    container_name: fabric-orderer
+    container_name: hyperledger-fabric-orderer
     environment:
       - FABRIC_LOGLEVEL=INFO
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
@@ -9,7 +9,8 @@ services:
       - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/fabric/orderer/genesis.block
       - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
     volumes:
-      - ./volumes/orderer:/var/hyperledger/orderer
+      - ./volumes/hyperledger-fabric/orderer:/var/hyperledger/orderer
+      - ./volumes/hyperledger-fabric/test:/etc/hyperledger/fabric/orderer/
       - ./hyperledger-fabric/crypto-config/ordererOrganizations/supplychain.com/msp:/etc/hyperledger/fabric/orderer/msp
       - ./hyperledger-fabric/SupplayChainGenesis.block:/etc/hyperledger/fabric/orderer/genesis.block
     ports:

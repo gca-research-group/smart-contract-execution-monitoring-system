@@ -1,4 +1,4 @@
-DOCKER_COMPOSE_FILE=./.docker/hyperledger-fabric-binaries.yml
+DOCKER_COMPOSE_FILE=./.docker/hyperledger-fabric-orderer.yml
 
 if [[ "$1" == "stop" ]]; then
     docker-compose -f $DOCKER_COMPOSE_FILE down

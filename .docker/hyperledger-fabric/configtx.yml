@@ -169,20 +169,20 @@ Profiles:
     Orderer:
       <<: *OrdererDefaults
       Organizations:
-        - <<: *Orderer
+        - *Orderer
     Consortiums:
       SupplyChainConsortium:
         Organizations:
-          - <<: *Manufacturer
-          - <<: *Distributor
-          - <<: *Retailer
+          - *Manufacturer
+          - *Distributor
+          - *Retailer
     Application:
       <<: *ApplicationDefaults
 
       Organizations:
-        - <<: *Manufacturer
-        - <<: *Distributor
-        - <<: *Retailer
+        - *Manufacturer
+        - *Distributor
+        - *Retailer
 
   SupplyChainChannel:
     <<: *ChannelDefaults
@@ -190,6 +190,6 @@ Profiles:
     Application:
       <<: *ApplicationDefaults
       Organizations:
-        - <<: *Manufacturer
-        - <<: *Distributor
-        - <<: *Retailer
+        - *Manufacturer
+        - *Distributor
+        - *Retailer

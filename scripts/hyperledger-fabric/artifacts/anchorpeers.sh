@@ -11,7 +11,7 @@ CONTAINER_NAME=hyperledger-fabric-tools
 
 ORGANIZATIONS="Manufacturer Distributor Retailer"
 PROFILE=SupplyChainChannel
-CHANNEL_ID=supplychainchannel
+CHANNEL_ID=examplechannel
 
 generateAnchorPeersTx() {
   echo -e "${PROCESSING_ICON} Generating the anchor peer transaction: $1."

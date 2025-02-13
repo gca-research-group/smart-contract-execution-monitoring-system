@@ -2,16 +2,16 @@
 source ./scripts/config/_colors.sh
 source ./scripts/config/_icons.sh
 
-CONTAINER_NAME=peer0.manufacturer.supplychain.com
+CONTAINER_NAME=peer0.manufacturer.example.com
 
-CC_LABEL=supplychain.1.0-1.0
+CC_LABEL=example.1.0-1.0
 
 BASE_PATH=/etc/hyperledger/fabric
 CHAINCODE_PATH=$BASE_PATH/chaincode
 CC_PACKAGE_FILE=$CC_LABEL.tar.gz
 
 echo -e "${PROCESSING_ICON} Verifying if the chaincode is already installed."
-COMMAND='peer lifecycle chaincode queryinstalled | grep "supplychain"'
+COMMAND='peer lifecycle chaincode queryinstalled | grep "example"'
 result=$(docker exec -it $CONTAINER_NAME bash -c "$COMMAND" 2>&1)
 
 if [[ -n "$result" ]]; then

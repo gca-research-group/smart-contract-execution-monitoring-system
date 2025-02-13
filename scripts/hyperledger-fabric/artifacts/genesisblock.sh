@@ -9,9 +9,9 @@ CRYPTO_CONFIG_FOLDER=./.docker/hyperledger-fabric/crypto-config
 
 CONTAINER_NAME=hyperledger-fabric-tools
 
-OUTPUT_BLOCK=./supplychain.block
+OUTPUT_BLOCK=./genesis.block
 PROFILE=SupplyChainOrdererGenesis
-CHANNEL_ID=supplychainchannel
+CHANNEL_ID=examplechannel
 CONFIG_TX_COMMAND="configtxgen -outputBlock $OUTPUT_BLOCK -profile $PROFILE -channelID $CHANNEL_ID"
 
 generateGenesisBlock() {

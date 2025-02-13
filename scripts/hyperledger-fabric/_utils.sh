@@ -2,6 +2,15 @@
 source ./scripts/config/_colors.sh
 source ./scripts/config/_icons.sh
 
+verifyIfDockerIfRunning() {
+  echo -e "${PROCESSING_ICON} Verifying if Docker is running."
+  if ! docker info > /dev/null 2>&1; then
+    echo -e "${RED}Docker is not running. Please start Docker and try again.${NC}"
+    exit 1
+  fi
+  echo -e "${SUCCESS_ICON} Docker is running."
+}
+
 verifyIfContainerIsRunning() {
   echo -e "${PROCESSING_ICON} Verifying if the container is running."
   container_status=$(docker inspect -f '{{.State.Running}}' $1 2>&1)

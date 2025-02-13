@@ -5,13 +5,13 @@ source ./scripts/hyperledger-fabric/_utils.sh
 
 DOCKER_COMPOSE_FILE=./.docker/hyperledger-fabric-network.yml
 
-CONTAINERS="peer0.manufacturer.supplychain.com peer0.distributor.supplychain.com peer0.retailer.supplychain.com"
+CONTAINERS="peer0.org1.example.com peer0.org2.example.com peer0.org3.example.com"
 
-ORDERER_HOST=orderer.supplychain.com:7050
+ORDERER_HOST=orderer.example.com:7050
 
-GENESIS_BLOCK=/etc/hyperledger/fabric/supplychain.block
+GENESIS_BLOCK=/etc/hyperledger/fabric/genesis.block
 
-CHANNEL=supplychainchannel
+CHANNEL=examplechannel
 
 for container in $CONTAINERS; do
     echo -e "${PROCESSING_ICON} Joining peer to the channel: ${container}."

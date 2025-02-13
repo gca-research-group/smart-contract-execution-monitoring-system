@@ -1,5 +1,8 @@
 #!/bin/bash
+source ./scripts/hyperledger-fabric/_utils.sh
+
 echo -e "********** Containers **********"
+verifyIfDockerIfRunning
 ./scripts/hyperledger-fabric/down.sh
 
 echo -e "\n********** Artifacts **********\n"

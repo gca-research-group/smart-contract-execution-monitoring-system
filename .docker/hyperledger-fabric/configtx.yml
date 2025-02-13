@@ -10,7 +10,7 @@ Organizations:
   - &Orderer
     Name: Orderer
     ID: OrdererMSP
-    MSPDir: ./crypto-config/ordererOrganizations/supplychain.com/msp
+    MSPDir: ./crypto-config/ordererOrganizations/example.com/msp
     Policies:
       Readers:
           Type: Signature
@@ -25,75 +25,75 @@ Organizations:
           Type: Signature
           Rule: "OR('OrdererMSP.member')"
 
-  - &Manufacturer
-    Name: Manufacturer
-    ID: ManufacturerMSP
-    MSPDir: ./crypto-config/peerOrganizations/manufacturer.supplychain.com/msp
+  - &Org1
+    Name: Org1
+    ID: Org1MSP
+    MSPDir: ./crypto-config/peerOrganizations/org1.example.com/msp
     AnchorPeers:
-      - Host: manufacturer.supplychain.com
+      - Host: org1.example.com
         Port: 7051
     Policies:
       Readers:
           Type: Signature
-          Rule: "OR('ManufacturerMSP.member')"
+          Rule: "OR('Org1MSP.member')"
       Writers:
           Type: Signature
-          Rule: "OR('ManufacturerMSP.member')"
+          Rule: "OR('Org1MSP.member')"
       Admins:
           Type: Signature
-          Rule: "OR('ManufacturerMSP.admin')"
+          Rule: "OR('Org1MSP.admin')"
       Endorsement:
           Type: Signature
-          Rule: "OR('ManufacturerMSP.member')"
+          Rule: "OR('Org1MSP.member')"
 
-  - &Distributor
-    Name: Distributor
-    ID: DistributorMSP
-    MSPDir: ./crypto-config/peerOrganizations/distributor.supplychain.com/msp
+  - &Org2
+    Name: Org2
+    ID: Org2MSP
+    MSPDir: ./crypto-config/peerOrganizations/org2.example.com/msp
     AnchorPeers:
-      - Host: distributor.supplychain.com
+      - Host: org2.example.com
         Port: 7051
     Policies:
       Readers:
           Type: Signature
-          Rule: "OR('DistributorMSP.member')"
+          Rule: "OR('Org2MSP.member')"
       Writers:
           Type: Signature
-          Rule: "OR('DistributorMSP.member')"
+          Rule: "OR('Org2MSP.member')"
       Admins:
           Type: Signature
-          Rule: "OR('DistributorMSP.admin')"
+          Rule: "OR('Org2MSP.admin')"
       Endorsement:
           Type: Signature
-          Rule: "OR('DistributorMSP.member')"
+          Rule: "OR('Org2MSP.member')"
 
-  - &Retailer
-    Name: Retailer
-    ID: RetailerMSP
-    MSPDir: ./crypto-config/peerOrganizations/retailer.supplychain.com/msp
+  - &Org3
+    Name: Org3
+    ID: Org3MSP
+    MSPDir: ./crypto-config/peerOrganizations/org3.example.com/msp
     AnchorPeers:
-      - Host: retailer.supplychain.com
+      - Host: org3.example.com
         Port: 7051
     Policies:
       Readers:
           Type: Signature
-          Rule: "OR('RetailerMSP.member')"
+          Rule: "OR('Org3MSP.member')"
       Writers:
           Type: Signature
-          Rule: "OR('RetailerMSP.member')"
+          Rule: "OR('Org3MSP.member')"
       Admins:
           Type: Signature
-          Rule: "OR('RetailerMSP.admin')"
+          Rule: "OR('Org3MSP.admin')"
       Endorsement:
           Type: Signature
-          Rule: "OR('RetailerMSP.member')"
+          Rule: "OR('Org3MSP.member')"
 
 Orderer: &OrdererDefaults
 
   OrdererType: solo
 
   Addresses:
-    - orderer.supplychain.com:7050
+    - orderer.example.com:7050
 
   Capabilities:
     <<: *OrdererCapabilities
@@ -141,9 +141,9 @@ Application: &ApplicationDefaults
         Rule: "ANY Admins"
 
   Organizations:
-    - <<: *Manufacturer
-    - <<: *Distributor
-    - <<: *Retailer
+    - <<: *Org1
+    - <<: *Org2
+    - <<: *Org3
   
   Capabilities:
     <<: *ApplicationCapabilities
@@ -173,16 +173,16 @@ Profiles:
     Consortiums:
       SupplyChainConsortium:
         Organizations:
-          - *Manufacturer
-          - *Distributor
-          - *Retailer
+          - *Org1
+          - *Org2
+          - *Org3
     Application:
       <<: *ApplicationDefaults
 
       Organizations:
-        - *Manufacturer
-        - *Distributor
-        - *Retailer
+        - *Org1
+        - *Org2
+        - *Org3
 
   SupplyChainChannel:
     <<: *ChannelDefaults
@@ -190,6 +190,6 @@ Profiles:
     Application:
       <<: *ApplicationDefaults
       Organizations:
-        - *Manufacturer
-        - *Distributor
-        - *Retailer
+        - *Org1
+        - *Org2
+        - *Org3

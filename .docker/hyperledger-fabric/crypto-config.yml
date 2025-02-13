@@ -9,22 +9,22 @@ PeerOrgs:
     Domain: manufacturer.supplychain.com
     EnableNodeOUs: true
     Template:
-      Count: 2
+      Count: 1
     Users:
       Count: 1
 
   - Name: Distributor
     Domain: distributor.supplychain.com
     EnableNodeOUs: true
-    Specs:
-      - Hostname: peer0
+    Template:
+      Count: 1
     Users:
       Count: 1
 
   - Name: Retailer
     Domain: retailer.supplychain.com
     EnableNodeOUs: true
-    Specs:
-      - Hostname: peer0
+    Template:
+      Count: 1
     Users:
       Count: 1

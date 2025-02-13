@@ -6,7 +6,6 @@ Capabilities:
   Channel: &ChannelCapabilities
     V2_0: true
 
-# Orgs defined as anchors (&) to avoid repetitions
 Organizations:
   - &Orderer
     Name: Orderer
@@ -31,7 +30,7 @@ Organizations:
     ID: ManufacturerMSP
     MSPDir: ./crypto-config/peerOrganizations/manufacturer.supplychain.com/msp
     AnchorPeers:
-      - Host: localhost
+      - Host: manufacturer.supplychain.com
         Port: 7051
     Policies:
       Readers:
@@ -52,8 +51,8 @@ Organizations:
     ID: DistributorMSP
     MSPDir: ./crypto-config/peerOrganizations/distributor.supplychain.com/msp
     AnchorPeers:
-      - Host: localhost
-        Port: 7052
+      - Host: distributor.supplychain.com
+        Port: 7051
     Policies:
       Readers:
           Type: Signature
@@ -73,8 +72,8 @@ Organizations:
     ID: RetailerMSP
     MSPDir: ./crypto-config/peerOrganizations/retailer.supplychain.com/msp
     AnchorPeers:
-      - Host: localhost
-        Port: 7053
+      - Host: retailer.supplychain.com
+        Port: 7051
     Policies:
       Readers:
           Type: Signature
@@ -94,7 +93,7 @@ Orderer: &OrdererDefaults
   OrdererType: solo
 
   Addresses:
-    - localhost:7050
+    - orderer.supplychain.com:7050
 
   Capabilities:
     <<: *OrdererCapabilities
@@ -109,7 +108,6 @@ Orderer: &OrdererDefaults
     Admins:
         Type: ImplicitMeta
         Rule: "ANY Admins"
-        # Rule: "MAJORITY Admins"
 
     BlockValidation:
       Type: ImplicitMeta
@@ -123,16 +121,12 @@ Orderer: &OrdererDefaults
     PreferredMaxBytes: 512 KB
 
 Application: &ApplicationDefaults
-  # Default policies
-  Policies: &ApplicationDefaultPolicies
+  Policies:
 
-    # approveformyorg
     LifecycleEndorsement:
         Type: ImplicitMeta
-        # Rule: "MAJORITY Endorsement"
         Rule: "ANY Endorsement"
-    
-    # --channel-config-policy
+
     Endorsement:
         Type: ImplicitMeta
         Rule: "ANY Endorsement"
@@ -184,6 +178,7 @@ Profiles:
           - <<: *Retailer
     Application:
       <<: *ApplicationDefaults
+
       Organizations:
         - <<: *Manufacturer
         - <<: *Distributor

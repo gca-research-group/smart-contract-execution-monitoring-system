@@ -1,3 +1,4 @@
+#!/bin/bash
 source ./scripts/config/_colors.sh
 source ./scripts/config/_icons.sh
 
@@ -11,7 +12,7 @@ CC_PACKAGE_FILE=$CC_LABEL.tar.gz
 
 echo -e "${PROCESSING_ICON} Verifying if the chaincode is already installed."
 COMMAND='peer lifecycle chaincode queryinstalled | grep "supplychain"'
-result=(docker exec -it $CONTAINER_NAME bash -c "$COMMAND")
+result=$(docker exec -it $CONTAINER_NAME bash -c "$COMMAND" 2>&1)
 
 if [[ -n "$result" ]]; then
     echo -e "${SUCCESS_ICON} The chaincode is already installed." 

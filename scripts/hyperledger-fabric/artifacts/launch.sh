@@ -1,3 +1,4 @@
+#!/bin/bash
 echo -e "========= Clean ========="
 ./scripts/hyperledger-fabric/artifacts/clean.sh
 
@@ -10,5 +11,5 @@ echo -e "\n========= Genesis Block ========="
 echo -e "\n========= Channel ========="
 ./scripts/hyperledger-fabric/artifacts/channel.sh
 
-echo -e "\n========= Anchor Peers ========="
-./scripts/hyperledger-fabric/artifacts/anchorpeers.sh
+# echo -e "\n========= Anchor Peers ========="
+# ./scripts/hyperledger-fabric/artifacts/anchorpeers.sh

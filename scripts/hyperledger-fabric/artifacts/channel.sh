@@ -1,5 +1,4 @@
 #!/bin/bash
-
 source ./scripts/config/_colors.sh
 source ./scripts/config/_icons.sh
 source ./scripts/hyperledger-fabric/artifacts/_utils.sh

@@ -13,14 +13,6 @@ verifyIfContainerIsRunning() {
   fi
 }
 
-verifyIfConfigTxFileExists() {
-  echo -e "${PROCESSING_ICON} Verifying if the config file exists."
-  if [[ ! -f $1 ]]; then
-    echo -e "${RED}The configtx file has not been found:${NC} $1"
-    exit 1
-  fi
-}
-
 verifyIfDockerComposeFileExists() {
   echo -e "${PROCESSING_ICON} Verifying if the docker-compose file exists."
 
@@ -47,13 +39,4 @@ runContainer() {
   echo -e "${PROCESSING_ICON} Starting the container."
   errors=$(docker compose -f $1 up -d 2>&1 > /dev/null)
   echo -e "${SUCCESS_ICON} Container started."
-}
-
-verifyIfCryptoMaterialsExist() {
-  echo -e "${PROCESSING_ICON} Verifying if the crypto materials exist."
-
-  if [[ ! -d $1 ]]; then
-    echo -e "${RED}Crypto materials do not exists:${NC} $1"
-    exit 1
-  fi
 }

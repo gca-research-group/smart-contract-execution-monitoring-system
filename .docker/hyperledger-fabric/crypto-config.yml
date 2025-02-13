@@ -1,5 +1,5 @@
 OrdererOrgs:
-  - Name: OrdererOrg
+  - Name: Orderer
     Domain: example.com
     Specs:
       - Hostname: orderer

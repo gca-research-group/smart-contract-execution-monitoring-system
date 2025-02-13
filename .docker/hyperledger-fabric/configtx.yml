@@ -30,7 +30,7 @@ Organizations:
     ID: Org1MSP
     MSPDir: ./crypto-config/peerOrganizations/org1.example.com/msp
     AnchorPeers:
-      - Host: org1.example.com
+      - Host: peer0.org1.example.com
         Port: 7051
     Policies:
       Readers:
@@ -51,7 +51,7 @@ Organizations:
     ID: Org2MSP
     MSPDir: ./crypto-config/peerOrganizations/org2.example.com/msp
     AnchorPeers:
-      - Host: org2.example.com
+      - Host: peer0.org2.example.com
         Port: 7051
     Policies:
       Readers:
@@ -72,7 +72,7 @@ Organizations:
     ID: Org3MSP
     MSPDir: ./crypto-config/peerOrganizations/org3.example.com/msp
     AnchorPeers:
-      - Host: org3.example.com
+      - Host: peer0.org3.example.com
         Port: 7051
     Policies:
       Readers:
@@ -141,9 +141,9 @@ Application: &ApplicationDefaults
         Rule: "ANY Admins"
 
   Organizations:
-    - <<: *Org1
-    - <<: *Org2
-    - <<: *Org3
+    - *Org1
+    - *Org2
+    - *Org3
   
   Capabilities:
     <<: *ApplicationCapabilities

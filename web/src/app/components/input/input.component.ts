@@ -5,9 +5,9 @@ import { MatInputModule } from '@angular/material/input';
 import { CustomControlValueAccessorDirective } from '@app/directives/custom-control-value-accessor';
 
 @Component({
-  selector: 'app-input-form',
-  templateUrl: './input-form.component.html',
-  styleUrl: './input-form.component.scss',
+  selector: 'app-input',
+  templateUrl: './input.component.html',
+  styleUrl: './input.component.scss',
   imports: [
     MatFormFieldModule,
     MatInputModule,
@@ -15,7 +15,7 @@ import { CustomControlValueAccessorDirective } from '@app/directives/custom-cont
     ReactiveFormsModule,
   ],
 })
-export class InputFormComponent
+export class InputComponent
   extends CustomControlValueAccessorDirective
   implements OnInit
 {

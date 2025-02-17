@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CustomControlValueAccessorDirective } from '@app/directives/custom-control-value-accessor';
 import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
 
 @Component({
@@ -8,7 +9,7 @@ import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
   styleUrl: './language-selector.component.scss',
   imports: [FormsModule, NgSelectComponent, NgOptionComponent],
 })
-export class LanguageSelectorComponent {
+export class LanguageSelectorComponent extends CustomControlValueAccessorDirective {
   @Input()
   current = 'pt';
 

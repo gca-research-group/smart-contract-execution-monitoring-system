@@ -1,0 +1,2 @@
+CHAINCODE_NAME=test
+CHANNEL_ID=examplechannel

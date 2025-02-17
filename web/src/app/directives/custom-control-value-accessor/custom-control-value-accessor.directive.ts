@@ -1,4 +1,4 @@
-import { Directive, Input, OnInit, Optional, Self } from '@angular/core';
+import { Directive, inject, Input, OnInit } from '@angular/core';
 import {
   ControlValueAccessor,
   FormControl,
@@ -9,7 +9,8 @@ import {
 } from '@angular/forms';
 
 @Directive()
-export class CustomControlValueAccessorDirective
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export class CustomControlValueAccessorDirective<T = any>
   implements ControlValueAccessor, Validators, OnInit
 {
   @Input()
@@ -23,8 +24,9 @@ export class CustomControlValueAccessorDirective
   }
 
   formControl = new FormControl();
+  public ngControl = inject(NgControl, { optional: true, self: true });
 
-  constructor(@Optional() @Self() public ngControl: NgControl) {
+  constructor() {
     if (this.ngControl) {
       this.ngControl.valueAccessor = this;
     }
@@ -45,7 +47,7 @@ export class CustomControlValueAccessorDirective
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  writeValue(value: any): void {
+  writeValue(value: T): void {
     if (value !== this.formControl.value) {
       this.formControl.setValue(value);
     }
@@ -69,7 +71,7 @@ export class CustomControlValueAccessorDirective
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
-  protected onChange = (value: any) => {
+  protected onChange = (value: T) => {
     this.updateFormControl();
   };
 

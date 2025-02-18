@@ -1,11 +1,10 @@
 #!/bin/bash
-source ./scripts/hyperledger-fabric/_variables.sh
 source ./scripts/config/_colors.sh
 source ./scripts/config/_icons.sh
 source ./scripts/hyperledger-fabric/artifacts/_utils.sh
+source ./scripts/hyperledger-fabric/_variables.sh
 
 CONFIG_TX_FILE=./.docker/hyperledger-fabric/artifacts/configtx.yml
-DOCKER_COMPOSE_FILE=./.docker/hyperledger-fabric/hyperledger-fabric-tools.yml
 CRYPTO_CONFIG_FOLDER=./.docker/hyperledger-fabric/artifacts/crypto-config
 
 CONTAINER_NAME=hyperledger-fabric-tools
@@ -21,13 +20,13 @@ generateChannel() {
 }
 
 verifyIfConfigTxFileExists $CONFIG_TX_FILE
-verifyIfDockerComposeFileExists $DOCKER_COMPOSE_FILE
+verifyIfDockerComposeFileExists $HYPERLEDGER_FABRIC_TOOLS
 verifyIfCryptoMaterialsExist $CRYPTO_CONFIG_FOLDER
-removeContainersInExecution $DOCKER_COMPOSE_FILE
-runContainer $DOCKER_COMPOSE_FILE
+removeContainersInExecution $HYPERLEDGER_FABRIC_TOOLS
+runContainer $HYPERLEDGER_FABRIC_TOOLS
 verifyIfContainerIsRunning $CONTAINER_NAME
 generateChannel $CONTAINER_NAME "$CONFIG_TX_COMMAND"
-removeContainersInExecution $DOCKER_COMPOSE_FILE
+removeContainersInExecution $HYPERLEDGER_FABRIC_TOOLS
 
 echo -e "${SUCCESS_ICON} Finished succesfully."
 exit 0

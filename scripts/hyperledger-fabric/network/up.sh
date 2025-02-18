@@ -1,10 +1,9 @@
 #!/bin/bash
 source ./scripts/config/_colors.sh
 source ./scripts/config/_icons.sh
-
-DOCKER_COMPOSE_FILE=./.docker/hyperledger-fabric/hyperledger-fabric-network.yml
+source ./scripts/hyperledger-fabric/_variables.sh
 
 echo -e "${PROCESSING_ICON} Initializing the network."
-docker compose -f $DOCKER_COMPOSE_FILE up --build -d > /dev/null 2>&1
+docker compose -f $HYPERLEDGER_FABRIC_NETWORK up --build -d > /dev/null 2>&1
 echo -e "${SUCCESS_ICON} Network initialized."
 exit 0

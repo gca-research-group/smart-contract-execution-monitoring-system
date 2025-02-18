@@ -28,60 +28,38 @@ services:
 
   peer0.org1.example.com:
     container_name: peer0.org1.example.com
-    build:
-      context: .
-      dockerfile: hyperledger-fabric-peer.Dockerfile
+    extends:
+      file: peer-base.yml
+      service: peer-base
     environment:
       - CORE_PEER_ID=peer0.org1.example.com
       - CORE_PEER_LOCALMSPID=Org1MSP
       - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org1.example.com:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org1.example.com:7051
-      - FABRIC_LOGGING_SPEC=INFO
-      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
-      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      # - configure the network mode or the custom network defined
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=hyperledger_fabric_example_network
-      # - TLS configuration
-      - CORE_PEER_TLS_ENABLED=false
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/crypto-config/peers/peer0.org1.example.com/tls/server.key
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/crypto-config/peers/peer0.org1.example.com/tls/server.crt
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/crypto-config/peers/peer0.org1.example.com/tls/ca.crt
-    working_dir: /etc/hyperledger/fabric
-    command: peer node start
     volumes:
       - ./artifacts/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp:/etc/hyperledger/fabric/msp
       - ./artifacts/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls:/etc/hyperledger/fabric/tls
       - ./artifacts/crypto-config/peerOrganizations/org1.example.com:/etc/hyperledger/fabric/crypto-config
-      - ./artifacts/channel.tx:/etc/hyperledger/fabric/channel.tx
-      - ./artifacts/genesis.block:/etc/hyperledger/fabric/genesis.block
-      - ./artifacts/chaincode:/etc/hyperledger/fabric/chaincode
-      - /var/run/docker.sock:/host/var/run/docker.sock
     ports:
       - 7051:7051
       - 7052:7052
       - 7053:7053
-    networks:
-      - hyperledger_fabric_example_network
 
   peer0.org2.example.com:
     container_name: peer0.org2.example.com
-    build:
-      context: .
-      dockerfile: hyperledger-fabric-peer.Dockerfile
+    extends:
+      file: peer-base.yml
+      service: peer-base
     environment:
       - CORE_PEER_ID=peer0.org2.example.com
       - CORE_PEER_LOCALMSPID=Org2MSP
       - CORE_PEER_ADDRESS=peer0.org2.example.com:7051
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org2.example.com:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org2.example.com:7051
-      - FABRIC_LOGGING_SPEC=INFO
-      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
-      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      # - configure the network mode or the custom network defined
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=hyperledger_fabric_example_network
-      # - TLS configuration
-      - CORE_PEER_TLS_ENABLED=false
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/crypto-config/peers/peer0.org2.example.com/tls/server.key
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/crypto-config/peers/peer0.org2.example.com/tls/server.crt
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/crypto-config/peers/peer0.org2.example.com/tls/ca.crt
@@ -91,54 +69,33 @@ services:
       - ./artifacts/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp:/etc/hyperledger/fabric/msp
       - ./artifacts/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls:/etc/hyperledger/fabric/tls
       - ./artifacts/crypto-config/peerOrganizations/org2.example.com:/etc/hyperledger/fabric/crypto-config
-      - ./artifacts/channel.tx:/etc/hyperledger/fabric/channel.tx
-      - ./artifacts/genesis.block:/etc/hyperledger/fabric/genesis.block
-      - ./artifacts/chaincode:/etc/hyperledger/fabric/chaincode
-      - /var/run/docker.sock:/host/var/run/docker.sock
     ports:
       - 8051:7051
       - 8052:7052
       - 8053:7053
-    networks:
-      - hyperledger_fabric_example_network
 
   peer0.org3.example.com:
     container_name: peer0.org3.example.com
-    build:
-      context: .
-      dockerfile: hyperledger-fabric-peer.Dockerfile
+    extends:
+      file: peer-base.yml
+      service: peer-base
     environment:
       - CORE_PEER_ID=peer0.org3.example.com
       - CORE_PEER_LOCALMSPID=Org3MSP
       - CORE_PEER_ADDRESS=peer0.org3.example.com:7051
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org3.example.com:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org3.example.com:7051
-      - FABRIC_LOGGING_SPEC=INFO
-      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
-      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      # - configure the network mode or the custom network defined
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=hyperledger_fabric_example_network
-      # - TLS configuration
-      - CORE_PEER_TLS_ENABLED=false
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/crypto-config/peers/peer0.org3.example.com/tls/server.key
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/crypto-config/peers/peer0.org3.example.com/tls/server.crt
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/crypto-config/peers/peer0.org3.example.com/tls/ca.crt
-    working_dir: /etc/hyperledger/fabric
-    command: peer node start
     volumes:
       - ./artifacts/crypto-config/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/msp:/etc/hyperledger/fabric/msp
       - ./artifacts/crypto-config/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls:/etc/hyperledger/fabric/tls
       - ./artifacts/crypto-config/peerOrganizations/org3.example.com:/etc/hyperledger/fabric/crypto-config
-      - ./artifacts/channel.tx:/etc/hyperledger/fabric/channel.tx
-      - ./artifacts/genesis.block:/etc/hyperledger/fabric/genesis.block
-      - ./artifacts/chaincode:/etc/hyperledger/fabric/chaincode
-      - /var/run/docker.sock:/host/var/run/docker.sock
     ports:
       - 9051:7051
       - 9052:7052
       - 9053:7053
-    networks:
-      - hyperledger_fabric_example_network
 
 networks:
   hyperledger_fabric_example_network:

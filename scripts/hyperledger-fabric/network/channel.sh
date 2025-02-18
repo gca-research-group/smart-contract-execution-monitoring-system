@@ -4,8 +4,6 @@ source ./scripts/config/_icons.sh
 source ./scripts/hyperledger-fabric/_variables.sh
 source ./scripts/hyperledger-fabric/_utils.sh
 
-DOCKER_COMPOSE_FILE=./.docker/hyperledger-fabric/hyperledger-fabric-network.yml
-
 ORGS="org1 org2 org3"
 
 ORDERER_HOST=orderer.example.com:7050

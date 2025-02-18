@@ -6,10 +6,11 @@ source ./scripts/hyperledger-fabric/_variables.sh
 
 verifyIfDockerIfRunning
 
-echo -e "${PROCESSING_ICON} Removing containers."
+removeContainersInExecution $HYPERLEDGER_FABRIC_NETWORK $PEER_ORG1 $CA_ORG1
 
-docker compose -f $HYPERLEDGER_FABRIC_TOOLS down
-docker compose -f $HYPERLEDGER_FABRIC_NETWORK down
+removeContainersInExecution $HYPERLEDGER_FABRIC_NETWORK $PEER_ORG2 $CA_ORG2
+
+removeContainersInExecution $HYPERLEDGER_FABRIC_NETWORK $PEER_ORG3 $CA_ORG3
 
 echo -e "${SUCCESS_ICON} Finished succesfully."
 exit 0

@@ -1,15 +1,18 @@
 services:
   hyperledger-fabric-tools:
-    image: hyperledger/fabric-tools:latest
     container_name: hyperledger-fabric-tools
+    image: hyperledger/fabric-tools:latest
     tty: true
     stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_ID=cli
+      - CORE_PEER_TLS_ENABLED=true
+    working_dir: /etc/hyperledger/fabric/
+    command: /bin/bash
     volumes:
-      - ./artifacts:/etc/hyperledger/fabric/
-    working_dir: /etc/hyperledger/fabric
+      - ./artifacts/:/etc/hyperledger/fabric/
     networks:
-      - fabric-network
-
-networks:
-  fabric-network:
-    driver: bridge
+      - hyperledger_fabric_network

@@ -33,7 +33,14 @@ verifyIfDockerComposeFileExists() {
 
 removeContainersInExecution() {
   echo -e "${PROCESSING_ICON} Deleting containers in execution."
-  errors=$(docker compose -f $1 down 2>&1 > /dev/null)
+
+  COMMAND=""
+
+  for arg in "$@"; do
+    COMMAND="$COMMAND -f $arg"
+  done;
+
+  errors=$(docker compose $COMMAND down 2>&1 > /dev/null)
 
   if [[ -n "$errors" && "$errors" != *"Removed"* ]]; then
     echo -e "${RED}Failed to remove the containers:${NO_COLOR}"
@@ -46,6 +53,14 @@ removeContainersInExecution() {
 
 runContainer() {
   echo -e "${PROCESSING_ICON} Starting the container."
-  errors=$(docker compose -f $1 up -d 2>&1 > /dev/null)
+
+  COMMAND=""
+
+  for arg in "$@"; do
+    COMMAND="$COMMAND -f $arg"
+  done;
+
+  errors=$(docker compose $COMMAND up -d 2>&1 > /dev/null)
+
   echo -e "${SUCCESS_ICON} Container started."
 }

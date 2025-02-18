@@ -4,14 +4,11 @@ source ./scripts/config/_icons.sh
 source ./scripts/hyperledger-fabric/_variables.sh
 source ./scripts/hyperledger-fabric/artifacts/_utils.sh
 
-CONFIG_TX_FILE=./.docker/hyperledger-fabric/artifacts/configtx.yml
-CRYPTO_CONFIG_FOLDER=./.docker/hyperledger-fabric/artifacts/crypto-config
-
 CONTAINER_NAME=hyperledger-fabric-tools
 
 OUTPUT_BLOCK=./genesis.block
-PROFILE=ExampleOrdererGenesis
-CONFIG_TX_COMMAND="configtxgen -outputBlock $OUTPUT_BLOCK -profile $PROFILE -channelID $CHANNEL_ID"
+PROFILE=MultiOrdererGenesis
+CONFIG_TX_COMMAND="configtxgen -outputBlock $OUTPUT_BLOCK -profile $PROFILE -channelID $SYSTEM_CHANNEL_ID"
 
 generateGenesisBlock() {
   echo -e "${PROCESSING_ICON} Generating genesis block."
@@ -20,13 +17,13 @@ generateGenesisBlock() {
 }
 
 verifyIfConfigTxFileExists $CONFIG_TX_FILE
-verifyIfDockerComposeFileExists $HYPERLEDGER_FABRIC_TOOLS
+#verifyIfDockerComposeFileExists $HYPERLEDGER_FABRIC_TOOLS
 verifyIfCryptoMaterialsExist $CRYPTO_CONFIG_FOLDER
-removeContainersInExecution $HYPERLEDGER_FABRIC_TOOLS
-runContainer $HYPERLEDGER_FABRIC_TOOLS
-verifyIfContainerIsRunning $CONTAINER_NAME
+#removeContainersInExecution $HYPERLEDGER_FABRIC_TOOLS
+#runContainer $HYPERLEDGER_FABRIC_TOOLS
+#verifyIfContainerIsRunning $CONTAINER_NAME
 generateGenesisBlock $CONTAINER_NAME "$CONFIG_TX_COMMAND"
-removeContainersInExecution $HYPERLEDGER_FABRIC_TOOLS
+#removeContainersInExecution $HYPERLEDGER_FABRIC_TOOLS
 
 echo -e "${SUCCESS_ICON} Finished succesfully."
 exit 0

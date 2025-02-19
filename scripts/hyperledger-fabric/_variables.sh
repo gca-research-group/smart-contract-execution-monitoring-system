@@ -1,9 +1,10 @@
 CHAINCODE_NAME=test
 
-CHANNEL_ID=orgs_channel
-SYSTEM_CHANNEL_ID=sistem_channel
+CHANNEL_ID=orgschannel
+SYSTEM_CHANNEL_ID=systemchannel
 
-CRYPTO_CONFIG_FOLDER=./.docker/hyperledger-fabric/artifacts/crypto-config
+BASE_PATH=/opt/gopath/src/github.com/hyperledger/fabric
+CRYPTO_CONFIG_FOLDER=./.docker/hyperledger-fabric/artifacts/crypto-materials
 CRYPTO_CONFIG_FILE=./.docker/hyperledger-fabric/artifacts/crypto-config.yml
 CONFIG_TX_FILE=./.docker/hyperledger-fabric/artifacts/configtx.yml
 
@@ -20,3 +21,6 @@ PEER_ORG3=./.docker/hyperledger-fabric/orgs/org3/peer.yml
 CA_ORG3=./.docker/hyperledger-fabric/orgs/org3/ca.yml
 
 ORDERER=./.docker/hyperledger-fabric/orderer.yml
+ORDERER_HOST=orderer.example.com:7050
+ORDERER_CA=$BASE_PATH/crypto-materials/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+

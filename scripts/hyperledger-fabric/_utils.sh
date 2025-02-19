@@ -43,8 +43,8 @@ removeContainersInExecution() {
   errors=$(docker compose $COMMAND down 2>&1 > /dev/null)
 
   if [[ -n "$errors" && "$errors" != *"Removed"* ]]; then
-    echo -e "${RED}Failed to remove the containers:${NO_COLOR}"
-    echo "$errors"
+    echo -e "${RED}Failed to remove the containers:"
+    echo -e "$errors${NO_COLOR}"
     exit 1
   fi
 
@@ -60,7 +60,7 @@ runContainer() {
     COMMAND="$COMMAND -f $arg"
   done;
 
-  errors=$(docker compose $COMMAND up -d 2>&1 > /dev/null)
+  errors=$(docker compose $COMMAND up --build -d 2>&1 > /dev/null)
 
   echo -e "${SUCCESS_ICON} Container started."
 }

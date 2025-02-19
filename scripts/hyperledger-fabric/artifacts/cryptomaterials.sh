@@ -5,7 +5,7 @@ source ./scripts/hyperledger-fabric/_variables.sh
 source ./scripts/hyperledger-fabric/artifacts/_utils.sh
 
 CONTAINER_NAME=hyperledger-fabric-tools
-CRYPTO_CONFIG_COMMAND="cryptogen generate --config=/etc/hyperledger/fabric/crypto-config.yml --output=/etc/hyperledger/fabric/crypto-config"
+CRYPTO_CONFIG_COMMAND="cryptogen generate --config=$BASE_PATH/crypto-config.yml --output=$BASE_PATH/crypto-materials"
 
 verifyIfTheCryptoConfigFileExists() {
   echo -e "${PROCESSING_ICON} Verifying if the config file exists."
@@ -17,10 +17,12 @@ verifyIfTheCryptoConfigFileExists() {
 
 generateCryptoMaterials() {
   echo -e "${PROCESSING_ICON} Generating Crypto Materials."
+
   exec_command=$(docker exec -it $1 bash -c "$2" 2>&1)
+
   if [[ $? -ne 0 ]]; then
-    echo -e "${RED}Failed to execute command in the container:${NO_COLOR}"
-    echo "$exec_command"
+    echo -e "${RED}Failed to execute command in the container:"
+    echo -e "$exec_command${NO_COLOR}"
     exit 1
   fi
 

@@ -16,9 +16,9 @@ services:
     working_dir: /etc/hyperledger/fabric
     command: peer node start
     volumes:
-      - ./../artifacts/channel.tx:/etc/hyperledger/fabric/channel.tx
-      - ./../artifacts/genesis.block:/etc/hyperledger/fabric/genesis.block
+      - ./../artifacts/channel:/etc/hyperledger/fabric/channel
       - ./../artifacts/chaincode:/etc/hyperledger/fabric/chaincode
+      - ./../artifacts/crypto-materials:/etc/hyperledger/fabric/crypto-materials
       - /var/run/docker.sock:/host/var/run/docker.sock
     networks:
       - hyperledger_fabric_network

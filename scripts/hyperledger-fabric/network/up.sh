@@ -4,6 +4,9 @@ source ./scripts/config/_icons.sh
 source ./scripts/hyperledger-fabric/_utils.sh
 source ./scripts/hyperledger-fabric/_variables.sh
 
+echo -e "${PROCESSING_ICON} Initializing Orderer."
+runContainer $HYPERLEDGER_FABRIC_NETWORK $ORDERER
+
 echo -e "${PROCESSING_ICON} Initializing Org1."
 runContainer $HYPERLEDGER_FABRIC_NETWORK $PEER_ORG1 $CA_ORG1
 

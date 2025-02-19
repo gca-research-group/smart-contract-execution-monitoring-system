@@ -14,6 +14,6 @@ services:
       - "9054:7054"
     command: sh -c 'fabric-ca-server start -b admin:adminpw'
     volumes:
-      - ./artifacts/crypto-config/peerOrganizations/org3.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+      - ./artifacts/crypto-materials/peerOrganizations/org3.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
     networks:
       - hyperledger_fabric_network

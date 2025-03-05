@@ -1,45 +1,35 @@
+// @ts-check
+import eslint from '@eslint/js';
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import globals from 'globals';
-import pluginJs from '@eslint/js';
 import tseslint from 'typescript-eslint';
 
-/** @type {import('eslint').Linter.Config[]} */
-export default [
-  { files: ['**/*.{js,mjs,cjs,ts}'] },
-  { languageOptions: { globals: globals.browser } },
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
+export default tseslint.config(
   {
-    rules: {
-      eqeqeq: 'error',
-      'no-unused-vars': [
-        'error',
-        { varsIgnorePattern: '_', args: 'all', argsIgnorePattern: '_' },
-      ],
-      '@typescript-eslint/no-unused-vars': 'off',
-      'import/no-named-as-default-member': 'off',
-      'no-trailing-spaces': 'error',
-      indent: 'off',
-      'linebreak-style': 'off',
-      'eol-last': ['error', 'always'],
-      'no-multiple-empty-lines': [
-        'error',
-        {
-          max: 1,
-        },
-      ],
-      'prefer-const': 'error',
-      'no-var': 'error',
-      'import/no-unresolved': 'off',
-      'sort-imports': [
-        'error',
-        {
-          ignoreCase: false,
-          ignoreDeclarationSort: false,
-          ignoreMemberSort: false,
-          memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
-          allowSeparatedGroups: false,
-        },
-      ],
+    ignores: ['eslint.config.mjs'],
+  },
+  eslint.configs.recommended,
+  ...tseslint.configs.recommendedTypeChecked,
+  eslintPluginPrettierRecommended,
+  {
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.jest,
+      },
+      ecmaVersion: 5,
+      sourceType: 'module',
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
   },
-];
+  {
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-floating-promises': 'warn',
+      '@typescript-eslint/no-unsafe-argument': 'warn'
+    },
+  },
+);

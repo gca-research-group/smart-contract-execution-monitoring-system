@@ -1,2 +1,2 @@
 #!/bin/bash
-./scripts/dev/api/database.sh
+./.scripts/dev/api/database.sh

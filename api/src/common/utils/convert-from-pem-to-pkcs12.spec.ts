@@ -1,4 +1,6 @@
-export const PEM = `
+import { convertFromPemToPkcs12Service } from './convert-from-pem-to-pkcs12';
+
+const pem = `
 -----BEGIN CERTIFICATE-----
 MIICKDCCAc+gAwIBAgIRANQm7nxt8naD46fAn2MA5yswCgYIKoZIzj0EAwIwczEL
 MAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG
@@ -14,3 +16,10 @@ BAMCA0cAMEQCIHFRUDX/vcd6oMGXPcuPcVlvYE01cz+3sbGxAk6Y22C1AiAugrIW
 bRHJLjnDkM3QBvw+z2+oQrzw/RH84QBx/yF2EQ==
 -----END CERTIFICATE-----
 `;
+
+describe('convertFromPemToPkcs12Service', () => {
+  it('should convert the pem file to pkcs12', () => {
+    const result = convertFromPemToPkcs12Service(pem, 'abc');
+    expect(result).toBeTruthy();
+  });
+});

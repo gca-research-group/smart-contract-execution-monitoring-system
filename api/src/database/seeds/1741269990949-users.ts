@@ -2,7 +2,7 @@ import { User } from 'src/models';
 import { config } from '../typeorm.config';
 import { CreateUserDto } from 'src/models/dtos';
 import { DataSource } from 'typeorm';
-import { hashPassword } from 'src/utils';
+import { hashPassword } from 'src/common/utils';
 
 async function seed() {
   const connection = new DataSource({ ...config, entities: [User] });

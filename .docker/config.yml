@@ -1,3 +1,0 @@
-networks:
-  monitoring_system_network:
-    name: monitoring_system_network

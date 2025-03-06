@@ -1,0 +1,33 @@
+services:
+  scems_database:
+    container_name: scems_database
+    image: postgres:17-alpine
+    ports:
+      - "5432:5432"
+    user: postgres
+    volumes:
+      - scems_database_volume:/var/lib/postgresql/data
+    env_file:
+      - envs/.env.database
+    networks:
+      - scems_network
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "scemsdb"]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+
+volumes:
+  scems_database_volume:
+    name: scems_database_volume
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./volumes/postgres/data
+
+networks:
+  scems_network:
+    name: scems_network

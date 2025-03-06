@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import typeorm from './database/typeorm.config';
+import { typeorm } from './database/typeorm.config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { UserModule } from './modules/user';
+import { AuthModule } from './modules/auth';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -17,7 +19,13 @@ import { UserModule } from './modules/user';
         return { ...config, autoLoadEntities: true };
       },
     }),
+    JwtModule.register({
+      global: true,
+      secret: process.env.SECRET_KEY,
+      signOptions: { expiresIn: '15m' },
+    }),
     UserModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

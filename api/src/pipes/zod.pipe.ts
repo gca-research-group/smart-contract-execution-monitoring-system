@@ -11,7 +11,7 @@ export class ZodValidationPipe implements PipeTransform {
       return parsedValue;
     } catch (error) {
       this.logger.error(error);
-      throw new BadRequestException('Validation failed');
+      throw new BadRequestException('INVALID_OBJECT');
     }
   }
 }

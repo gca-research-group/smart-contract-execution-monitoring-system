@@ -77,7 +77,8 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "^src/(.*)$": "<rootDir>/$1"
+      "^src/(.*)$": "<rootDir>/$1",
+      "^@app/(.*)$": "<rootDir>/$1"
     },
     "modulePathIgnorePatterns": [
       "<rootDir>/database/"

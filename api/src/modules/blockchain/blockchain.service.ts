@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { CreateBlockchainDto } from '@app/dtos/blockchain';
+import { CreateBlockchainDto, UpdateBlockchainDto } from '@app/dtos/blockchain';
 import { Blockchain } from '@app/models';
 
 @Injectable()
@@ -31,7 +31,22 @@ export class BlockchainService {
     await this.blockchainRepository.delete(id);
   }
 
-  create(blockchain: CreateBlockchainDto): Blockchain {
-    return this.blockchainRepository.create(blockchain);
+  async create(data: CreateBlockchainDto): Promise<Blockchain> {
+    const blockchain = await this.blockchainRepository.save({
+      ...data,
+    });
+
+    return blockchain;
+  }
+
+  async update(id: number, data: UpdateBlockchainDto): Promise<Blockchain> {
+    const entity = await this.findOne(id);
+
+    const blockchain = await this.blockchainRepository.save({
+      ...entity,
+      ...data,
+    });
+
+    return blockchain;
   }
 }

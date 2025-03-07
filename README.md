@@ -9,71 +9,71 @@
 <h4 align="center">A framework for execution and monitoring of smart contracts</h4>
 
 <p align="center">
-    <img src="https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white" alt="Go package">
+    <p align="center">
+    <img alt="Docker" src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" />
+    <img alt="Angular" src="https://img.shields.io/badge/Angular-20232f?style=for-the-badge&logo=angular&logoColor=red" />
+    <img alt="PostgreSQL" src="https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white" />
+    <img alt="NestJs" src="https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)" />
+</p>
 </p>
 <br/>
 
-## Table of contents
-  <details open>
-    <summary><a href="#architectural-design">Architectural Design</a></summary>
+<div align="center">
 
-  - [Inbound Events Queue](#inbound-events-queue)
-  - [Event Handler](#event-handler)
-  - [Smart Contract Execution Queue](#smart-contract-execution-queue)
-  - [Contract Invoker](#contract-invoker)
-  - [Smart Contract Outbound Queue](#smart-contract-outbound-queue)
-  - [Event Updater](#event-updater)
-  
-  </details>
-  
-<details open>
-    <summary><a href="#docs">Docs</a></summary>
+🚧 **This project is currently under development.** 🚧  
+Expect frequent updates and changes. Your feedback is appreciated!
 
-  - [Requirements](#requirements)
-  - [Developing](#developing)
-  - [Building](#building)
+</div>
 
-  </details>
+## Overview
 
-## Architectural Design
+This is an open-source project that aims to be a middleware between the software application, which contains the business rules, and blockchain applications. This monitoring system will act as a layer offering high-level APIs while tracking smart contract execution and its management.
 
-<img src="assets/architecture.png">
+## Features
 
-### Inbound Events Queue
-### Event Handler
-### Smart Contract Execution Queue
-### Contract Invoker
-### Smart Contract Outbound Queue
-### Event Updater
+- **Register blockchains**
+- **Store smart contracts**
+- **Trigger the smart contract execution through high-level APIs**
+- **Event-based system**
 
-## Docs
+## How to execute
 
-> This project uses [mkdocs](https://www.mkdocs.org/) as documentation tool
+> Currently, you can only execute this project by cloning it. However, we are working on developing a Docker image. Therefore, in the coming weeks, you will be able to run it with a single, fast command.
 
-### Requirements
-- [Python +3.11](https://www.python.org/)
-- [Poetry](https://python-poetry.org/)
+### Prerequisites
+- Docker
+- NodeJs +22.0
 
-### Developing
+### Executing
 
-```shell
-cd mkdocs
-
-poetry shell
-
-mkdocs serve
+- Clone this repository
+```sh
+git clone https://github.com/gca-research-group/smart-contract-execution-monitoring-system.git
 ```
 
-### Building
+- Running the database
+```sh
+./.scripts/scems/up.sh
+```
 
-```shell
-cd mkdocs
+- Running the frontend
+```sh
+cd web
+npm i
+npm run start
+```
 
-poetry shell
-
-mkdocs build --site-dir ../docs
+- Running the backend
+```sh
+cd api
+npm i
+npm run start
 ```
 
 ## License
-Copyright © 2024 [The Applied Computing Research Group (GCA)](https://github.com/gca-research-group).<br />
-This project is [MIT](https://github.com/gca-research-group/jabuti-dsl-language-model-transformation/blob/master/LICENSE) licensed.
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+For any questions or issues, please open an issue on GitHub or contact the maintainers.

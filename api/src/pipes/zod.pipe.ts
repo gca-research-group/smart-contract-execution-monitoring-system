@@ -1,5 +1,6 @@
-import { PipeTransform, BadRequestException, Logger } from '@nestjs/common';
 import { ZodSchema } from 'zod';
+
+import { PipeTransform, BadRequestException, Logger } from '@nestjs/common';
 
 export class ZodValidationPipe implements PipeTransform {
   private readonly logger = new Logger(ZodValidationPipe.name);
@@ -11,7 +12,10 @@ export class ZodValidationPipe implements PipeTransform {
       return parsedValue;
     } catch (error) {
       this.logger.error(error);
-      throw new BadRequestException('INVALID_OBJECT');
+      const messages = (error as { issues: { message: string }[] }).issues.map(
+        (item) => item.message,
+      );
+      throw new BadRequestException(messages);
     }
   }
 }

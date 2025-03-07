@@ -5,6 +5,7 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { UserModule } from './modules/user';
 import { AuthModule } from './modules/auth';
 import { JwtModule } from '@nestjs/jwt';
+import { BlockchainModule } from './modules/blockchain';
 
 @Module({
   imports: [
@@ -24,8 +25,9 @@ import { JwtModule } from '@nestjs/jwt';
       secret: process.env.SECRET_KEY,
       signOptions: { expiresIn: '15m' },
     }),
-    UserModule,
     AuthModule,
+    BlockchainModule,
+    UserModule,
   ],
 })
 export class AppModule {}

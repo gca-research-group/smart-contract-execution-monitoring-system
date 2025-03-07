@@ -10,7 +10,7 @@ async function seed() {
 
   const userRepository = connection.getRepository(User);
 
-  const email = 'admin2@admin.com';
+  const email = 'admin@admin.com';
   const password = hashPassword('admin');
 
   if (await userRepository.exists({ where: { email } })) {

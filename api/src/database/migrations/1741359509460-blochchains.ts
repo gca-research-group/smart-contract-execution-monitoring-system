@@ -3,20 +3,19 @@ import {
   QueryRunner,
   Table,
   TableForeignKey,
-  TableUnique,
 } from 'typeorm';
 
-export class Users1741269990949 implements MigrationInterface {
+export class Blochchains1741359509460 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'users',
+        name: 'blockchains',
         columns: [
           {
             name: 'id',
             type: 'serial',
             isPrimary: true,
-            primaryKeyConstraintName: 'pk__users__id',
+            primaryKeyConstraintName: 'pk__blockchains__id',
           },
           {
             name: 'name',
@@ -25,22 +24,15 @@ export class Users1741269990949 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'email',
+            name: 'type',
             type: 'varchar',
             length: '255',
             isNullable: false,
           },
           {
-            name: 'photo',
-            type: 'varchar',
-            length: '255',
+            name: 'parameters',
+            type: 'text',
             isNullable: true,
-          },
-          {
-            name: 'password',
-            type: 'varchar',
-            length: '255',
-            isNullable: false,
           },
           {
             name: 'status',
@@ -78,37 +70,29 @@ export class Users1741269990949 implements MigrationInterface {
     );
 
     await queryRunner.createForeignKey(
-      'users',
+      'blockchains',
       new TableForeignKey({
-        name: 'fk__users__created_by_id__users__id',
+        name: 'fk__blockchains__created_by_id__blockchains__id',
         columnNames: ['createdById'],
-        referencedTableName: 'users',
+        referencedTableName: 'blockchains',
         referencedColumnNames: ['id'],
         onDelete: 'SET NULL',
       }),
     );
 
     await queryRunner.createForeignKey(
-      'users',
+      'blockchains',
       new TableForeignKey({
-        name: 'fk__users__updated_by_id__users__id',
+        name: 'fk__blockchains__updated_by_id__blockchains__id',
         columnNames: ['updatedById'],
-        referencedTableName: 'users',
+        referencedTableName: 'blockchains',
         referencedColumnNames: ['id'],
         onDelete: 'SET NULL',
-      }),
-    );
-
-    await queryRunner.createUniqueConstraint(
-      'users',
-      new TableUnique({
-        name: 'uc__users__email',
-        columnNames: ['email'],
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('users');
+    await queryRunner.dropTable('blockchains');
   }
 }

@@ -1,3 +1,8 @@
+import { hashPassword } from './hashPassword';
+
 describe('hashPassword', () => {
-  it.todo('should hash the password');
+  it('should hash the password', () => {
+    const password = 'abc';
+    expect(hashPassword(password).startsWith('$2')).toBeTruthy();
+  });
 });

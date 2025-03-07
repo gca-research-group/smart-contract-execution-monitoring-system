@@ -75,6 +75,7 @@
     "moduleNameMapper": {
       "^src/(.*)$": "<rootDir>/$1"
     },
+    "modulePathIgnorePatterns": ["<rootDir>/database/"],
     "moduleFileExtensions": [
       "js",
       "json",

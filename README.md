@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="assets/logo.svg" alt="Smart Contract Execution Monitoring System">
+  <img src="assets/logo.svg" alt="Smart Contract Execution Monitoring System" style="height: 256px">
   <br>
   Smart Contract Execution Monitoring System
   <br>

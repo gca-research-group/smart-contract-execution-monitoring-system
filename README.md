@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="assets/logo-rounded-background-256.png" alt="Nectar Logo">
+  <img src="assets/logo.svg" alt="Smart Contract Execution Monitoring System">
   <br>
   Smart Contract Execution Monitoring System
   <br>

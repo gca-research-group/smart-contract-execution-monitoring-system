@@ -1,7 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { HyperledgerFabricConnectionService } from './hyperledger-fabric.service';
-import { BlockchainConnetionsModule } from './blockchain-connections.module';
+
 import { BLOCKCHAIN_CONNECTIONS } from './blockchain-connections.const';
+import { BlockchainConnetionsModule } from './blockchain-connections.module';
+import { HyperledgerFabricConnectionService } from './hyperledger-fabric.service';
 
 describe('HyperledgerFabricConnectionService', () => {
   let service: HyperledgerFabricConnectionService;

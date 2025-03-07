@@ -1,8 +1,11 @@
+import { DataSource } from 'typeorm';
+
 import { Test, TestingModule } from '@nestjs/testing';
+
+import { AppTestingModule } from '@app/app-testing.module';
+
 import { AuthController } from './auth.controller';
 import { UserModule } from '../user';
-import { AppTestingModule } from 'src/app-testing.module';
-import { DataSource } from 'typeorm';
 import { AuthService } from './auth.service';
 
 describe('AuthController', () => {

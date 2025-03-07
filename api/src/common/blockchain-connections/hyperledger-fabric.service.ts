@@ -1,4 +1,3 @@
-import { Injectable } from '@nestjs/common';
 import * as grpc from '@grpc/grpc-js';
 import {
   connect,
@@ -8,6 +7,8 @@ import {
   signers,
 } from '@hyperledger/fabric-gateway';
 import * as crypto from 'crypto';
+
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class HyperledgerFabricConnectionService {

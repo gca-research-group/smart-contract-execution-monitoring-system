@@ -1,8 +1,10 @@
+import { Repository } from 'typeorm';
+
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Blockchain } from 'src/models';
-import { CreateBlockchainDto } from 'src/models/dtos';
-import { Repository } from 'typeorm';
+
+import { CreateBlockchainDto } from '@app/dtos/blockchain';
+import { Blockchain } from '@app/models';
 
 @Injectable()
 export class BlockchainService {

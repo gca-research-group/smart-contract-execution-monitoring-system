@@ -2,15 +2,20 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Post,
+  Put,
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
+
+import { CreateUserDto, CreateUserSchema, UpdateUserDto } from '@app/dtos/user';
+import { AuthGuard } from '@app/guards';
+import { ZodValidationPipe } from '@app/pipes';
+
 import { UserService } from './user.service';
-import { CreateUserDto, CreateUserSchema } from 'src/models/dtos';
-import { ZodValidationPipe } from 'src/pipes';
-import { AuthGuard } from 'src/guards';
 
 @UseGuards(AuthGuard)
 @Controller('user')
@@ -28,8 +33,14 @@ export class UserController {
   }
 
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   @UsePipes(new ZodValidationPipe(CreateUserSchema))
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
+  }
+
+  @Put(':id')
+  update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(id, updateUserDto);
   }
 }

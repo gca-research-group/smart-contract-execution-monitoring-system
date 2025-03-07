@@ -1,5 +1,6 @@
 import { z } from 'zod';
-import { BlockchainType } from 'src/models';
+
+import { BlockchainType } from '@app/models';
 
 export const CreateBlockchainSchema = z.object({
   name: z.string(),

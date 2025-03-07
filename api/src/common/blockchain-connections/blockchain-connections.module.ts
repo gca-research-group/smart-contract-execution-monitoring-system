@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+
 import { HyperledgerFabricConnectionService } from './hyperledger-fabric.service';
 
 @Module({

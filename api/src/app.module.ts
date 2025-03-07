@@ -1,14 +1,20 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { typeorm } from './database/typeorm.config';
-import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { UserModule } from './modules/user';
-import { AuthModule } from './modules/auth';
 import { JwtModule } from '@nestjs/jwt';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+
+import { PUBLIC_FOLDER } from './const';
+import { typeorm } from './database/typeorm.config';
+import { AuthModule } from './modules/auth';
 import { BlockchainModule } from './modules/blockchain';
+import { UserModule } from './modules/user';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: PUBLIC_FOLDER,
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [typeorm],

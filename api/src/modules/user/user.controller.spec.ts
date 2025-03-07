@@ -1,10 +1,13 @@
+import { DataSource } from 'typeorm';
+
 import { Test, TestingModule } from '@nestjs/testing';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { AppTestingModule } from '@app/app-testing.module';
+import { User } from '@app/models';
+
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'src/models';
-import { AppTestingModule } from 'src/app-testing.module';
-import { DataSource } from 'typeorm';
 
 describe('UserController', () => {
   let controller: UserController;

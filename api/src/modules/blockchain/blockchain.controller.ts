@@ -7,10 +7,15 @@ import {
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
-import { AuthGuard } from 'src/guards';
+
+import {
+  CreateBlockchainDto,
+  CreateBlockchainSchema,
+} from '@app/dtos/blockchain';
+import { AuthGuard } from '@app/guards';
+import { ZodValidationPipe } from '@app/pipes';
+
 import { BlockchainService } from './blockchain.service';
-import { ZodValidationPipe } from 'src/pipes';
-import { CreateBlockchainDto, CreateBlockchainSchema } from 'src/models/dtos';
 
 @UseGuards(AuthGuard)
 @Controller('blockchain')

@@ -1,6 +1,7 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
-import 'dotenv/config';
+
 import { registerAs } from '@nestjs/config';
+import 'dotenv/config';
 
 export const config: DataSourceOptions = {
   type: 'postgres',

@@ -1,7 +1,10 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { AuthService } from './auth.service';
-import { AppTestingModule } from 'src/app-testing.module';
 import { DataSource } from 'typeorm';
+
+import { Test, TestingModule } from '@nestjs/testing';
+
+import { AppTestingModule } from '@app/app-testing.module';
+
+import { AuthService } from './auth.service';
 import { UserModule } from '../user';
 
 describe('AuthService', () => {

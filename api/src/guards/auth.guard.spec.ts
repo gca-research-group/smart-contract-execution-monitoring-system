@@ -1,6 +1,7 @@
-import { JwtService } from '@nestjs/jwt';
-import { AuthGuard } from './auth.guard';
 import { ExecutionContext } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+
+import { AuthGuard } from './auth.guard';
 
 describe('AuthGuard', () => {
   const secret = 'abc';

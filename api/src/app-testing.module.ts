@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { typeorm } from './database/typeorm.config';
-import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+
+import { typeorm } from './database/typeorm.config';
 
 @Module({
   imports: [

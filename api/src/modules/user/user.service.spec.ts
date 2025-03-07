@@ -1,9 +1,12 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { UserService } from './user.service';
-import { AppTestingModule } from 'src/app-testing.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'src/models';
 import { DataSource } from 'typeorm';
+
+import { Test, TestingModule } from '@nestjs/testing';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { AppTestingModule } from '@app/app-testing.module';
+import { User } from '@app/models';
+
+import { UserService } from './user.service';
 
 describe('UserService', () => {
   let service: UserService;

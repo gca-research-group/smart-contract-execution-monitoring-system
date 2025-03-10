@@ -1,7 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { CustomControlValueAccessorDirective } from '@app/directives/custom-control-value-accessor';
 import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
+
+import { Component, model, output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
+import { CustomControlValueAccessorDirective } from '@app/directives/custom-control-value-accessor';
 
 @Component({
   selector: 'app-blockchain-platform-selector',
@@ -10,11 +12,9 @@ import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
   imports: [FormsModule, NgSelectComponent, NgOptionComponent],
 })
 export class BlockchainPlatformSelectorComponent extends CustomControlValueAccessorDirective {
-  @Input()
-  current = 'hyperledger-fabric';
+  current = model('hyperledger-fabric');
 
-  @Output()
-  select = new EventEmitter<string>();
+  select = output<string>();
 
   blockchainPlatforms = [
     {

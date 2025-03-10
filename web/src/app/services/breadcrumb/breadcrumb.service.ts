@@ -1,6 +1,8 @@
-import { Injectable } from '@angular/core';
-import { Breadcrumb } from '@app/models';
 import { BehaviorSubject } from 'rxjs';
+
+import { Injectable } from '@angular/core';
+
+import { Breadcrumb } from '@app/models';
 
 const BASE_BREADCRUMB: Breadcrumb[] = [
   {
@@ -13,7 +15,7 @@ const BASE_BREADCRUMB: Breadcrumb[] = [
   providedIn: 'root',
 })
 export class BreadcrumbService {
-  private breadcrumb = new BehaviorSubject<Breadcrumb[]>([]);
+  private breadcrumb = new BehaviorSubject<Breadcrumb[]>(BASE_BREADCRUMB);
 
   breadcrumb$ = this.breadcrumb.asObservable();
 

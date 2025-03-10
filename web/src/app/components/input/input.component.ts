@@ -1,7 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
+
+import { Component, input, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+
 import { CustomControlValueAccessorDirective } from '@app/directives/custom-control-value-accessor';
 
 @Component({
@@ -13,13 +16,15 @@ import { CustomControlValueAccessorDirective } from '@app/directives/custom-cont
     MatInputModule,
     FormsModule,
     ReactiveFormsModule,
+    TranslateModule,
   ],
 })
 export class InputComponent
   extends CustomControlValueAccessorDirective
   implements OnInit
 {
-  @Input() label = '';
-  @Input() type = 'text';
-  @Input() formControlName!: string;
+  label = input('');
+  placeholder = input('');
+  type = input('text');
+  min = input<number>();
 }

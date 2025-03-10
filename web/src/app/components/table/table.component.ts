@@ -1,30 +1,68 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
+import { debounceTime, Subject, takeUntil } from 'rxjs';
+
+import { NgStyle, NgTemplateOutlet } from '@angular/common';
+import { Component, inject, input, OnDestroy, output } from '@angular/core';
+import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 
 import { InfiniteScrollDirective } from '@app/directives/infinite-scroll';
-import { TranslateModule } from '@ngx-translate/core';
-import { Column, SmartContract } from '@app/models';
+import { Column } from '@app/models';
+import { CustomDatePipe } from '@app/pipes';
+import { LanguageService } from '@app/services/language';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
-  imports: [MatTableModule, InfiniteScrollDirective, TranslateModule],
+  imports: [
+    NgStyle,
+    NgTemplateOutlet,
+    CustomDatePipe,
+
+    MatTableModule,
+    MatSortModule,
+    TranslateModule,
+
+    InfiniteScrollDirective,
+  ],
 })
-export class TableComponent {
-  @Input()
-  dataSource: SmartContract[] = [];
+export class TableComponent<T> implements OnDestroy {
+  dataSource = input<T[]>([]);
 
-  @Input()
-  displayedColumns: string[] = [];
+  displayedColumns = input<string[]>([]);
 
-  @Input()
-  columns: Column[] = [];
+  columns = input<Column[]>([]);
+  height = input<string>();
 
-  @Output()
-  loadMore = new EventEmitter();
+  loadMore = output();
+  sort = output<Sort>();
 
-  loadData() {
-    this.loadMore.emit();
+  scrollEvents = new Subject<void>();
+
+  language = 'en';
+  private languageService = inject(LanguageService);
+
+  onDestroy$ = new Subject();
+
+  constructor() {
+    this.scrollEvents
+      .pipe(debounceTime(300), takeUntil(this.onDestroy$))
+      .subscribe(() => {
+        this.loadMore.emit();
+      });
+
+    this.languageService.language$.subscribe(language => {
+      this.language = language;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.complete();
+    this.onDestroy$.unsubscribe();
+  }
+
+  sortFn(sort: Sort) {
+    this.sort.emit(sort);
   }
 }

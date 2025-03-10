@@ -5,7 +5,7 @@ import { BlockchainType } from '@app/models';
 export const CreateSmartContractSchema = z.object({
   name: z.string(),
   blockchainType: z.enum([BlockchainType.HYPERLEDGER_FABRIC]),
-  content: z.string(),
+  content: z.string().optional(),
   status: z.boolean().optional(),
   remarks: z.string().optional(),
 });

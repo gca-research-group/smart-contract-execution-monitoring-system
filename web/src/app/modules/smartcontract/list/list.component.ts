@@ -27,7 +27,7 @@ import { DeleteDialogComponent } from '@app/components/delete-dialog';
 import { IconButtonComponent } from '@app/components/icon-button';
 import { InputComponent } from '@app/components/input';
 import { TableComponent } from '@app/components/table';
-import { Column, ColumnType, Channel, Breadcrumb } from '@app/models';
+import { Column, ColumnType, SmartContract, Breadcrumb } from '@app/models';
 import { BreadcrumbService } from '@app/services/breadcrumb';
 
 import { SmartContractsService } from '../services/smartcontracts.service';
@@ -96,7 +96,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
   private service = inject(SmartContractsService);
   private formBuilder = inject(FormBuilder);
 
-  data: Channel[] = [];
+  data: SmartContract[] = [];
 
   loading = false;
   hasMore = true;
@@ -176,7 +176,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.breadcrumbService.reset();
   }
 
-  openDialog(item: Channel): void {
+  openDialog(item: SmartContract): void {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: item.id,
     });

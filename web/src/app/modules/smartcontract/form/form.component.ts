@@ -16,11 +16,11 @@ import {
 import { ActivatedRoute } from '@angular/router';
 
 import { ButtonComponent } from '@app/components/button';
-import { Channel } from '@app/models';
 import { BreadcrumbService } from '@app/services/breadcrumb';
 
 import { InputComponent } from '../../../components/input/input.component';
 import { SmartContractsService } from '../services/smartcontracts.service';
+import { SmartContract } from '@app/models';
 
 const BREADCRUMB = [
   {
@@ -99,9 +99,9 @@ export class FormComponent implements OnInit, OnDestroy {
 
   find(id: number) {
     this.service.findById(id).subscribe({
-      next: channel => {
+      next: item => {
         this.form.patchValue({
-          ...channel
+          ...item
         });
       },
       error: (error: { message: string }) => {
@@ -124,7 +124,7 @@ export class FormComponent implements OnInit, OnDestroy {
 
     this.loading = true;
     this.service
-      .save({ ...this.form.value } as unknown as Channel)
+      .save({ ...this.form.value } as unknown as SmartContract)
       .pipe(
         finalize(() => {
           this.loading = false;

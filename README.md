@@ -44,10 +44,10 @@ This is an open-source project that aims to be a middleware between the software
 
 ## Project repositories
 
-- [Smart Contract Monitoring System](https://github.com/gca-research-group/smart-contract-execution-monitoring-system)
-- [Hyperledger Fabric Network Manager](https://github.com/gca-research-group/hyperledger-fabric-development-network-manager)
+- [Smart Contract Execution Monitoring System](https://github.com/gca-research-group/smart-contract-execution-monitoring-system)
+- [Hyperledger Fabric Development Network Manager](https://github.com/gca-research-group/hyperledger-fabric-development-network-manager)
 - [Transformation Engine](https://github.com/gca-research-group/jabuti-ce-transformation-engine)
-- [Jabuti CE](https://github.com/gca-research-group/jabuti-ce-vscode-plugin)
+- [Jabuti CE (VSCode Plug-in)](https://github.com/gca-research-group/jabuti-ce-vscode-plugin)
 - [Jabuti DSL Grammar](https://github.com/gca-research-group/jabuti-ce-jabuti-dsl-grammar)
 - [Jabuti XText/Xtend implementation](https://github.com/gca-research-group/dsl-smart-contract-eai)
 

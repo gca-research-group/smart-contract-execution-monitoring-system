@@ -29,12 +29,21 @@ Expect frequent updates and changes. Your feedback is appreciated!
 
 This is an open-source project that aims to be a middleware between the software application, which contains the business rules, and blockchain applications. This monitoring system will act as a layer offering high-level APIs while tracking smart contract execution and its management.
 
+## Table of contents
+
+- [Project papers](#project-papers)
+- [Project repositories](#project-repositories)
+- [Features](#features)
+- [How to execute](#how-to-execute)
+
 ## Project papers
+
 - [Advances in a DSL to Specify Smart Contracts for Application Integration Processes](https://sol.sbc.org.br/index.php/cibse/article/view/20962)
 - [On the Need to Use Smart Contracts in Enterprise Application Integration](https://idus.us.es/handle/11441/140199)
 - [Jabuti CE: A Tool for Specifying Smart Contracts in the Domain of Enterprise Application Integration](https://www.scitepress.org/Link.aspx?doi=10.5220/0012413300003645)
 
 ## Project repositories
+
 - [Smart Contract Monitoring System](https://github.com/gca-research-group/smart-contract-execution-monitoring-system)
 - [Hyperledger Fabric Network Manager](https://github.com/gca-research-group/hyperledger-fabric-development-network-manager)
 - [Transformation Engine](https://github.com/gca-research-group/jabuti-ce-transformation-engine)
@@ -54,22 +63,26 @@ This is an open-source project that aims to be a middleware between the software
 > Currently, you can only execute this project by cloning it. However, we are working on developing a Docker image. Therefore, in the coming weeks, you will be able to run it with a single, fast command.
 
 ### Prerequisites
+
 - Docker
 - NodeJs +22.0
 
 ### Executing
 
 - Clone this repository
+
 ```sh
 git clone https://github.com/gca-research-group/smart-contract-execution-monitoring-system.git
 ```
 
 - Running the database
+
 ```sh
 ./.scripts/scems/up.sh
 ```
 
 - Running the frontend
+
 ```sh
 cd web
 npm i
@@ -77,6 +90,7 @@ npm run start
 ```
 
 - Running the backend
+
 ```sh
 cd api
 npm i

@@ -1,11 +1,13 @@
 {
   "blockchains": "Blockchains",
+  "createdAt": "Data de Registro",
   "home": "Home",
+  "id": "Id",
+  "login": "Login",
+  "logout": "Logout",
   "monitoring-system": "Sistema de Monitoreo",
+  "name": "Nombre",
   "settings": "Configuraciónes",
   "smart-contracts": "Contratos Inteligentes",
-  "id": "Id",
-  "name": "Nombre",
-  "createdAt": "Data de Registro",
   "updatedAt": "Data de Actualización"
 }

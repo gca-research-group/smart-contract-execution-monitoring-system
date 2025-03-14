@@ -3,6 +3,8 @@
   "createdAt": "Data de Cadastro",
   "home": "Home",
   "id": "Id",
+  "login": "Login",
+  "logout": "Logout",
   "monitoring-system": "Sistema de Monitoramento",
   "name": "Nome",
   "settings": "Configurações",

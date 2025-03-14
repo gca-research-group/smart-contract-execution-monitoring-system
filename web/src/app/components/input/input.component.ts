@@ -7,6 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 
 import { CustomControlValueAccessorDirective } from '@app/directives/custom-control-value-accessor';
 
+import { IconComponent } from '../icon';
+
 @Component({
   selector: 'app-input',
   templateUrl: './input.component.html',
@@ -17,12 +19,14 @@ import { CustomControlValueAccessorDirective } from '@app/directives/custom-cont
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
+    IconComponent,
   ],
 })
 export class InputComponent
   extends CustomControlValueAccessorDirective
   implements OnInit
 {
+  icon = input('');
   label = input('');
   placeholder = input('');
   type = input('text');

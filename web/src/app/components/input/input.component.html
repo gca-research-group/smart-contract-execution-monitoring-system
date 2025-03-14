@@ -1,5 +1,13 @@
 <mat-form-field>
   <mat-label>{{ label() | translate }}</mat-label>
+
+  @if (icon()) {
+    <span matTextPrefix>
+      <app-icon  [icon]="icon()" />
+      &nbsp;
+    </span>
+  }
+
   <input
     [type]="type()"
     [placeholder]="placeholder()"

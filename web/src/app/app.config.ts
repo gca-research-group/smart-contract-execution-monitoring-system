@@ -1,6 +1,8 @@
 import { provideTranslateService, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { provideToastr } from 'ngx-toastr';
+import { withNgxsStoragePlugin } from '@ngxs/storage-plugin';
+import { provideStore } from '@ngxs/store';
 
 import { DatePipe, registerLocaleData } from '@angular/common';
 import { HttpClient, provideHttpClient } from '@angular/common/http';
@@ -17,6 +19,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
+import { UserState } from './state/current-user';
 
 registerLocaleData(localeES, 'es');
 registerLocaleData(localePT, 'pt');
@@ -28,6 +31,12 @@ const httpLoaderFactory: (http: HttpClient) => TranslateHttpLoader = (
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideStore(
+      [UserState],
+      withNgxsStoragePlugin({
+        keys: '*',
+      }),
+    ),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimationsAsync(),

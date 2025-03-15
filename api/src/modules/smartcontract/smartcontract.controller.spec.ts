@@ -5,9 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppTestingModule } from '@app/app-testing.module';
 import { SmartContract } from '@app/models';
+import { SmartContractService } from '@app/services/smartcontract';
 
 import { SmartContractController } from './smartcontract.controller';
-import { SmartContractService } from './smartcontract.service';
 
 describe('SmartcontractsController', () => {
   let controller: SmartContractController;

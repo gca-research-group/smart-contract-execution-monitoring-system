@@ -3,9 +3,9 @@ import { DataSource } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { AppTestingModule } from '@app/app-testing.module';
+import { UserModule } from '@app/modules/user';
 
 import { AuthService } from './auth.service';
-import { UserModule } from '../user';
 
 describe('AuthService', () => {
   let service: AuthService;

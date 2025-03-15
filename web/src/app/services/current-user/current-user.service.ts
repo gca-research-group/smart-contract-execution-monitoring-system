@@ -7,6 +7,7 @@ import {
   AddCurrentUserAction,
   currentUserSelector,
   RemoveCurrentUserAction,
+  UpdateCurrentUserAccessTokenAction,
 } from '@app/state/current-user';
 
 @Injectable({
@@ -24,5 +25,9 @@ export class CurrentUserService {
 
   remove() {
     this.store.dispatch(new RemoveCurrentUserAction());
+  }
+
+  updateAccessToken(accessToken: string) {
+    this.store.dispatch(new UpdateCurrentUserAccessTokenAction(accessToken));
   }
 }

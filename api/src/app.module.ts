@@ -30,7 +30,6 @@ import { UserModule } from './modules/user';
     JwtModule.register({
       global: true,
       secret: process.env.SECRET_KEY,
-      signOptions: { expiresIn: '15m' },
     }),
     AuthModule,
     BlockchainModule,

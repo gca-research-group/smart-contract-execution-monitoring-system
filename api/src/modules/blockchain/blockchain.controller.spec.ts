@@ -5,9 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppTestingModule } from '@app/app-testing.module';
 import { Blockchain } from '@app/models';
+import { BlockchainService } from '@app/services/blockchain';
 
 import { BlockchainController } from './blockchain.controller';
-import { BlockchainService } from './blockchain.service';
 
 describe('BlockchainController', () => {
   let controller: BlockchainController;

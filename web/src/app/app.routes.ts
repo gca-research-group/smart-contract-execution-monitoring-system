@@ -1,15 +1,14 @@
 import { Routes } from '@angular/router';
-import { smartcontractsRoutes } from './modules/smartcontract';
+
 import { isAuthenticatedGuard } from './guards';
 import { loginRoutes } from './modules/login';
+import { smartcontractsRoutes } from './modules/smartcontract';
 
 export const routes: Routes = [
   ...loginRoutes,
   {
     path: '',
-    children: [
-      ...smartcontractsRoutes
-    ],
+    children: [...smartcontractsRoutes],
     canActivate: [isAuthenticatedGuard],
-  }
+  },
 ];

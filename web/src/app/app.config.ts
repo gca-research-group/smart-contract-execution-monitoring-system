@@ -1,11 +1,15 @@
 import { provideTranslateService, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { provideToastr } from 'ngx-toastr';
 import { withNgxsStoragePlugin } from '@ngxs/storage-plugin';
 import { provideStore } from '@ngxs/store';
+import { provideToastr } from 'ngx-toastr';
 
 import { DatePipe, registerLocaleData } from '@angular/common';
-import { HttpClient, provideHttpClient } from '@angular/common/http';
+import {
+  HttpClient,
+  provideHttpClient,
+  withInterceptors,
+} from '@angular/common/http';
 import localeEN from '@angular/common/locales/en';
 import localeES from '@angular/common/locales/es';
 import localePT from '@angular/common/locales/pt';
@@ -19,6 +23,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
+import { accessTokenInterceptor } from './interceptors';
 import { UserState } from './state/current-user';
 
 registerLocaleData(localeES, 'es');
@@ -41,7 +46,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     provideToastr(),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([accessTokenInterceptor])),
     provideTranslateService({
       loader: {
         provide: TranslateLoader,

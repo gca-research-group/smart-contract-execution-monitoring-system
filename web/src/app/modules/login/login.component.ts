@@ -15,7 +15,6 @@ import { Login } from '@app/models';
 import { AuthService } from '@app/services/auth';
 import { CurrentUserService } from '@app/services/current-user';
 
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
-import { environment } from '../../../../environments/environment';
 import { SmartContract } from '@app/models';
+
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -12,9 +13,12 @@ export class SmartContractsService {
   private readonly url = `${environment.apiUrl}/smartcontract/`;
 
   findAll(params?: object) {
-    return this.http.get<{ data: SmartContract[]; hasMore: boolean }>(this.url, {
-      params: { ...params },
-    });
+    return this.http.get<{ data: SmartContract[]; hasMore: boolean }>(
+      this.url,
+      {
+        params: { ...params },
+      },
+    );
   }
 
   findById(id: number) {

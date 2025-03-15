@@ -16,11 +16,11 @@ import {
 import { ActivatedRoute } from '@angular/router';
 
 import { ButtonComponent } from '@app/components/button';
+import { SmartContract } from '@app/models';
 import { BreadcrumbService } from '@app/services/breadcrumb';
 
 import { InputComponent } from '../../../components/input/input.component';
 import { SmartContractsService } from '../services/smartcontracts.service';
-import { SmartContract } from '@app/models';
 
 const BREADCRUMB = [
   {
@@ -43,7 +43,7 @@ const BREADCRUMB = [
     FormsModule,
     TranslateModule,
     InputComponent,
-    ButtonComponent
+    ButtonComponent,
   ],
 })
 export class FormComponent implements OnInit, OnDestroy {
@@ -101,7 +101,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.service.findById(id).subscribe({
       next: item => {
         this.form.patchValue({
-          ...item
+          ...item,
         });
       },
       error: (error: { message: string }) => {

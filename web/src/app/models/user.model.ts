@@ -4,5 +4,6 @@ export interface User {
   email: string;
   isSuper: boolean;
   accessToken?: string;
+  refreshToken?: string;
   isAuthenticated: boolean;
 }

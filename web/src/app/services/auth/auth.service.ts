@@ -15,4 +15,11 @@ export class AuthService {
   login(data: Login) {
     return this.httpClient.post<User>(`${this.apiUrl}/auth/login`, data);
   }
+
+  refresh() {
+    return this.httpClient.post<{ accessToken: string }>(
+      `${this.apiUrl}/auth/refresh`,
+      null,
+    );
+  }
 }

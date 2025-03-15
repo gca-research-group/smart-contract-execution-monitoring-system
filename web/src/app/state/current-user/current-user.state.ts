@@ -7,6 +7,7 @@ import { User } from '@app/models';
 import {
   AddCurrentUserAction,
   RemoveCurrentUserAction,
+  UpdateCurrentUserAccessTokenAction,
 } from './current-user.actions';
 
 @State<User>({
@@ -25,6 +26,16 @@ export class UserState {
   remove(ctx: StateContext<User | object>) {
     let state = ctx.getState();
     state = {};
+    ctx.setState(state);
+  }
+
+  @Action(UpdateCurrentUserAccessTokenAction)
+  updateUserAccessToken(
+    ctx: StateContext<User>,
+    { payload }: UpdateCurrentUserAccessTokenAction,
+  ) {
+    let state = ctx.getState();
+    state = { ...state, accessToken: payload };
     ctx.setState(state);
   }
 }

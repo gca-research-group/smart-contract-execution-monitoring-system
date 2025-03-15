@@ -5,9 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppTestingModule } from '@app/app-testing.module';
 import { User } from '@app/models';
+import { UserService } from '@app/services/user';
 
 import { UserController } from './user.controller';
-import { UserService } from './user.service';
 
 describe('UserController', () => {
   let controller: UserController;

@@ -123,8 +123,6 @@ export class ListComponent implements AfterViewInit, OnDestroy {
     this.form = this.formBuilder.group({
       id: null,
       name: null,
-      domain: null,
-      port: null,
       page: 1,
       pageSize: 20,
       orderBy: null,
@@ -136,10 +134,7 @@ export class ListComponent implements AfterViewInit, OnDestroy {
 
     this.form.valueChanges.pipe(debounceTime(300)).subscribe(() => {
       this.search();
-      void this.router.navigate([], {
-        queryParams: this.form.value as Record<string, string>,
-        queryParamsHandling: 'merge',
-      });
+      this.updateRouteQueryParameters();
     });
   }
 
@@ -169,6 +164,13 @@ export class ListComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.breadcrumbService.reset();
+  }
+
+  updateRouteQueryParameters() {
+    void this.router.navigate([], {
+      queryParams: this.form.value as Record<string, string>,
+      queryParamsHandling: 'merge',
+    });
   }
 
   openDialog(item: SmartContract): void {
@@ -226,8 +228,13 @@ export class ListComponent implements AfterViewInit, OnDestroy {
   }
 
   search() {
+    const page = 1;
+
+    this.form.patchValue({ page }, { emitEvent: false });
+    this.updateRouteQueryParameters();
+
     const _params = this.removeNullFields(this.form.value);
-    _params['page'] = 1;
+    _params['page'] = page;
 
     this.service.findAll(_params).subscribe({
       next: response => {

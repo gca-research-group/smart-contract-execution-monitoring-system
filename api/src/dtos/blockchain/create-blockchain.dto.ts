@@ -1,10 +1,10 @@
 import { z } from 'zod';
 
-import { BlockchainType } from '@app/models';
+import { BlockchainPlatform } from '@app/models';
 
 export const CreateBlockchainSchema = z.object({
   name: z.string(),
-  type: z.enum([BlockchainType.HYPERLEDGER_FABRIC]),
+  type: z.enum([BlockchainPlatform.HYPERLEDGER_FABRIC]),
   parameters: z.string().optional(),
   status: z.boolean().optional(),
   remarks: z.string().optional(),

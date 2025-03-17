@@ -1,8 +1,8 @@
-import { BlockchainType } from '@app/models';
+import { BlockchainPlatform } from '@app/models';
 
 export type UpdateSmartContractDto = {
   name: string;
-  blockchainType: BlockchainType;
+  blockchainPlatform: BlockchainPlatform;
   content: string;
   status: boolean;
   remarks: string;

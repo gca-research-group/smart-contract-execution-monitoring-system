@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
@@ -14,11 +15,12 @@ import {
 import {
   CreateSmartContractDto,
   CreateSmartContractSchema,
+  ListSmartContractDto,
   UpdateSmartContractDto,
-} from '@app/dtos/smartcontract';
+} from '@app/dtos/smart-contract';
 import { AuthGuard } from '@app/guards';
-import { ZodValidationPipe } from '@app/pipes';
-import { SmartContractService } from '@app/services/smartcontract';
+import { ZodValidationPipe } from '@app/pipes/zod';
+import { SmartContractService } from '@app/services/smart-contract';
 
 @UseGuards(AuthGuard)
 @Controller('smartcontract')
@@ -26,8 +28,8 @@ export class SmartContractController {
   constructor(private smartContractService: SmartContractService) {}
 
   @Get()
-  index() {
-    return this.smartContractService.findAll();
+  index(@Query() query: ListSmartContractDto) {
+    return this.smartContractService.findAll(query);
   }
 
   @Get(':id')

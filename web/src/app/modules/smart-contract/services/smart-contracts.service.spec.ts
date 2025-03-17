@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SmartContractsService } from './smartcontracts.service';
+import { SmartContractsService } from './smart-contracts.service';
 
 describe('SmartContractsService', () => {
   let service: SmartContractsService;

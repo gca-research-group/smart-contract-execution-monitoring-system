@@ -5,22 +5,20 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppTestingModule } from '@app/app-testing.module';
 import { SmartContract } from '@app/models';
-import { SmartContractService } from '@app/services/smartcontract';
 
-import { SmartContractController } from './smartcontract.controller';
+import { SmartContractService } from './smart-contract.service';
 
-describe('SmartcontractsController', () => {
-  let controller: SmartContractController;
+describe('SmartContractService', () => {
+  let service: SmartContractService;
   let dataSource: DataSource;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [AppTestingModule, TypeOrmModule.forFeature([SmartContract])],
       providers: [SmartContractService],
-      controllers: [SmartContractController],
     }).compile();
 
-    controller = module.get<SmartContractController>(SmartContractController);
+    service = module.get<SmartContractService>(SmartContractService);
     dataSource = module.get<DataSource>(DataSource);
   });
 
@@ -29,6 +27,6 @@ describe('SmartcontractsController', () => {
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(service).toBeDefined();
   });
 });

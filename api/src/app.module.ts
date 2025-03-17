@@ -8,7 +8,7 @@ import { PUBLIC_FOLDER } from './const';
 import { typeorm } from './database/typeorm.config';
 import { AuthModule } from './modules/auth';
 import { BlockchainModule } from './modules/blockchain';
-import { SmartcontractsModule } from './modules/smartcontract';
+import { SmartcontractsModule } from './modules/smart-contract';
 import { UserModule } from './modules/user';
 
 @Module({

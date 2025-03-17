@@ -1,6 +1,6 @@
-export const smartcontractsRoutes = [
+export const smartContractsRoutes = [
   {
-    path: 'smartcontracts',
+    path: 'smart-contracts',
     children: [
       {
         path: '',

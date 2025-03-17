@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@eslint/compat": "^1.2.7",
+    "@faker-js/faker": "^9.6.0",
     "@grpc/grpc-js": "^1.12.6",
     "@hyperledger/fabric-gateway": "^1.7.1",
     "@nestjs/common": "^11.0.1",

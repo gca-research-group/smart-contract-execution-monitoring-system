@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-export enum BlockchainType {
+export enum BlockchainPlatform {
   HYPERLEDGER_FABRIC = 'HYPERLEDGER_FABRIC',
 }
 
@@ -19,7 +19,7 @@ export class Blockchain {
   name: string;
 
   @Column()
-  type: BlockchainType;
+  type: BlockchainPlatform;
 
   @Column()
   parameters: string;

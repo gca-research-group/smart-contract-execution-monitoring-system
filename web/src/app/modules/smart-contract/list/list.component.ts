@@ -9,7 +9,6 @@ import {
   ElementRef,
   inject,
   OnDestroy,
-  OnInit,
   TemplateRef,
   viewChild,
 } from '@angular/core';
@@ -30,7 +29,7 @@ import { TableComponent } from '@app/components/table';
 import { Column, ColumnType, SmartContract, Breadcrumb } from '@app/models';
 import { BreadcrumbService } from '@app/services/breadcrumb';
 
-import { SmartContractsService } from '../services/smartcontracts.service';
+import { SmartContractsService } from '../services/smart-contracts.service';
 
 const COLUMNS: Column[] = [
   {
@@ -67,12 +66,12 @@ const BREADCRUMB: Breadcrumb[] = [
     url: '/',
   },
   {
-    label: 'smartcontracts',
+    label: 'smartContracts',
   },
 ];
 
 @Component({
-  selector: 'app-smartcontracts-list',
+  selector: 'app-smart-contracts-list',
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
   imports: [
@@ -87,7 +86,7 @@ const BREADCRUMB: Breadcrumb[] = [
     IconButtonComponent,
   ],
 })
-export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ListComponent implements AfterViewInit, OnDestroy {
   columns = COLUMNS;
 
   displayedColumns = COLUMNS.map(column => column.id);
@@ -142,10 +141,6 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
         queryParamsHandling: 'merge',
       });
     });
-  }
-
-  ngOnInit(): void {
-    this.search();
   }
 
   ngAfterViewInit(): void {
@@ -203,7 +198,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.hasMore) {
       this.form.patchValue(
         {
-          page: ((this.form.get('page')?.value as unknown as number) ?? 0) + 1,
+          page: +this.form.get('page')?.value + 1,
         },
         { emitEvent: false },
       );
@@ -232,6 +227,8 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   search() {
     const _params = this.removeNullFields(this.form.value);
+    _params['page'] = 1;
+
     this.service.findAll(_params).subscribe({
       next: response => {
         this.data = response.data;

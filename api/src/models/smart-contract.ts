@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { BlockchainType } from './blockchain';
+import { BlockchainPlatform } from './blockchain';
 
 @Entity({ name: 'smartcontracts' })
 export class SmartContract {
@@ -17,7 +17,7 @@ export class SmartContract {
   name: string;
 
   @Column()
-  blockchainType: BlockchainType;
+  blockchainPlatform: BlockchainPlatform;
 
   @Column('text')
   content: string;

@@ -15,12 +15,13 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
+import { BlockchainPlatformSelectorComponent } from '@app/components/blockchain-platform-selector';
 import { ButtonComponent } from '@app/components/button';
 import { SmartContract } from '@app/models';
 import { BreadcrumbService } from '@app/services/breadcrumb';
 
 import { InputComponent } from '../../../components/input/input.component';
-import { SmartContractsService } from '../services/smartcontracts.service';
+import { SmartContractsService } from '../services/smart-contracts.service';
 
 const BREADCRUMB = [
   {
@@ -28,13 +29,13 @@ const BREADCRUMB = [
     url: '/',
   },
   {
-    label: 'smartcontracts',
-    url: '/smartcontracts',
+    label: 'smartContracts',
+    url: '/smartContracts',
   },
 ];
 
 @Component({
-  selector: 'app-smartcontracts-form',
+  selector: 'app-smart-contracts-form',
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss',
   host: { class: 'd-md-flex d-sm-block justify-content-center' },
@@ -44,13 +45,14 @@ const BREADCRUMB = [
     TranslateModule,
     InputComponent,
     ButtonComponent,
+    BlockchainPlatformSelectorComponent,
   ],
 })
 export class FormComponent implements OnInit, OnDestroy {
   form!: FormGroup<{
     id: FormControl<number | null>;
     name: FormControl<string | null>;
-    blockchainType: FormControl<string | null>;
+    blockchainPlatform: FormControl<string | null>;
     content: FormControl<string | null>;
   }>;
 
@@ -69,12 +71,10 @@ export class FormComponent implements OnInit, OnDestroy {
       name: new FormControl('', [
         (control: AbstractControl) => Validators.required(control),
       ]),
-      blockchainType: new FormControl('', [
+      blockchainPlatform: new FormControl('HYPERLEDGER_FABRIC', [
         (control: AbstractControl) => Validators.required(control),
       ]),
-      content: new FormControl('', [
-        (control: AbstractControl) => Validators.required(control),
-      ]),
+      content: new FormControl(''),
     });
 
     this.breadcrumbService.update([

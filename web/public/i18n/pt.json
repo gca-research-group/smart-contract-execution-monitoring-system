@@ -1,5 +1,7 @@
 {
   "blockchains": "Blockchains",
+  "blockchainType": "Tipo de Blockchain",
+  "content": "Conteúdo",
   "createdAt": "Data de Cadastro",
   "home": "Home",
   "id": "Id",
@@ -7,6 +9,9 @@
   "logout": "Logout",
   "monitoring-system": "Sistema de Monitoramento",
   "name": "Nome",
+  "page": "Página",
+  "page-size": "Itens por página",
+  "save": "Salvar",
   "settings": "Configurações",
   "smart-contracts": "Contratos Inteligentes",
   "updatedAt": "Data de Atualizaçao"

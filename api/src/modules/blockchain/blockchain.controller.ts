@@ -17,7 +17,7 @@ import {
   UpdateBlockchainDto,
 } from '@app/dtos/blockchain';
 import { AuthGuard } from '@app/guards';
-import { ZodValidationPipe } from '@app/pipes';
+import { ZodValidationPipe } from '@app/pipes/zod';
 import { BlockchainService } from '@app/services/blockchain';
 
 @UseGuards(AuthGuard)

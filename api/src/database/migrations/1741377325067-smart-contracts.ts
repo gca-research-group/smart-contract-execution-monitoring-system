@@ -24,7 +24,7 @@ export class Smartcontracts1741377325067 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'blockchainType',
+            name: 'blockchainPlatform',
             type: 'varchar',
             length: '255',
             isNullable: false,
@@ -32,7 +32,7 @@ export class Smartcontracts1741377325067 implements MigrationInterface {
           {
             name: 'content',
             type: 'text',
-            isNullable: false,
+            isNullable: true,
           },
           {
             name: 'status',

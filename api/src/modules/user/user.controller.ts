@@ -13,7 +13,7 @@ import {
 
 import { CreateUserDto, CreateUserSchema, UpdateUserDto } from '@app/dtos/user';
 import { AuthGuard } from '@app/guards';
-import { ZodValidationPipe } from '@app/pipes';
+import { ZodValidationPipe } from '@app/pipes/zod';
 import { UserService } from '@app/services/user';
 
 @UseGuards(AuthGuard)

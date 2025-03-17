@@ -1,5 +1,7 @@
 {
   "blockchains": "Blockchains",
+  "blockchain-platform": "Blockchain Platform",
+  "content": "Content",
   "createdAt": "Created At",
   "home": "Home",
   "id": "Id",
@@ -7,6 +9,9 @@
   "logout": "Logout",
   "monitoring-system": "Monitoring System",
   "name": "Name",
+  "page": "Page",
+  "page-size": "Page Size",
+  "save": "Save",
   "settings": "Settings",
   "smart-contracts": "Smart Contracts",
   "updatedAt": "Updated At"

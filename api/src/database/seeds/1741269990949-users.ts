@@ -6,7 +6,7 @@ import { User } from '@app/models';
 
 import { config } from '../typeorm.config';
 
-async function seed() {
+export async function seed() {
   const connection = new DataSource({ ...config, entities: [User] });
   await connection.initialize();
 
@@ -32,7 +32,3 @@ async function seed() {
 
   await connection.destroy();
 }
-
-seed().catch((error) => {
-  console.error('Seeding failed:', error);
-});

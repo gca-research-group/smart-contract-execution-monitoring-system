@@ -1,8 +1,10 @@
 {
   "blockchains": "Blockchains",
   "blockchainType": "Tipo de Blockchain",
+  "cancel": "Cancelar",
   "content": "Contenido",
   "createdAt": "Data de Registro",
+  "delete-record": "Borrar este registro?",
   "home": "Home",
   "id": "Id",
   "login": "Login",

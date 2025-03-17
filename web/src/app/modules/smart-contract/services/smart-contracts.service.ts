@@ -10,7 +10,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class SmartContractsService {
   private readonly http = inject(HttpClient);
-  private readonly url = `${environment.apiUrl}/smartcontract/`;
+  private readonly url = `${environment.apiUrl}/smart-contract/`;
 
   findAll(params?: object) {
     return this.http.get<{ data: SmartContract[]; hasMore: boolean }>(
@@ -31,7 +31,7 @@ export class SmartContractsService {
 
   save(item: SmartContract) {
     if (item.id) {
-      return this.http.put(`${this.url}`, item);
+      return this.http.put(`${this.url}${item.id}`, item);
     }
 
     return this.http.post(this.url, item);

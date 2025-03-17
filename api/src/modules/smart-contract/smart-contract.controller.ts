@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -23,7 +24,7 @@ import { ZodValidationPipe } from '@app/pipes/zod';
 import { SmartContractService } from '@app/services/smart-contract';
 
 @UseGuards(AuthGuard)
-@Controller('smartcontract')
+@Controller('smart-contract')
 export class SmartContractController {
   constructor(private smartContractService: SmartContractService) {}
 
@@ -50,5 +51,10 @@ export class SmartContractController {
     @Body() updateSmartContractDto: UpdateSmartContractDto,
   ) {
     return this.smartContractService.update(id, updateSmartContractDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: number) {
+    return this.smartContractService.remove(id);
   }
 }

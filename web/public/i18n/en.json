@@ -1,8 +1,10 @@
 {
   "blockchains": "Blockchains",
   "blockchain-platform": "Blockchain Platform",
+  "cancel": "Cancel",
   "content": "Content",
   "createdAt": "Created At",
+  "delete-record": "Delete the record?",
   "home": "Home",
   "id": "Id",
   "login": "Login",

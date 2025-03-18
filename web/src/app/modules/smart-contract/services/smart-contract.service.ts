@@ -8,7 +8,7 @@ import { environment } from '../../../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class SmartContractsService {
+export class SmartContractService {
   private readonly http = inject(HttpClient);
   private readonly url = `${environment.apiUrl}/smart-contract/`;
 

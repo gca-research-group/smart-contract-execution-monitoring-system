@@ -29,7 +29,7 @@ import { TableComponent } from '@app/components/table';
 import { Column, ColumnType, SmartContract, Breadcrumb } from '@app/models';
 import { BreadcrumbService } from '@app/services/breadcrumb';
 
-import { SmartContractsService } from '../services/smart-contracts.service';
+import { SmartContractService } from '../services/smart-contract.service';
 
 const COLUMNS: Column[] = [
   {
@@ -66,12 +66,12 @@ const BREADCRUMB: Breadcrumb[] = [
     url: '/',
   },
   {
-    label: 'smart-contracts',
+    label: 'smart-contract',
   },
 ];
 
 @Component({
-  selector: 'app-smart-contracts-list',
+  selector: 'app-smart-contract-list',
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
   imports: [
@@ -92,7 +92,7 @@ export class ListComponent implements AfterViewInit, OnDestroy {
   displayedColumns = COLUMNS.map(column => column.id);
 
   private breadcrumbService = inject(BreadcrumbService);
-  private service = inject(SmartContractsService);
+  private service = inject(SmartContractService);
   private formBuilder = inject(FormBuilder);
 
   data: SmartContract[] = [];

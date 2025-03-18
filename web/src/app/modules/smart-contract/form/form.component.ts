@@ -21,7 +21,7 @@ import { SmartContract } from '@app/models';
 import { BreadcrumbService } from '@app/services/breadcrumb';
 
 import { InputComponent } from '../../../components/input/input.component';
-import { SmartContractsService } from '../services/smart-contracts.service';
+import { SmartContractService } from '../services/smart-contract.service';
 
 const BREADCRUMB = [
   {
@@ -29,13 +29,13 @@ const BREADCRUMB = [
     url: '/',
   },
   {
-    label: 'smart-contracts',
-    url: '/smart-contracts',
+    label: 'smart-contract',
+    url: '/smart-contract',
   },
 ];
 
 @Component({
-  selector: 'app-smart-contracts-form',
+  selector: 'app-smart-contract-form',
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss',
   host: { class: 'd-md-flex d-sm-block justify-content-center' },
@@ -58,7 +58,7 @@ export class FormComponent implements OnInit, OnDestroy {
 
   private formBuilder = inject(FormBuilder);
   private breadcrumbService = inject(BreadcrumbService);
-  private service = inject(SmartContractsService);
+  private service = inject(SmartContractService);
   private location = inject(Location);
   private activatedRoute = inject(ActivatedRoute);
   loading = false;

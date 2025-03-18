@@ -29,8 +29,8 @@ const BREADCRUMB = [
     url: '/',
   },
   {
-    label: 'smartContracts',
-    url: '/smartContracts',
+    label: 'smart-contracts',
+    url: '/smart-contracts',
   },
 ];
 

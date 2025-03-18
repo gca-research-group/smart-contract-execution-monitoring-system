@@ -26,23 +26,23 @@ import { SmartContractService } from '@app/services/smart-contract';
 @UseGuards(AuthGuard)
 @Controller('smart-contract')
 export class SmartContractController {
-  constructor(private smartContractService: SmartContractService) {}
+  constructor(private service: SmartContractService) {}
 
   @Get()
   index(@Query() query: ListSmartContractDto) {
-    return this.smartContractService.findAll(query);
+    return this.service.findAll(query);
   }
 
   @Get(':id')
   show(@Param('id') id: number) {
-    return this.smartContractService.findOne(id);
+    return this.service.findOne(id);
   }
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @UsePipes(new ZodValidationPipe(CreateSmartContractSchema))
   create(@Body() createSmartContractDto: CreateSmartContractDto) {
-    return this.smartContractService.create(createSmartContractDto);
+    return this.service.create(createSmartContractDto);
   }
 
   @Put(':id')
@@ -50,11 +50,11 @@ export class SmartContractController {
     @Param('id') id: number,
     @Body() updateSmartContractDto: UpdateSmartContractDto,
   ) {
-    return this.smartContractService.update(id, updateSmartContractDto);
+    return this.service.update(id, updateSmartContractDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: number) {
-    return this.smartContractService.remove(id);
+    return this.service.remove(id);
   }
 }

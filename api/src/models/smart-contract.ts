@@ -1,18 +1,10 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity } from 'typeorm';
 
+import { Base } from './base-model';
 import { BlockchainPlatform } from './blockchain';
 
 @Entity({ name: 'smartcontracts' })
-export class SmartContract {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class SmartContract extends Base {
   @Column()
   name: string;
 
@@ -21,22 +13,4 @@ export class SmartContract {
 
   @Column('text')
   content: string;
-
-  @Column({ default: true })
-  status: boolean;
-
-  @Column('text')
-  remarks: string;
-
-  @Column('int')
-  createdById: number;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @Column('int')
-  updatedById: number;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 }

@@ -1,8 +1,5 @@
-export type ListSmartContractDto = {
-  id: number;
+import { ListBaseDto } from '../list-base-dto';
+
+export interface ListSmartContractDto extends ListBaseDto {
   name: string;
-  page: number;
-  pageSize: number;
-  orderBy: string;
-  orderDirection: 'asc' | 'desc';
-};
+}

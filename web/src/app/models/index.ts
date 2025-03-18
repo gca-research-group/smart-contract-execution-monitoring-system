@@ -1,3 +1,4 @@
+export * from './blockchain.model';
 export * from './breadcrumb.model';
 export * from './column.model';
 export * from './login.model';

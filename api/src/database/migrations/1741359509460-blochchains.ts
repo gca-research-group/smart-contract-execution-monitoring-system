@@ -24,14 +24,14 @@ export class Blochchains1741359509460 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'type',
+            name: 'platform',
             type: 'varchar',
             length: '255',
             isNullable: false,
           },
           {
             name: 'parameters',
-            type: 'text',
+            type: 'json',
             isNullable: true,
           },
           {

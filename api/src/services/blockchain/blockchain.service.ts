@@ -7,7 +7,7 @@ import {
   ListBlockchainDto,
   UpdateBlockchainDto,
 } from '@app/dtos/blockchain';
-import { Blockchain } from '@app/models';
+import { Blockchain, BLOCKCHAIN_CONFIG } from '@app/models';
 
 import { CrudBaseService } from '../crud-base.service';
 
@@ -30,5 +30,9 @@ export class BlockchainService extends CrudBaseService<
     }
 
     return whereOptions;
+  }
+
+  config(platform: keyof typeof BLOCKCHAIN_CONFIG) {
+    return BLOCKCHAIN_CONFIG[platform];
   }
 }

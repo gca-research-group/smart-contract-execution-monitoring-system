@@ -20,6 +20,7 @@ import {
   UpdateBlockchainDto,
 } from '@app/dtos/blockchain';
 import { AuthGuard } from '@app/guards';
+import { BLOCKCHAIN_CONFIG } from '@app/models';
 import { ZodValidationPipe } from '@app/pipes/zod';
 import { BlockchainService } from '@app/services/blockchain';
 
@@ -27,6 +28,11 @@ import { BlockchainService } from '@app/services/blockchain';
 @Controller('blockchain')
 export class BlockchainController {
   constructor(private service: BlockchainService) {}
+
+  @Get('config')
+  config(@Query('platform') platform: keyof typeof BLOCKCHAIN_CONFIG) {
+    return this.service.config(platform);
+  }
 
   @Get()
   index(@Query() query: ListBlockchainDto) {

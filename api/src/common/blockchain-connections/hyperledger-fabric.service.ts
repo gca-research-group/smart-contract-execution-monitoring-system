@@ -10,16 +10,14 @@ import * as crypto from 'crypto';
 
 import { Injectable } from '@nestjs/common';
 
+import { HyperledgerFabricConfig } from '@app/models';
+
 @Injectable()
 export class HyperledgerFabricConnectionService {
-  connection(
-    mspId: string,
-    signcert: string,
-    keystore: string,
-    cacrt: string,
-    peerEndpoint: string,
-    peerHostAlias: string,
-  ) {
+  connection(parameters: HyperledgerFabricConfig) {
+    const { mspId, signcert, keystore, cacrt, peerEndpoint, peerHostAlias } =
+      parameters;
+
     const client = this.newGrpcConnection(
       Buffer.from(cacrt, 'utf8'),
       peerEndpoint,

@@ -1,0 +1,39 @@
+<form
+  [formGroup]="form"
+  class="d-flex flex-column col-lg-6 col-md-12"
+  (ngSubmit)="save()"
+>
+  <app-input
+    placeholder="Name"
+    formControlName="name"
+    label="name"
+    class="col mb-5"
+  />
+
+  <app-blockchain-platform-selector
+    formControlName="platform"
+    class="col mb-5"
+  />
+
+  <fieldset formGroupName="parameters" class="d-flex flex-column" style="gap: 32px">
+    <legend class="mb-2">
+      {{ 'parameters' | translate }}
+    </legend>
+
+    @for (parameter of parameters; track $index) {
+      <app-input
+        [formControlName]="parameter.field"
+        [placeholder]="parameter.field"
+        [label]="parameter.field"
+        class="col"
+      />
+    }
+  </fieldset>
+
+  <app-button
+    label="save"
+    class="w-100 mt-5"
+    type="submit"
+    [disabled]="form.invalid"
+  />
+</form>

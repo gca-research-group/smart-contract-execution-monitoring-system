@@ -50,7 +50,7 @@ export class Blockchain extends BaseModel {
   name: string;
 
   @Column()
-  type: BlockchainPlatform;
+  platform: BlockchainPlatform;
 
   @Column()
   parameters: string;

@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import {
-  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -34,12 +33,8 @@ export class LoginComponent {
 
   constructor() {
     this.form = this.formBuilder.group({
-      email: new FormControl('', [
-        (control: AbstractControl) => Validators.required(control),
-      ]),
-      password: new FormControl('', [
-        (control: AbstractControl) => Validators.required(control),
-      ]),
+      email: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required]),
     });
   }
 

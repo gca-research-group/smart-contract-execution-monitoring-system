@@ -5,7 +5,6 @@ import { debounceTime, finalize } from 'rxjs';
 import { Location } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
-  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -72,12 +71,8 @@ export class FormComponent implements OnInit, OnDestroy {
   constructor() {
     this.form = this.formBuilder.group({
       id: new FormControl(),
-      name: new FormControl('', [
-        (control: AbstractControl) => Validators.required(control),
-      ]),
-      platform: new FormControl('HYPERLEDGER_FABRIC', [
-        (control: AbstractControl) => Validators.required(control),
-      ]),
+      name: new FormControl('', [Validators.required]),
+      platform: new FormControl('HYPERLEDGER_FABRIC', [Validators.required]),
       parameters: this.formBuilder.group({}),
     });
 
@@ -123,9 +118,7 @@ export class FormComponent implements OnInit, OnDestroy {
             items?.map(item => {
               group.addControl(
                 item.field,
-                new FormControl('', [
-                  (control: AbstractControl) => Validators.required(control),
-                ]),
+                new FormControl('', [Validators.required]),
               );
             });
 

@@ -5,7 +5,6 @@ import { finalize } from 'rxjs';
 import { Location } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
-  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -68,11 +67,9 @@ export class FormComponent implements OnInit, OnDestroy {
   constructor() {
     this.form = this.formBuilder.group({
       id: new FormControl(),
-      name: new FormControl('', [
-        (control: AbstractControl) => Validators.required(control),
-      ]),
+      name: new FormControl('', [Validators.required]),
       blockchainPlatform: new FormControl('HYPERLEDGER_FABRIC', [
-        (control: AbstractControl) => Validators.required(control),
+        Validators.required,
       ]),
       content: new FormControl(''),
     });

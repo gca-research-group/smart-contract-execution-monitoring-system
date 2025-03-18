@@ -1,20 +1,51 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity } from 'typeorm';
+
+import { BaseModel } from './base-model';
+
+export type HyperledgerFabricConfig = {
+  mspId: string;
+  signcert: string;
+  keystore: string;
+  cacrt: string;
+  peerEndpoint: string;
+  peerHostAlias: string;
+};
+
+export const BLOCKCHAIN_CONFIG = {
+  HYPERLEDGER_FABRIC: [
+    {
+      field: 'mspId',
+      type: 'text',
+    },
+    {
+      field: 'signcert',
+      type: 'text',
+    },
+    {
+      field: 'keystore',
+      type: 'text',
+    },
+    {
+      field: 'cacrt',
+      type: 'text',
+    },
+    {
+      field: 'peerEndpoint',
+      type: 'text',
+    },
+    {
+      field: 'peerHostAlias',
+      type: 'text',
+    },
+  ],
+};
 
 export enum BlockchainPlatform {
   HYPERLEDGER_FABRIC = 'HYPERLEDGER_FABRIC',
 }
 
 @Entity({ name: 'blockchains' })
-export class Blockchain {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Blockchain extends BaseModel {
   @Column()
   name: string;
 
@@ -23,22 +54,4 @@ export class Blockchain {
 
   @Column()
   parameters: string;
-
-  @Column({ default: true })
-  status: boolean;
-
-  @Column('text')
-  remarks: string;
-
-  @Column('int')
-  createdById: number;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @Column('int')
-  updatedById: number;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 }

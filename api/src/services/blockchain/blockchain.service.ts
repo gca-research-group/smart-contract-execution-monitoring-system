@@ -1,52 +1,34 @@
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, ILike } from 'typeorm';
 
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable } from '@nestjs/common';
 
-import { CreateBlockchainDto, UpdateBlockchainDto } from '@app/dtos/blockchain';
+import {
+  CreateBlockchainDto,
+  ListBlockchainDto,
+  UpdateBlockchainDto,
+} from '@app/dtos/blockchain';
 import { Blockchain } from '@app/models';
 
+import { CrudBaseService } from '../crud-base.service';
+
 @Injectable()
-export class BlockchainService {
-  constructor(
-    @InjectRepository(Blockchain)
-    private blockchainRepository: Repository<Blockchain>,
-  ) {}
+export class BlockchainService extends CrudBaseService<
+  Blockchain,
+  ListBlockchainDto,
+  CreateBlockchainDto,
+  UpdateBlockchainDto
+>(Blockchain) {
+  buildWhereOptions(options: ListBlockchainDto): FindOptionsWhere<Blockchain> {
+    const whereOptions: FindOptionsWhere<Blockchain> = {};
 
-  findAll(): Promise<Blockchain[]> {
-    return this.blockchainRepository.find();
-  }
-
-  async findOne(id: number): Promise<Blockchain> {
-    const blockchain = await this.blockchainRepository.findOneBy({ id });
-
-    if (!blockchain) {
-      throw new BadRequestException('BLOCKCHAIN_NOT_FOUND');
+    if (options.id) {
+      whereOptions['id'] = options.id;
     }
 
-    return blockchain;
-  }
+    if (options.name) {
+      whereOptions['name'] = ILike(`%${options.name}%`);
+    }
 
-  async remove(id: number): Promise<void> {
-    await this.blockchainRepository.delete(id);
-  }
-
-  async create(data: CreateBlockchainDto): Promise<Blockchain> {
-    const blockchain = await this.blockchainRepository.save({
-      ...data,
-    });
-
-    return blockchain;
-  }
-
-  async update(id: number, data: UpdateBlockchainDto): Promise<Blockchain> {
-    const entity = await this.findOne(id);
-
-    const blockchain = await this.blockchainRepository.save({
-      ...entity,
-      ...data,
-    });
-
-    return blockchain;
+    return whereOptions;
   }
 }

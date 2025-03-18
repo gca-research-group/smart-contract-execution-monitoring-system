@@ -1,10 +1,10 @@
 import { Column, Entity } from 'typeorm';
 
-import { Base } from './base-model';
+import { BaseModel } from './base-model';
 import { BlockchainPlatform } from './blockchain';
 
 @Entity({ name: 'smartcontracts' })
-export class SmartContract extends Base {
+export class SmartContract extends BaseModel {
   @Column()
   name: string;
 

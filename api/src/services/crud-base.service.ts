@@ -1,5 +1,6 @@
 import {
   DeepPartial,
+  EntityManager,
   FindOptionsOrder,
   FindOptionsWhere,
   ObjectLiteral,
@@ -84,6 +85,10 @@ export function CrudBaseService<
       } as DeepPartial<E>);
 
       return item;
+    }
+
+    async createWithTransaction(manager: EntityManager, data: R): Promise<E> {
+      return manager.save(entity, { ...data } as DeepPartial<E>);
     }
 
     async update(id: number, data: S): Promise<E> {

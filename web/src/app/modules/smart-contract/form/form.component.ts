@@ -2,9 +2,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 
-import { Location } from '@angular/common';
+import { Location, NgForOf } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
+  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -16,6 +17,8 @@ import { ActivatedRoute } from '@angular/router';
 
 import { BlockchainPlatformSelectorComponent } from '@app/components/blockchain-platform-selector';
 import { ButtonComponent } from '@app/components/button';
+import { IconButtonComponent } from '@app/components/icon-button';
+import { TextAreaComponent } from '@app/components/textarea';
 import { SmartContract } from '@app/models';
 import { BreadcrumbService } from '@app/services/breadcrumb';
 
@@ -28,7 +31,7 @@ const BREADCRUMB = [
     url: '/',
   },
   {
-    label: 'smart-contract',
+    label: 'smart-contracts',
     url: '/smart-contract',
   },
 ];
@@ -41,9 +44,12 @@ const BREADCRUMB = [
   imports: [
     ReactiveFormsModule,
     FormsModule,
+    NgForOf,
     TranslateModule,
     InputComponent,
     ButtonComponent,
+    IconButtonComponent,
+    TextAreaComponent,
     BlockchainPlatformSelectorComponent,
   ],
 })
@@ -53,6 +59,7 @@ export class FormComponent implements OnInit, OnDestroy {
     name: FormControl<string | null>;
     blockchainPlatform: FormControl<string | null>;
     content: FormControl<string | null>;
+    clauses: FormArray;
   }>;
 
   private formBuilder = inject(FormBuilder);
@@ -64,6 +71,10 @@ export class FormComponent implements OnInit, OnDestroy {
 
   private toastr = inject(ToastrService);
 
+  get clauses() {
+    return this.form.get('clauses') as FormArray;
+  }
+
   constructor() {
     this.form = this.formBuilder.group({
       id: new FormControl(),
@@ -72,6 +83,7 @@ export class FormComponent implements OnInit, OnDestroy {
         Validators.required,
       ]),
       content: new FormControl(''),
+      clauses: this.formBuilder.array([]),
     });
 
     this.breadcrumbService.update([
@@ -146,5 +158,34 @@ export class FormComponent implements OnInit, OnDestroy {
           });
         },
       });
+  }
+
+  addClause() {
+    this.clauses.push(
+      this.formBuilder.group({
+        name: null,
+        arguments: this.formBuilder.array([
+          this.formBuilder.group({ name: null, type: null }),
+        ]),
+      }),
+    );
+  }
+
+  addArgument(index: number) {
+    const _arguments = this.clauses.at(index).get('arguments') as FormArray;
+
+    _arguments.push(this.formBuilder.group({ name: null, type: null }));
+  }
+
+  removeClause(index: number) {
+    this.clauses.removeAt(index);
+  }
+
+  removeArgument(clauseIndex: number, argumentIndex: number) {
+    const _arguments = this.clauses
+      .at(clauseIndex)
+      .get('arguments') as FormArray;
+
+    _arguments.removeAt(argumentIndex);
   }
 }

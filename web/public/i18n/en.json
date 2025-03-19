@@ -1,8 +1,11 @@
 {
   "add": "Add",
+  "arguments": "Arguments",
   "blockchains": "Blockchains",
   "blockchain-platform": "Blockchain Platform",
+  "blockchain-connection": "Blockchain Connections",
   "cancel": "Cancel",
+  "clauses": "Clauses",
   "content": "Content",
   "createdAt": "Created At",
   "delete-record": "Delete the record?",
@@ -20,5 +23,6 @@
   "save": "Save",
   "settings": "Settings",
   "smart-contracts": "Smart Contracts",
+  "type": "Type",
   "updatedAt": "Updated At"
 }

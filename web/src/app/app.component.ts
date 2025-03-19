@@ -21,7 +21,7 @@ export class AppComponent {
 
   menus: Sidebar[] = [
     { label: 'home', icon: 'home', url: '' },
-    { label: 'blockchains', icon: 'link', url: 'blockchain' },
+    { label: 'blockchain-connection', icon: 'link', url: 'blockchain' },
     { label: 'smart-contracts', icon: 'article', url: 'smart-contract' },
     { label: 'settings', icon: 'settings', url: '' },
   ];

@@ -3,20 +3,19 @@ import {
   QueryRunner,
   Table,
   TableForeignKey,
-  TableUnique,
 } from 'typeorm';
 
-export class Users1741269990949 implements MigrationInterface {
+export class ClauseArguments1742393462021 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'users',
+        name: 'smart_contract_clause_arguments',
         columns: [
           {
             name: 'id',
             type: 'serial',
             isPrimary: true,
-            primaryKeyConstraintName: 'pk__users__id',
+            primaryKeyConstraintName: 'pk__smart_contract_clause_arguments__id',
           },
           {
             name: 'name',
@@ -25,21 +24,14 @@ export class Users1741269990949 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'email',
+            name: 'type',
             type: 'varchar',
             length: '255',
             isNullable: false,
           },
           {
-            name: 'photo',
-            type: 'varchar',
-            length: '255',
-            isNullable: true,
-          },
-          {
-            name: 'password',
-            type: 'varchar',
-            length: '255',
+            name: 'clause_id',
+            type: 'integer',
             isNullable: false,
           },
           {
@@ -57,6 +49,7 @@ export class Users1741269990949 implements MigrationInterface {
             name: 'created_at',
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP',
+            isNullable: false,
           },
           {
             name: 'created_by_id',
@@ -78,9 +71,20 @@ export class Users1741269990949 implements MigrationInterface {
     );
 
     await queryRunner.createForeignKey(
-      'users',
+      'smart_contract_clause_arguments',
       new TableForeignKey({
-        name: 'fk__u__created_by_id__u__id',
+        name: 'fk__scca__clause_id__scc__id',
+        columnNames: ['clause_id'],
+        referencedTableName: 'smart_contract_clauses',
+        referencedColumnNames: ['id'],
+        onDelete: 'CASCADE',
+      }),
+    );
+
+    await queryRunner.createForeignKey(
+      'smart_contract_clause_arguments',
+      new TableForeignKey({
+        name: 'fk__scca__created_by_id__u__id',
         columnNames: ['created_by_id'],
         referencedTableName: 'users',
         referencedColumnNames: ['id'],
@@ -89,26 +93,18 @@ export class Users1741269990949 implements MigrationInterface {
     );
 
     await queryRunner.createForeignKey(
-      'users',
+      'smart_contract_clause_arguments',
       new TableForeignKey({
-        name: 'fk__u__updated_by_id__u__id',
+        name: 'fk__scca__updated_by_id__u__id',
         columnNames: ['updated_by_id'],
         referencedTableName: 'users',
         referencedColumnNames: ['id'],
         onDelete: 'SET NULL',
       }),
     );
-
-    await queryRunner.createUniqueConstraint(
-      'users',
-      new TableUnique({
-        name: 'uc__users__email',
-        columnNames: ['email'],
-      }),
-    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('users');
+    await queryRunner.dropTable('smart_contract_clause_arguments');
   }
 }

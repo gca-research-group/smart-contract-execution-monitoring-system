@@ -9,13 +9,13 @@ export class Smartcontracts1741377325067 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'smartcontracts',
+        name: 'smart_contracts',
         columns: [
           {
             name: 'id',
             type: 'serial',
             isPrimary: true,
-            primaryKeyConstraintName: 'pk__smartcontracts__id',
+            primaryKeyConstraintName: 'pk__smart_contracts__id',
           },
           {
             name: 'name',
@@ -24,7 +24,7 @@ export class Smartcontracts1741377325067 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'blockchainPlatform',
+            name: 'blockchain_platform',
             type: 'varchar',
             length: '255',
             isNullable: false,
@@ -46,23 +46,23 @@ export class Smartcontracts1741377325067 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: 'createdAt',
+            name: 'created_at',
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP',
             isNullable: false,
           },
           {
-            name: 'createdById',
+            name: 'created_by_id',
             type: 'int',
             isNullable: true,
           },
           {
-            name: 'updatedAt',
+            name: 'updated_at',
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP',
           },
           {
-            name: 'updatedById',
+            name: 'updated_by_id',
             type: 'int',
             isNullable: true,
           },
@@ -71,22 +71,22 @@ export class Smartcontracts1741377325067 implements MigrationInterface {
     );
 
     await queryRunner.createForeignKey(
-      'smartcontracts',
+      'smart_contracts',
       new TableForeignKey({
-        name: 'fk__smartcontracts__created_by_id__smartcontracts__id',
-        columnNames: ['createdById'],
-        referencedTableName: 'smartcontracts',
+        name: 'fk__sc__created_by_id__u__id',
+        columnNames: ['created_by_id'],
+        referencedTableName: 'users',
         referencedColumnNames: ['id'],
         onDelete: 'SET NULL',
       }),
     );
 
     await queryRunner.createForeignKey(
-      'smartcontracts',
+      'smart_contracts',
       new TableForeignKey({
-        name: 'fk__smartcontracts__updated_by_id__smartcontracts__id',
-        columnNames: ['updatedById'],
-        referencedTableName: 'smartcontracts',
+        name: 'fk__sc__updated_by_id__u__id',
+        columnNames: ['updated_by_id'],
+        referencedTableName: 'users',
         referencedColumnNames: ['id'],
         onDelete: 'SET NULL',
       }),
@@ -94,6 +94,6 @@ export class Smartcontracts1741377325067 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('smartcontracts');
+    await queryRunner.dropTable('smart_contracts');
   }
 }

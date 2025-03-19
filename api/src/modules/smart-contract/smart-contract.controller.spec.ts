@@ -9,7 +9,7 @@ import { SmartContractService } from '@app/services/smart-contract';
 
 import { SmartContractController } from './smart-contract.controller';
 
-describe('SmartcontractsController', () => {
+describe('SmartContractController', () => {
   let controller: SmartContractController;
   let dataSource: DataSource;
 

@@ -66,7 +66,7 @@ const BREADCRUMB: Breadcrumb[] = [
     url: '/',
   },
   {
-    label: 'smart-contract',
+    label: 'smart-contracts',
   },
 ];
 

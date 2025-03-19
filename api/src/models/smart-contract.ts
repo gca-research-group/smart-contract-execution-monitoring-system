@@ -3,7 +3,7 @@ import { Column, Entity } from 'typeorm';
 import { BaseModel } from './base-model';
 import { BlockchainPlatform } from './blockchain';
 
-@Entity({ name: 'smartcontracts' })
+@Entity({ name: 'smart_contracts' })
 export class SmartContract extends BaseModel {
   @Column()
   name: string;

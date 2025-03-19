@@ -1,3 +1,3 @@
-export * from './create-blockchain.dto';
-export * from './update-blockchain.dto';
-export * from './list-blockchain.dto';
+export * from './blockchain.create.dto';
+export * from './blockchain.update.dto';
+export * from './blockchain.list.dto';

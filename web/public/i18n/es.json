@@ -1,8 +1,11 @@
 {
   "add": "Añandir",
+  "arguments": "Argumentos",
   "blockchains": "Blockchains",
-  "blockchainType": "Tipo de Blockchain",
+  "blockchain-platform": "Plataforma Blockchain",
+  "blockchain-connection": "Conexiónes com las blockchains",
   "cancel": "Cancelar",
+  "clauses": "Cláusulas",
   "content": "Contenido",
   "createdAt": "Data de Registro",
   "delete-record": "Borrar este registro?",
@@ -20,5 +23,6 @@
   "save": "Guardar",
   "settings": "Configuraciónes",
   "smart-contracts": "Contratos Inteligentes",
+  "type": "Tipo",
   "updatedAt": "Data de Actualización"
 }

@@ -8,7 +8,9 @@ import { PUBLIC_FOLDER } from './const';
 import { typeorm } from './database/typeorm.config';
 import { AuthModule } from './modules/auth';
 import { BlockchainModule } from './modules/blockchain';
-import { SmartcontractsModule } from './modules/smart-contract';
+import { SmartContractModule } from './modules/smart-contract';
+import { SmartContractClauseModule } from './modules/smart-contract-clause';
+import { SmartContractClauseArgumentModule } from './modules/smart-contract-clause-argument';
 import { UserModule } from './modules/user';
 
 @Module({
@@ -33,7 +35,9 @@ import { UserModule } from './modules/user';
     }),
     AuthModule,
     BlockchainModule,
-    SmartcontractsModule,
+    SmartContractModule,
+    SmartContractClauseModule,
+    SmartContractClauseArgumentModule,
     UserModule,
   ],
 })

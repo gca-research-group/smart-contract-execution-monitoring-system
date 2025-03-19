@@ -46,22 +46,22 @@ export class Blochchains1741359509460 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: 'createdAt',
+            name: 'created_at',
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP',
           },
           {
-            name: 'createdById',
+            name: 'created_by_id',
             type: 'int',
             isNullable: true,
           },
           {
-            name: 'updatedAt',
+            name: 'updated_at',
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP',
           },
           {
-            name: 'updatedById',
+            name: 'updated_by_id',
             type: 'int',
             isNullable: true,
           },
@@ -72,9 +72,9 @@ export class Blochchains1741359509460 implements MigrationInterface {
     await queryRunner.createForeignKey(
       'blockchains',
       new TableForeignKey({
-        name: 'fk__blockchains__created_by_id__blockchains__id',
-        columnNames: ['createdById'],
-        referencedTableName: 'blockchains',
+        name: 'fk__b__created_by_id__u__id',
+        columnNames: ['created_by_id'],
+        referencedTableName: 'users',
         referencedColumnNames: ['id'],
         onDelete: 'SET NULL',
       }),
@@ -83,9 +83,9 @@ export class Blochchains1741359509460 implements MigrationInterface {
     await queryRunner.createForeignKey(
       'blockchains',
       new TableForeignKey({
-        name: 'fk__blockchains__updated_by_id__blockchains__id',
-        columnNames: ['updatedById'],
-        referencedTableName: 'blockchains',
+        name: 'fk__b__updated_by_id__u__id',
+        columnNames: ['updated_by_id'],
+        referencedTableName: 'users',
         referencedColumnNames: ['id'],
         onDelete: 'SET NULL',
       }),

@@ -109,6 +109,16 @@ export class FormComponent implements OnInit, OnDestroy {
   find(id: number) {
     this.service.findById(id).subscribe({
       next: item => {
+        for (const clause of item.clauses ?? []) {
+          this.addClause(false);
+          const index = this.clauses.length - 1;
+
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          for (const argument of clause.arguments ?? []) {
+            this.addArgument(index);
+          }
+        }
+
         this.form.patchValue({
           ...item,
         });
@@ -160,21 +170,27 @@ export class FormComponent implements OnInit, OnDestroy {
       });
   }
 
-  addClause() {
+  addClause(addArgument = true) {
     this.clauses.push(
       this.formBuilder.group({
+        id: null,
         name: null,
-        arguments: this.formBuilder.array([
-          this.formBuilder.group({ name: null, type: null }),
-        ]),
+        arguments: this.formBuilder.array([]),
       }),
     );
+
+    if (addArgument) {
+      const index = this.clauses.length - 1;
+      this.addArgument(index);
+    }
   }
 
   addArgument(index: number) {
     const _arguments = this.clauses.at(index).get('arguments') as FormArray;
 
-    _arguments.push(this.formBuilder.group({ name: null, type: null }));
+    _arguments.push(
+      this.formBuilder.group({ id: null, name: null, type: null }),
+    );
   }
 
   removeClause(index: number) {

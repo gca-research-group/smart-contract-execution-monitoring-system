@@ -1,6 +1,6 @@
 import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import {
@@ -40,5 +40,18 @@ export class SmartContractService extends CrudBaseService<
     }
 
     return whereOptions;
+  }
+
+  async findOne(id: number): Promise<SmartContract> {
+    const item = await this._repository.findOne({
+      where: { id },
+      relations: ['clauses', 'clauses.arguments'],
+    });
+
+    if (!item) {
+      throw new BadRequestException('ITEM_NOT_FOUND');
+    }
+
+    return item;
   }
 }

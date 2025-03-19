@@ -1,10 +1,12 @@
 {
   "add": "Add",
   "arguments": "Arguments",
+  "argument": "Argument",
   "blockchains": "Blockchains",
   "blockchain-platform": "Blockchain Platform",
   "blockchain-connection": "Blockchain Connections",
   "cancel": "Cancel",
+  "clause": "Clause",
   "clauses": "Clauses",
   "content": "Content",
   "createdAt": "Created At",

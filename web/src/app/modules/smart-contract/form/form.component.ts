@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 
 import { Location, NgForOf } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -13,6 +13,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { ActivatedRoute } from '@angular/router';
 
 import { BlockchainPlatformSelectorComponent } from '@app/components/blockchain-platform-selector';
@@ -51,6 +52,8 @@ const BREADCRUMB = [
     IconButtonComponent,
     TextAreaComponent,
     BlockchainPlatformSelectorComponent,
+    MatExpansionModule,
+    TranslateModule,
   ],
 })
 export class FormComponent implements OnInit, OnDestroy {
@@ -70,6 +73,8 @@ export class FormComponent implements OnInit, OnDestroy {
   loading = false;
 
   private toastr = inject(ToastrService);
+
+  accordion = viewChild.required(MatAccordion);
 
   get clauses() {
     return this.form.get('clauses') as FormArray;

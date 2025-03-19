@@ -1,10 +1,12 @@
 {
   "add": "Añandir",
   "arguments": "Argumentos",
+  "argument": "Argumento",
   "blockchains": "Blockchains",
   "blockchain-platform": "Plataforma Blockchain",
   "blockchain-connection": "Conexiónes com las blockchains",
   "cancel": "Cancelar",
+  "clause": "Cláusula",
   "clauses": "Cláusulas",
   "content": "Contenido",
   "createdAt": "Data de Registro",

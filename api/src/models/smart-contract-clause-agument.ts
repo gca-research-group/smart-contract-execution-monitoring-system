@@ -1,6 +1,7 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 
 import { BaseModel } from './base-model';
+import { SmartContractClause } from './smart-contract-clause';
 
 @Entity({ name: 'smart_contract_clause_arguments' })
 export class SmartContractClauseArgument extends BaseModel {
@@ -12,4 +13,7 @@ export class SmartContractClauseArgument extends BaseModel {
 
   @Column()
   clauseId: number;
+
+  @ManyToOne(() => SmartContractClause, (clause) => clause.arguments)
+  clause: SmartContractClause;
 }

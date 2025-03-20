@@ -1,31 +1,37 @@
-import { DataSource } from 'typeorm';
-
 import { Test, TestingModule } from '@nestjs/testing';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
 import { AppTestingModule } from '@app/app-testing.module';
-import { Blockchain } from '@app/models';
+import { Blockchain, User } from '@app/models';
+import { AuthService } from '@app/services/auth';
 import { BlockchainService } from '@app/services/blockchain';
+import { UserService } from '@app/services/user';
 
 import { BlockchainController } from './blockchain.controller';
 
 describe('BlockchainController', () => {
   let controller: BlockchainController;
-  let dataSource: DataSource;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [AppTestingModule, TypeOrmModule.forFeature([Blockchain])],
-      providers: [BlockchainService],
+      imports: [AppTestingModule],
+      providers: [
+        BlockchainService,
+        AuthService,
+        UserService,
+        {
+          provide: getRepositoryToken(Blockchain),
+          useValue: {},
+        },
+        {
+          provide: getRepositoryToken(User),
+          useValue: {},
+        },
+      ],
       controllers: [BlockchainController],
     }).compile();
 
     controller = module.get<BlockchainController>(BlockchainController);
-    dataSource = module.get<DataSource>(DataSource);
-  });
-
-  afterAll(async () => {
-    await dataSource.destroy();
   });
 
   it('should be defined', () => {

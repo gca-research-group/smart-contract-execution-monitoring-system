@@ -1,36 +1,39 @@
-import { DataSource } from 'typeorm';
-
 import { Test, TestingModule } from '@nestjs/testing';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
 import { AppTestingModule } from '@app/app-testing.module';
-import { SmartContractClause } from '@app/models';
+import { SmartContractClause, User } from '@app/models';
+import { AuthService } from '@app/services/auth';
 import { SmartContractClauseService } from '@app/services/smart-contract-clause';
+import { UserService } from '@app/services/user';
 
 import { SmartContractClauseController } from './smart-contract-clause.controller';
 
 describe('SmartContractClauseController', () => {
   let controller: SmartContractClauseController;
-  let dataSource: DataSource;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        AppTestingModule,
-        TypeOrmModule.forFeature([SmartContractClause]),
+      imports: [AppTestingModule],
+      providers: [
+        AuthService,
+        UserService,
+        SmartContractClauseService,
+        {
+          provide: getRepositoryToken(SmartContractClause),
+          useValue: {},
+        },
+        {
+          provide: getRepositoryToken(User),
+          useValue: {},
+        },
       ],
-      providers: [SmartContractClauseService],
       controllers: [SmartContractClauseController],
     }).compile();
 
     controller = module.get<SmartContractClauseController>(
       SmartContractClauseController,
     );
-    dataSource = module.get<DataSource>(DataSource);
-  });
-
-  afterAll(async () => {
-    await dataSource.destroy();
   });
 
   it('should be defined', () => {

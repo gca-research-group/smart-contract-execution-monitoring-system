@@ -3,7 +3,7 @@ import { join } from 'path';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import {
@@ -17,7 +17,6 @@ import { User } from '@app/models';
 
 @Injectable()
 export class UserService {
-  private readonly logger = new Logger(UserService.name);
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,

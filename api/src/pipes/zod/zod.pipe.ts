@@ -14,7 +14,7 @@ export class ZodValidationPipe implements PipeTransform {
       const messages = (error as { issues: { message: string }[] }).issues.map(
         (item) => item.message,
       );
-      throw new BadRequestException(messages);
+      throw new BadRequestException(messages[0]);
     }
   }
 }

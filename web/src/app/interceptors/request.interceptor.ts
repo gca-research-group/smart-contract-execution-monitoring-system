@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { catchError, EMPTY, switchMap, throwError } from 'rxjs';
 
 import { HttpHandlerFn, HttpRequest } from '@angular/common/http';
@@ -14,7 +15,7 @@ const cloneRequest = (req: HttpRequest<unknown>, accessToken: string) => {
   });
 };
 
-export function accessTokenInterceptor(
+export function requestInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
 ) {
@@ -22,6 +23,7 @@ export function accessTokenInterceptor(
   const currentUserService = inject(CurrentUserService);
   const accessToken = currentUserService.currentUser$()?.accessToken;
   const router = inject(Router);
+  const toastr = inject(ToastrService);
 
   return next(cloneRequest(req, accessToken!)).pipe(
     catchError((error: { status: number; error?: { message: string } }) => {
@@ -44,6 +46,10 @@ export function accessTokenInterceptor(
       if (error.status === 401) {
         currentUserService.remove();
         void router.navigate(['/login']);
+      }
+
+      if (error.status === 400) {
+        toastr.error(error.error?.message ?? 'INTERNAL_SERVER_ERROR');
       }
 
       return throwError(() => error);

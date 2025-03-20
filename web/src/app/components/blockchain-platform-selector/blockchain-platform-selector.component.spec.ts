@@ -8,8 +8,7 @@ import { appConfig } from '@app/app.config';
 import { BlockchainPlatformSelectorComponent } from './blockchain-platform-selector.component';
 
 export function getNgSelectElement(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<unknown>,
 ): DebugElement {
   return fixture.debugElement.query(By.css('ng-select'));
 }

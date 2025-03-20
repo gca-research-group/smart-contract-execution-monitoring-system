@@ -182,10 +182,7 @@ export class ListComponent implements AfterViewInit, OnDestroy {
         this.service.delete(id).subscribe({
           next: () => {
             this.data = this.data.filter(item => item.id !== id);
-            this.toastr.success('DELETED_SUCCESSFULLY', undefined, {
-              closeButton: true,
-              progressBar: true,
-            });
+            this.toastr.success('DELETED_SUCCESSFULLY');
           },
           error: error => {
             console.log('[error]', error);

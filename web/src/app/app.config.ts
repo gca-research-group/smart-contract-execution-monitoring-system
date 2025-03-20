@@ -23,7 +23,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { accessTokenInterceptor } from './interceptors';
+import { requestInterceptor } from './interceptors';
 import { UserState } from './state/current-user';
 
 registerLocaleData(localeES, 'es');
@@ -45,8 +45,11 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimationsAsync(),
-    provideToastr(),
-    provideHttpClient(withInterceptors([accessTokenInterceptor])),
+    provideToastr({
+      closeButton: true,
+      progressBar: true,
+    }),
+    provideHttpClient(withInterceptors([requestInterceptor])),
     provideTranslateService({
       loader: {
         provide: TranslateLoader,

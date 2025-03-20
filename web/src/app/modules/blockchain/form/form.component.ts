@@ -140,21 +140,12 @@ export class FormComponent implements OnInit, OnDestroy {
 
         this.parametersValues = item.parameters;
       },
-      error: (error: { message: string }) => {
-        this.toastr.error(error.message, undefined, {
-          closeButton: true,
-          progressBar: true,
-        });
-      },
     });
   }
 
   save() {
     if (this.form.invalid) {
-      this.toastr.warning('INVALID_FORM', undefined, {
-        closeButton: true,
-        progressBar: true,
-      });
+      this.toastr.warning('INVALID_FORM');
       return;
     }
 
@@ -172,17 +163,8 @@ export class FormComponent implements OnInit, OnDestroy {
             ? 'RECORD_UPDATED_SUCCESSFULLY'
             : 'RECORD_CREATED_SUCCESSFULLY';
 
-          this.toastr.success(message, undefined, {
-            closeButton: true,
-            progressBar: true,
-          });
+          this.toastr.success(message);
           this.location.back();
-        },
-        error: (error: { message: string }) => {
-          this.toastr.error(error.message, undefined, {
-            closeButton: true,
-            progressBar: true,
-          });
         },
       });
   }

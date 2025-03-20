@@ -97,6 +97,20 @@ npm i
 npm run start
 ```
 
+- Running the migrations
+
+```sh
+cd api
+npm run migration:run
+```
+
+- Running the seeds
+
+```sh
+cd api
+npm run seed
+```
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

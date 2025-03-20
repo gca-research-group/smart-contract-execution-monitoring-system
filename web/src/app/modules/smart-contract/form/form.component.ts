@@ -19,12 +19,11 @@ import { ActivatedRoute } from '@angular/router';
 import { BlockchainPlatformSelectorComponent } from '@app/components/blockchain-platform-selector';
 import { ButtonComponent } from '@app/components/button';
 import { IconButtonComponent } from '@app/components/icon-button';
+import { InputComponent } from '@app/components/input';
 import { TextAreaComponent } from '@app/components/textarea';
 import { SmartContract } from '@app/models';
 import { BreadcrumbService } from '@app/services/breadcrumb';
-
-import { InputComponent } from '../../../components/input/input.component';
-import { SmartContractService } from '../services/smart-contract.service';
+import { SmartContractService } from '@app/services/smart-contract';
 
 const BREADCRUMB = [
   {

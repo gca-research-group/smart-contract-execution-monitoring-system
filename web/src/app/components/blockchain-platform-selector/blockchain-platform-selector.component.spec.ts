@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { appConfig } from '@app/app.config';
+
 import { BlockchainPlatformSelectorComponent } from './blockchain-platform-selector.component';
 
 describe('BlockchainPlatformSelectorComponent', () => {
@@ -8,6 +10,7 @@ describe('BlockchainPlatformSelectorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      providers: [appConfig.providers],
       imports: [BlockchainPlatformSelectorComponent],
     }).compileComponents();
 

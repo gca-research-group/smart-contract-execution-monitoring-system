@@ -16,11 +16,10 @@ import { ActivatedRoute } from '@angular/router';
 
 import { BlockchainPlatformSelectorComponent } from '@app/components/blockchain-platform-selector';
 import { ButtonComponent } from '@app/components/button';
+import { InputComponent } from '@app/components/input';
 import { Blockchain } from '@app/models';
+import { BlockchainService } from '@app/services/blockchain';
 import { BreadcrumbService } from '@app/services/breadcrumb';
-
-import { InputComponent } from '../../../components/input/input.component';
-import { BlockchainService } from '../services/blockchain.service';
 
 const BREADCRUMB = [
   {

@@ -27,9 +27,8 @@ import { IconButtonComponent } from '@app/components/icon-button';
 import { InputComponent } from '@app/components/input';
 import { TableComponent } from '@app/components/table';
 import { Column, ColumnType, SmartContract, Breadcrumb } from '@app/models';
+import { BlockchainService } from '@app/services/blockchain';
 import { BreadcrumbService } from '@app/services/breadcrumb';
-
-import { BlockchainService } from '../services/blockchain.service';
 
 const COLUMNS: Column[] = [
   {

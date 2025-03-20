@@ -28,8 +28,7 @@ import { InputComponent } from '@app/components/input';
 import { TableComponent } from '@app/components/table';
 import { Column, ColumnType, SmartContract, Breadcrumb } from '@app/models';
 import { BreadcrumbService } from '@app/services/breadcrumb';
-
-import { SmartContractService } from '../services/smart-contract.service';
+import { SmartContractService } from '@app/services/smart-contract';
 
 const COLUMNS: Column[] = [
   {

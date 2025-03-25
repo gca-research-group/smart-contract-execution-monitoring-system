@@ -17,8 +17,6 @@ export class AppComponent {
   private currentUserService = inject(CurrentUserService);
   currentUser$ = this.currentUserService.currentUser$;
 
-  isAuthenticated = false;
-
   menus: Sidebar[] = [
     { label: 'home', icon: 'home', url: '' },
     { label: 'blockchain-connection', icon: 'link', url: 'blockchain' },

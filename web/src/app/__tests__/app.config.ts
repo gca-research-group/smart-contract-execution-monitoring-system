@@ -19,7 +19,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
 
-import { accessTokenInterceptor } from '@app/interceptors';
+import { requestInterceptor } from '@app/interceptors';
 import { UserState } from '@app/state/current-user';
 
 const httpLoaderFactory: (http: HttpClient) => TranslateHttpLoader = (
@@ -38,7 +38,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter([]),
     provideAnimationsAsync(),
     provideToastr(),
-    provideHttpClient(withInterceptors([accessTokenInterceptor])),
+    provideHttpClient(withInterceptors([requestInterceptor])),
     provideTranslateService({
       loader: {
         provide: TranslateLoader,

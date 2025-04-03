@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 
 import { Location, NgForOf } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -13,11 +13,13 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
+import { MatDialog } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { ActivatedRoute } from '@angular/router';
 
 import { BlockchainPlatformSelectorComponent } from '@app/components/blockchain-platform-selector';
 import { ButtonComponent } from '@app/components/button';
+import { DeleteDialogComponent } from '@app/components/delete-dialog';
 import { IconButtonComponent } from '@app/components/icon-button';
 import { InputComponent } from '@app/components/input';
 import { TextAreaComponent } from '@app/components/textarea';
@@ -72,8 +74,7 @@ export class FormComponent implements OnInit, OnDestroy {
   loading = false;
 
   private toastr = inject(ToastrService);
-
-  accordion = viewChild.required(MatAccordion);
+  readonly dialog = inject(MatDialog);
 
   get clauses() {
     return this.form.get('clauses') as FormArray;
@@ -180,13 +181,56 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   removeClause(index: number) {
+    const clause = this.clauses.at(index);
+    const _arguments = clause.get('arguments') as FormArray<
+      FormGroup<{
+        name: FormControl<string | null>;
+        type: FormControl<string | null>;
+      }>
+    >;
+
+    if (!!clause.get('name')?.value || _arguments.value.length) {
+      const dialogRef = this.dialog.open(DeleteDialogComponent, {
+        data: true,
+      });
+
+      dialogRef.afterClosed().subscribe((value: boolean) => {
+        if (value) {
+          this.clauses.removeAt(index);
+        }
+      });
+
+      return;
+    }
+
     this.clauses.removeAt(index);
   }
 
   removeArgument(clauseIndex: number, argumentIndex: number) {
     const _arguments = this.clauses
       .at(clauseIndex)
-      .get('arguments') as FormArray;
+      .get('arguments') as FormArray<
+      FormGroup<{
+        name: FormControl<string | null>;
+        type: FormControl<string | null>;
+      }>
+    >;
+
+    const _argument = _arguments.at(argumentIndex);
+
+    if (!!_argument.get('name')?.value || _argument.get('type')?.value) {
+      const dialogRef = this.dialog.open(DeleteDialogComponent, {
+        data: true,
+      });
+
+      dialogRef.afterClosed().subscribe((value: boolean) => {
+        if (value) {
+          _arguments.removeAt(argumentIndex);
+        }
+      });
+
+      return;
+    }
 
     _arguments.removeAt(argumentIndex);
   }

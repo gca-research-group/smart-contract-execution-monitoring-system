@@ -6,7 +6,7 @@ import { User } from '@app/models';
 
 import { config } from '../typeorm.config';
 
-export async function seed() {
+export async function up() {
   const connection = new DataSource({ ...config, entities: [User] });
   await connection.initialize();
 

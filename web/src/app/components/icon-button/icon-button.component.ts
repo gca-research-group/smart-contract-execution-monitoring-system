@@ -12,7 +12,9 @@ import { MatTooltip, TooltipPosition } from '@angular/material/tooltip';
   imports: [MatIconButton, MatIcon, MatTooltip, TranslateModule],
 })
 export class IconButtonComponent {
+  ariaLabel = input<string>();
   icon = input<string>();
+  svg = input<string>();
   tooltip = input<string>('');
   color = input<string>();
   tooltipPosition = input<TooltipPosition>('below');

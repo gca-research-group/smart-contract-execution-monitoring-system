@@ -1,9 +1,10 @@
 <button
   mat-icon-button
+  type="button"
   [matTooltipPosition]="tooltipPosition()"
   [matTooltip]="tooltip() | translate"
   matTooltipPosition="right"
-  type="button"
+  [attr.aria-label]="ariaLabel()"
 >
   <mat-icon class="material-symbols-outlined" [class]="color()">{{
     icon()

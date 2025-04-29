@@ -46,7 +46,7 @@ export class LoginComponent {
     this.authService.login(this.form.value as unknown as Login).subscribe({
       next: response => {
         this.currentUserService.add({ ...response, isAuthenticated: true });
-        void this.router.navigate(['/']);
+        void this.router.navigate(['/admin']);
       },
       error: error => {
         console.error('[error]', error);

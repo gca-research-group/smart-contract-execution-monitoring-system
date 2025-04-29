@@ -1,14 +1,7 @@
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 
-import {
-  Component,
-  computed,
-  inject,
-  OnDestroy,
-  signal,
-  effect,
-} from '@angular/core';
+import { Component, inject, OnDestroy, signal, effect } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -31,15 +24,17 @@ import { LanguageSelectorComponent } from '../language-selector/language-selecto
   templateUrl: './toolbar.component.html',
   styleUrl: './toolbar.component.scss',
   imports: [
-    MatToolbar,
     TranslateModule,
-    IconButtonComponent,
-    LanguageSelectorComponent,
-    BreadcrumbComponent,
+
+    MatButtonModule,
     MatIconModule,
     MatMenuModule,
-    MatButtonModule,
+    MatToolbar,
+
+    BreadcrumbComponent,
+    IconButtonComponent,
     IconComponent,
+    LanguageSelectorComponent,
   ],
 })
 export class ToolbarComponent implements OnDestroy {
@@ -49,10 +44,10 @@ export class ToolbarComponent implements OnDestroy {
   private currentUserService = inject(CurrentUserService);
   private router = inject(Router);
 
+  currentUser = this.currentUserService.currentUser$;
+
   isCollapsed = true;
   language = signal(this.languageService.language);
-
-  label = computed(() => this.language());
 
   private breadcrumbService = inject(BreadcrumbService);
   breadcrumb: Breadcrumb[] = [];

@@ -36,8 +36,13 @@ ul {
 li {
   display: flex;
   align-items: center;
-  margin-bottom: 12px;
+  padding: 6px 0;
   cursor: pointer;
+  color: inherit;
+}
+
+li.active {
+  background-color: gray;
 }
 
 .menu-text {

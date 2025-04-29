@@ -10,8 +10,8 @@ describe('LoginComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [...appConfig.providers],
       imports: [LoginComponent],
+      providers: [...appConfig.providers],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);

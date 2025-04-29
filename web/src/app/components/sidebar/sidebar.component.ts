@@ -4,7 +4,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { NgIf } from '@angular/common';
 import { Component, inject, input, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatDrawerMode, MatSidenavModule } from '@angular/material/sidenav';
 import { RouterLink } from '@angular/router';
 
 import { IconComponent } from '@app/components/icon';
@@ -20,14 +20,14 @@ import { IS_MOBILE } from '@app/tokens';
     MatSidenavModule,
     MatButtonModule,
     IconComponent,
+
     RouterLink,
     NgIf,
+
     TranslateModule,
   ],
 })
 export class SidebarComponent implements OnInit, OnDestroy {
-  isCollapsed = true;
-
   items = input<Sidebar[]>([]);
 
   private sidebarService = inject(SidebarService);
@@ -36,11 +36,20 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   isMobile = inject(IS_MOBILE);
 
+  currentIndex: number | null = null;
+  isCollapsed = true;
+  opened = this.isMobile ? false : true;
+  autosize = this.isMobile ? false : true;
+  mode: MatDrawerMode = this.isMobile ? 'over' : 'side';
+
   ngOnInit(): void {
     this.sidebarService.isCollapsed$
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(value => {
         this.isCollapsed = value;
+        if (this.isMobile) {
+          this.opened = !value;
+        }
       });
   }
 

@@ -4,7 +4,13 @@
   (scrolled)="scrollEvents.next()"
   [ngStyle]="{ height: height() }"
 >
-  <table mat-table matSort  sticky [dataSource]="dataSource()" (matSortChange)="sortFn($event)">
+  <table
+    mat-table
+    matSort
+    sticky
+    [dataSource]="dataSource()"
+    (matSortChange)="sortFn($event)"
+  >
     @for (column of columns(); track column.id) {
       <ng-container [matColumnDef]="column.id">
         <th
@@ -27,8 +33,8 @@
         </th>
         <td mat-cell *matCellDef="let element">
           @if (column.rowType === 'DATETIME') {
-            {{ element[column.id] | date:'shortDate':language }}
-            {{ element[column.id] | date:'shortTime':language }}
+            {{ element[column.id] | date: 'shortDate' : language }}
+            {{ element[column.id] | date: 'shortTime' : language }}
           } @else if (column.rowType === 'TEMPLATE' && column.templateRow) {
             <ng-container
               *ngTemplateOutlet="
@@ -43,6 +49,25 @@
       </ng-container>
     }
 
+    <ng-container matColumnDef="total-description">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        [attr.colspan]="displayedColumns().length"
+      >
+        <small
+          style="display: block"
+          [style.textAlign]="isMobile ? 'left' : 'right'"
+          >Exibindo {{ dataSource().length }} de {{ total() }} itens</small
+        >
+      </th>
+    </ng-container>
+
+    <tr
+      mat-header-row
+      *matHeaderRowDef="['total-description']; sticky: true"
+      style="height: 24px; line-height: 24px"
+    ></tr>
     <tr mat-header-row *matHeaderRowDef="displayedColumns(); sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns()"></tr>
   </table>

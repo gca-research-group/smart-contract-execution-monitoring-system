@@ -10,6 +10,7 @@ import { InfiniteScrollDirective } from '@app/directives/infinite-scroll';
 import { Column } from '@app/models';
 import { CustomDatePipe } from '@app/pipes';
 import { LanguageService } from '@app/services/language';
+import { IS_MOBILE } from '@app/tokens';
 
 @Component({
   selector: 'app-table',
@@ -44,6 +45,10 @@ export class TableComponent<T> implements OnDestroy {
   private languageService = inject(LanguageService);
 
   onDestroy$ = new Subject();
+
+  total = input();
+
+  isMobile = inject(IS_MOBILE);
 
   constructor() {
     this.scrollEvents

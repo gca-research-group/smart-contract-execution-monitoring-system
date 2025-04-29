@@ -1,13 +1,22 @@
-<mat-sidenav-container class="sidenav-container" autosize [hasBackdrop]="false">
+<mat-sidenav-container
+  class="sidenav-container"
+  [autosize]="autosize"
+  [hasBackdrop]="false"
+>
   <mat-sidenav
     #sidenav
-    mode="side"
-    [opened]="true"
+    [mode]="mode"
+    [opened]="opened"
     [class.collapsed]="isCollapsed"
   >
     <ul>
       @for (item of items(); track item.icon) {
-        <li tabindex="0" [routerLink]="item.url">
+        <li
+          tabindex="0"
+          [class.active]="currentIndex === $index"
+          (click)="currentIndex = $index"
+          [routerLink]="item.url"
+        >
           <app-icon
             [icon]="item.icon"
             [tooltip]="isCollapsed ? (item.label | translate) : ''"

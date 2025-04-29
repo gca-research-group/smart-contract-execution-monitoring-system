@@ -1,4 +1,10 @@
 :host {
   display: inline-flex;
   justify-content: center;
+  width: fit-content;
+  height: fit-content;
+
+  ::ng-deep mat-icon svg {
+    fill: var(--icon-color);
+  }
 }

@@ -12,7 +12,24 @@
     </div>
     <div class="d-flex align-items-center">
       <app-language-selector [(language)]="language" />
-      <app-icon-button icon="account_circle" tooltip="profile" [matMenuTriggerFor]="menu" />
+      @if (currentUser()?.photo) {
+        <button mat-icon-button type="button" [matMenuTriggerFor]="menu">
+          <img
+            [alt]="'Profile picture of ' + currentUser()?.name"
+            [src]="currentUser()?.photo"
+            height="24px"
+            width="24px"
+            style="
+              object-fit: cover;
+              object-position: center;
+              border-radius: 50%;
+            "
+          />
+        </button>
+      } @else {
+        <app-icon-button icon="account_circle" [matMenuTriggerFor]="menu" />
+      }
+
       <mat-menu #menu="matMenu">
         <button mat-menu-item class="toolbar-right-menu" (click)="logout()">
           <app-icon icon="logout" />

@@ -1,0 +1,9 @@
+<div
+  class="dropzone"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave($event)"
+  (drop)="onDrop($event)"
+>
+  <p>Drag & Drop a file here or click to select</p>
+  <input type="file" (change)="onFileSelected($event)" />
+</div>

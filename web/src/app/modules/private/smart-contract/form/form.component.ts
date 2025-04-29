@@ -20,9 +20,9 @@ import { ActivatedRoute } from '@angular/router';
 import { BlockchainPlatformSelectorComponent } from '@app/components/blockchain-platform-selector';
 import { ButtonComponent } from '@app/components/button';
 import { DeleteDialogComponent } from '@app/components/delete-dialog';
+import { FileUploaderComponent } from '@app/components/file-uploader';
 import { IconButtonComponent } from '@app/components/icon-button';
 import { InputComponent } from '@app/components/input';
-import { TextAreaComponent } from '@app/components/textarea';
 import { SmartContract } from '@app/models';
 import { BreadcrumbService } from '@app/services/breadcrumb';
 import { SmartContractService } from '@app/services/smart-contract';
@@ -47,12 +47,13 @@ const BREADCRUMB = [
     ReactiveFormsModule,
     FormsModule,
     NgForOf,
-    TranslateModule,
+
     InputComponent,
     ButtonComponent,
     IconButtonComponent,
-    TextAreaComponent,
     BlockchainPlatformSelectorComponent,
+    FileUploaderComponent,
+
     MatExpansionModule,
     TranslateModule,
   ],

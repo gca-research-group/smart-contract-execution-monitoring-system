@@ -10,8 +10,8 @@ describe('ToolbarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [...appConfig.providers],
       imports: [ToolbarComponent],
+      providers: [...appConfig.providers],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ToolbarComponent);

@@ -27,8 +27,8 @@ import { IconButtonComponent } from '@app/components/icon-button';
 import { InputComponent } from '@app/components/input';
 import { TableComponent } from '@app/components/table';
 import { Column, ColumnType, SmartContract, Breadcrumb } from '@app/models';
+import { BlockchainService } from '@app/services/blockchain';
 import { BreadcrumbService } from '@app/services/breadcrumb';
-import { SmartContractService } from '@app/services/smart-contract';
 
 const COLUMNS: Column[] = [
   {
@@ -65,22 +65,22 @@ const BREADCRUMB: Breadcrumb[] = [
     url: '/',
   },
   {
-    label: 'smart-contracts',
+    label: 'blockchain',
   },
 ];
 
 @Component({
-  selector: 'app-smart-contract-list',
+  selector: 'app-blockchain-list',
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
   imports: [
-    TableComponent,
     ReactiveFormsModule,
     FormsModule,
     RouterLink,
 
     TranslateModule,
 
+    TableComponent,
     InputComponent,
     IconButtonComponent,
   ],
@@ -91,7 +91,7 @@ export class ListComponent implements AfterViewInit, OnDestroy {
   displayedColumns = COLUMNS.map(column => column.id);
 
   private breadcrumbService = inject(BreadcrumbService);
-  private service = inject(SmartContractService);
+  private service = inject(BlockchainService);
   private formBuilder = inject(FormBuilder);
 
   data: SmartContract[] = [];
@@ -185,7 +185,7 @@ export class ListComponent implements AfterViewInit, OnDestroy {
             this.toastr.success('DELETED_SUCCESSFULLY');
           },
           error: error => {
-            console.log('[error]', error);
+            console.error('[error]', error);
           },
         });
       }
@@ -212,7 +212,7 @@ export class ListComponent implements AfterViewInit, OnDestroy {
         this.hasMore = response.hasMore;
       },
       error: error => {
-        console.log('[error]', error);
+        console.error('[error]', error);
       },
     });
   }
@@ -238,7 +238,7 @@ export class ListComponent implements AfterViewInit, OnDestroy {
         this.hasMore = response.hasMore;
       },
       error: error => {
-        console.log('[error]', error);
+        console.error('[error]', error);
       },
     });
   }

@@ -1,17 +1,17 @@
-import { provideStore, Store } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 
 import { TestBed } from '@angular/core/testing';
 
+import { appConfig } from '@app/__tests__/app.config';
 import { User } from '@app/models';
 
 import { AddCurrentUserAction } from './current-user.actions';
-import { UserState } from './current-user.state';
 
 describe('User store', () => {
   let store: Store;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideStore([UserState])],
+      providers: [...appConfig.providers],
     });
 
     store = TestBed.inject(Store);
@@ -21,7 +21,8 @@ describe('User store', () => {
     const expected: User = {
       name: 'Name',
       email: 'Email',
-      isSuper: false,
+      photo: '',
+      status: true,
       isAuthenticated: false,
     };
     store.dispatch(new AddCurrentUserAction(expected));

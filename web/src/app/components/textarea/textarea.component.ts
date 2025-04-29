@@ -6,7 +6,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 import { CustomControlValueAccessorDirective } from '@app/directives/custom-control-value-accessor';
-import { IsRequiredPipe } from '@app/pipes';
 
 @Component({
   selector: 'app-textarea',
@@ -18,7 +17,6 @@ import { IsRequiredPipe } from '@app/pipes';
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    IsRequiredPipe,
   ],
 })
 export class TextAreaComponent

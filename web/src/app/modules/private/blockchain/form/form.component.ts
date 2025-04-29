@@ -40,7 +40,9 @@ const BREADCRUMB = [
   imports: [
     ReactiveFormsModule,
     FormsModule,
+
     TranslateModule,
+
     InputComponent,
     ButtonComponent,
     BlockchainPlatformSelectorComponent,

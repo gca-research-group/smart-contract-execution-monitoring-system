@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { appConfig } from '@app/__tests__/app.config';
+
 import { BreadcrumbComponent } from './breadcrumb.component';
 
 describe('BreadcrumbComponent', () => {
@@ -9,6 +11,7 @@ describe('BreadcrumbComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [BreadcrumbComponent],
+      providers: [...appConfig.providers],
     }).compileComponents();
 
     fixture = TestBed.createComponent(BreadcrumbComponent);

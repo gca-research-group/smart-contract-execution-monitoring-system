@@ -1,8 +1,9 @@
 import { ToastrService } from 'ngx-toastr';
 import { catchError, EMPTY, switchMap, throwError } from 'rxjs';
 
+import { isPlatformServer } from '@angular/common';
 import { HttpHandlerFn, HttpRequest } from '@angular/common/http';
-import { inject } from '@angular/core';
+import { inject, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from '@app/services/auth';
@@ -19,6 +20,11 @@ export function requestInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
 ) {
+  const platformId = inject(PLATFORM_ID);
+  if (isPlatformServer(platformId)) {
+    return next(req);
+  }
+
   const authService = inject(AuthService);
   const currentUserService = inject(CurrentUserService);
   const accessToken = currentUserService.currentUser$()?.accessToken;
@@ -34,12 +40,17 @@ export function requestInterceptor(
 
             return next(cloneRequest(req, response.accessToken));
           }),
-          catchError(_ => {
-            currentUserService.remove();
-            void router.navigate(['/login']);
-
-            return EMPTY;
-          }),
+          catchError(
+            (newError: { status: number; error?: { message: string } }) => {
+              if (newError.status === 401) {
+                currentUserService.remove();
+                void router.navigate(['/login']);
+                return EMPTY;
+              } else {
+                return throwError(() => newError);
+              }
+            },
+          ),
         );
       }
 
@@ -48,7 +59,10 @@ export function requestInterceptor(
         void router.navigate(['/login']);
       }
 
-      if (error.status === 400) {
+      if (
+        [401, 400, 500].includes(error.status) &&
+        error?.error?.message !== 'TOKEN_EXPIRED'
+      ) {
         toastr.error(error.error?.message ?? 'INTERNAL_SERVER_ERROR');
       }
 

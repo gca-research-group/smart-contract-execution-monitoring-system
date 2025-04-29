@@ -12,6 +12,13 @@ import {
 
 @State<User>({
   name: 'user',
+  defaults: {
+    isAuthenticated: true,
+    email: '',
+    name: '',
+    photo: '',
+    status: false,
+  },
 })
 @Injectable()
 export class UserState {

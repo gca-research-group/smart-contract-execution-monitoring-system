@@ -1,9 +1,23 @@
-<div
+<label
+  for="file"
   class="dropzone"
   (dragover)="onDragOver($event)"
   (dragleave)="onDragLeave($event)"
   (drop)="onDrop($event)"
 >
   <p>Drag & Drop a file here or click to select</p>
-  <input type="file" (change)="onFileSelected($event)" />
-</div>
+  <input
+    id="file"
+    type="file"
+    (change)="onFileSelected($event)"
+    multiple
+    hidden
+  />
+</label>
+<ul style="padding: 0; margin: 0">
+  @for (name of names; track $index) {
+    <li class="d-flex align-items-center">
+      {{ name }} <app-icon-button icon="delete" (click)="remove($index)" />
+    </li>
+  }
+</ul>

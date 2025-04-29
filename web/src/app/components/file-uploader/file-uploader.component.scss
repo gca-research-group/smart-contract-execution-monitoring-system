@@ -4,9 +4,19 @@
   text-align: center;
   border: 2px dashed #ccc;
   cursor: pointer;
+  display: block;
 }
 
 .dropzone.dragover {
   border-color: #000;
   background-color: #f0f0f0;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  gap: 4px
 }

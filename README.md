@@ -31,7 +31,7 @@ This is an open-source project that aims to be a middleware between the software
 
 ## Table of contents
 
-- [Project papers](#project-papers)
+- [Papers](#project-papers)
 - [Project repositories](#project-repositories)
 - [Features](#features)
 - [How to execute](#how-to-execute)

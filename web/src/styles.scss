@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+
 @use "@ng-select/ng-select/themes/material.theme.css";
 
 @use "bootstrap/dist/css/bootstrap-grid.min.css" as *;
@@ -10,6 +11,8 @@
 @import  'bootstrap/scss/mixins';
 @import 'ngx-toastr/toastr-bs5-alert';
 
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700&subset=latin,latin-ext&display=fallback');
+
 html,
 body {
   height: 100%;
@@ -17,15 +20,15 @@ body {
 
 body {
   margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
 }
 
 * {
   box-sizing: border-box;
 }
 
-.ng-select {
-  padding-bottom: 0;
+a {
+  text-decoration: none;
 }
 
 ::-webkit-scrollbar {
@@ -40,6 +43,7 @@ body {
   border-radius: 10px;
 }
 
+
 :root {
   --hfdnm-sidebar-collapsed-width: 50px;
   --hfdnm-sidebar-background-color: #333;
@@ -47,4 +51,21 @@ body {
   --hfdnm-menu-icon-height: 40px;
   --hfdnm-content-horizontal-padding: 8px;
   --hfdnm-content-vertical-padding: 16px;
+}
+
+.ng-select {
+  padding-bottom: 0;
+}
+
+::ng-deep .ng-select .ng-select-container.ng-appearance-outline:after {
+  border: 1px solid var(--mat-sys-outline);
+}
+
+::ng-deep .ng-placeholder {
+  color: var(--mdc-outlined-text-field-hover-label-text-color, var(--mat-sys-on-surface));
+  font-size: var(--mat-form-field-outlined-label-text-populated-size);
+  font-family: var(--mdc-outlined-text-field-label-text-font, var(--mat-sys-body-large-font));
+  font-weight: var(--mdc-outlined-text-field-label-text-weight, var(--mat-sys-body-large-weight));
+  letter-spacing: var(--mdc-outlined-text-field-label-text-tracking, var(--mat-sys-body-large-tracking));
+  background-color: var(--mat-sidenav-content-background-color, var(--mat-sys-background));
 }

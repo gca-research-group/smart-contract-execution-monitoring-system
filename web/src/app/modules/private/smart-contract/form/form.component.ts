@@ -63,7 +63,7 @@ export class FormComponent implements OnInit, OnDestroy {
     id: FormControl<number | null>;
     name: FormControl<string | null>;
     blockchainPlatform: FormControl<string | null>;
-    content: FormControl<string | null>;
+    files: FormControl<string[]>;
     clauses: FormArray;
   }>;
 
@@ -88,7 +88,7 @@ export class FormComponent implements OnInit, OnDestroy {
       blockchainPlatform: new FormControl('HYPERLEDGER_FABRIC', [
         Validators.required,
       ]),
-      content: new FormControl(''),
+      files: new FormControl(),
       clauses: this.formBuilder.array([]),
     });
 
@@ -162,7 +162,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.clauses.push(
       this.formBuilder.group({
         id: null,
-        name: null,
+        name: [null, [Validators.required]],
         arguments: this.formBuilder.array([]),
       }),
     );
@@ -177,7 +177,11 @@ export class FormComponent implements OnInit, OnDestroy {
     const _arguments = this.clauses.at(index).get('arguments') as FormArray;
 
     _arguments.push(
-      this.formBuilder.group({ id: null, name: null, type: null }),
+      this.formBuilder.group({
+        id: null,
+        name: [null, [Validators.required]],
+        type: [null, [Validators.required]],
+      }),
     );
   }
 

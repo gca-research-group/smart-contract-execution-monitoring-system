@@ -1,7 +1,13 @@
+import { JsonPipe } from '@angular/common';
 import { Component, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { IconButtonComponent } from '../icon-button';
+
+type File = {
+  name: string;
+  content: string;
+};
 
 @Component({
   selector: 'app-file-uploader',
@@ -14,13 +20,12 @@ import { IconButtonComponent } from '../icon-button';
       multi: true,
     },
   ],
-  imports: [IconButtonComponent],
+  imports: [IconButtonComponent, JsonPipe],
 })
 export class FileUploaderComponent implements ControlValueAccessor {
-  files: string[] = [];
-  names: string[] = [];
+  files: File[] = [];
 
-  onChange: (file: string) => void = () => {};
+  onChange: (files: File[]) => void = () => {};
   onTouched: () => void = () => {};
 
   onFileSelected(event: Event): void {
@@ -28,7 +33,6 @@ export class FileUploaderComponent implements ControlValueAccessor {
     if (input.files && input.files.length > 0) {
       this.handleFile(input.files);
     } else {
-      this.names = [];
       this.files = [];
     }
   }
@@ -60,9 +64,10 @@ export class FileUploaderComponent implements ControlValueAccessor {
       const fileReader = new FileReader();
 
       fileReader.onload = () => {
-        this.names.push(file.name);
-        this.files.push(fileReader.result as string);
-        this.onChange(fileReader.result as string);
+        const name = file.name;
+        const content = fileReader.result as string;
+        this.files.push({ name, content });
+        this.onChange(this.files);
         this.onTouched();
       };
 
@@ -71,18 +76,18 @@ export class FileUploaderComponent implements ControlValueAccessor {
   }
 
   remove(index: number) {
-    this.names.splice(index, 1);
     this.files.splice(index, 1);
-    this.onChange(this.files.join(','));
+    this.onChange(this.files);
     this.onTouched();
   }
 
-  writeValue(file: string): void {
-    //this.file = file;
-    this.files.push(file);
+  writeValue(files: File[]): void {
+    if (files?.length) {
+      this.files = files;
+    }
   }
 
-  registerOnChange(fn: (file: string) => void): void {
+  registerOnChange(fn: (files: File[]) => void): void {
     this.onChange = fn;
   }
 

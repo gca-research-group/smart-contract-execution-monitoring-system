@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { SmartContract } from '@app/models';
+import { SmartContract, SmartContractFile } from '@app/models';
 import { AuthService } from '@app/services/auth';
 import { SmartContractService } from '@app/services/smart-contract';
 
@@ -12,7 +12,7 @@ import { UserModule } from '../user';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([SmartContract]),
+    TypeOrmModule.forFeature([SmartContract, SmartContractFile]),
     UserModule,
     SmartContractClauseModule,
     SmartContractClauseArgumentModule,

@@ -14,10 +14,11 @@
     hidden
   />
 </label>
+
 <ul style="padding: 0; margin: 0">
-  @for (name of names; track $index) {
+  @for (file of files; track $index) {
     <li class="d-flex align-items-center">
-      {{ name }} <app-icon-button icon="delete" (click)="remove($index)" />
+      {{ file.name }} <app-icon-button icon="delete" (click)="remove($index)" />
     </li>
   }
 </ul>

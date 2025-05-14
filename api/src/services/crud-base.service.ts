@@ -33,8 +33,9 @@ export function CrudBaseService<
 
     async findAll(options: L): Promise<Response<E[]>> {
       const pageSize = +(options.pageSize ?? 20);
+      const page = +(options.page ?? 1);
 
-      const offset = (+options.page - 1) * pageSize;
+      const offset = (page - 1) * pageSize;
 
       const orderBy = options.orderBy ?? 'id';
       const orderDirection = options.orderDirection ?? 'desc';
@@ -58,7 +59,7 @@ export function CrudBaseService<
         total,
         data,
         hasMore,
-        page: +options.page,
+        page,
         pages: Math.ceil(total / pageSize),
       };
     }

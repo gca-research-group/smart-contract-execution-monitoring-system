@@ -57,4 +57,10 @@ export class SmartContractController {
   remove(@Param('id') id: number) {
     return this.service.remove(id);
   }
+
+  @Post(':id/execute')
+  @HttpCode(HttpStatus.OK)
+  execute(@Param('id') id: number) {
+    return id;
+  }
 }

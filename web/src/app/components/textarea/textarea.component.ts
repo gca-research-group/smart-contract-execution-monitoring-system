@@ -26,4 +26,6 @@ export class TextAreaComponent
   label = input('');
   rows = input(10);
   cols = input(1);
+  placeholder = input('');
+  hint = input('');
 }

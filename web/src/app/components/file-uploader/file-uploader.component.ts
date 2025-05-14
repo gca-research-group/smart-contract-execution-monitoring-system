@@ -1,4 +1,3 @@
-import { JsonPipe } from '@angular/common';
 import { Component, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -20,7 +19,7 @@ type File = {
       multi: true,
     },
   ],
-  imports: [IconButtonComponent, JsonPipe],
+  imports: [IconButtonComponent],
 })
 export class FileUploaderComponent implements ControlValueAccessor {
   files: File[] = [];

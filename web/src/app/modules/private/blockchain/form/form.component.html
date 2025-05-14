@@ -15,18 +15,30 @@
     class="col mb-5"
   />
 
-  <fieldset formGroupName="parameters" class="d-flex flex-column" style="gap: 32px">
+  <fieldset
+    formGroupName="parameters"
+    class="d-flex flex-column"
+    style="gap: 32px"
+  >
     <legend class="mb-2">
       {{ 'parameters' | translate }}
     </legend>
 
     @for (parameter of parameters; track $index) {
-      <app-input
-        [formControlName]="parameter.field"
-        [placeholder]="parameter.field"
-        [label]="parameter.field"
-        class="col"
-      />
+      @if (parameter.type === 'string') {
+        <app-input
+          [formControlName]="parameter.field"
+          [label]="`${parameter.field} (${parameter.description})`"
+          class="col"
+        />
+      } @else if (parameter.type === 'text') {
+        <app-textarea
+          [formControlName]="parameter.field"
+          [label]="parameter.field"
+          [hint]="parameter.description"
+          class="col"
+        />
+      }
     }
   </fieldset>
 

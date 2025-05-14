@@ -13,12 +13,11 @@ export class BlockchainService {
   private readonly url = `${environment.apiUrl}/blockchain/`;
 
   config(platform: string) {
-    return this.http.get<{ field: string; type: string }[]>(
-      `${this.url}config`,
-      {
-        params: { platform },
-      },
-    );
+    return this.http.get<
+      { field: string; type: string; description: string }[]
+    >(`${this.url}config`, {
+      params: { platform },
+    });
   }
 
   findAll(params?: object) {

@@ -28,4 +28,5 @@ export class InputComponent extends CustomControlValueAccessorDirective {
   placeholder = input('');
   type = input('text');
   min = input<number>();
+  hint = input('');
 }

@@ -17,6 +17,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BlockchainPlatformSelectorComponent } from '@app/components/blockchain-platform-selector';
 import { ButtonComponent } from '@app/components/button';
 import { InputComponent } from '@app/components/input';
+import { TextAreaComponent } from '@app/components/textarea';
 import { Blockchain } from '@app/models';
 import { BlockchainService } from '@app/services/blockchain';
 import { BreadcrumbService } from '@app/services/breadcrumb';
@@ -46,6 +47,7 @@ const BREADCRUMB = [
     InputComponent,
     ButtonComponent,
     BlockchainPlatformSelectorComponent,
+    TextAreaComponent,
   ],
 })
 export class FormComponent implements OnInit, OnDestroy {
@@ -65,7 +67,7 @@ export class FormComponent implements OnInit, OnDestroy {
 
   private toastr = inject(ToastrService);
 
-  parameters: { field: string; type: string }[] = [];
+  parameters: { field: string; type: string; description: string }[] = [];
 
   parametersValues: object = {};
 

@@ -55,11 +55,13 @@
         *matHeaderCellDef
         [attr.colspan]="displayedColumns().length"
       >
+      @if (dataSource().length) {
         <small
           style="display: block"
           [style.textAlign]="isMobile ? 'left' : 'right'"
-          >Exibindo {{ dataSource().length }} de {{ total() }} itens</small
+          >Exibindo {{ dataSource().length }} de {{ total() ?? 0 }} itens</small
         >
+      }
       </th>
     </ng-container>
 

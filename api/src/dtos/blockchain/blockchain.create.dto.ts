@@ -4,7 +4,6 @@ import { BlockchainPlatform } from '@app/models';
 
 export const CreateBlockchainSchema = z.object({
   name: z.string({ message: 'NAME_IS_REQUIRED' }),
-  test: z.string({ message: 'NAME_IS_REQUIRED' }),
   platform: z.enum([BlockchainPlatform.HYPERLEDGER_FABRIC], {
     message: 'INVALID_PLATFORM',
   }),

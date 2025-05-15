@@ -1,34 +1,16 @@
 import { TranslateModule } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-import { debounceTime } from 'rxjs';
 
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  inject,
-  OnDestroy,
-  TemplateRef,
-  viewChild,
-} from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { Sort } from '@angular/material/sort';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Component, TemplateRef, viewChild } from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
-import { DeleteDialogComponent } from '@app/components/delete-dialog';
 import { IconButtonComponent } from '@app/components/icon-button';
 import { InputComponent } from '@app/components/input';
 import { TableComponent } from '@app/components/table';
-import { Column, ColumnType, SmartContract, Breadcrumb } from '@app/models';
-import { BreadcrumbService } from '@app/services/breadcrumb';
+import { BaseListDirective } from '@app/directives/base';
+import { Column, ColumnType, SmartContract } from '@app/models';
 import { SmartContractService } from '@app/services/smart-contract';
+import { BREADCRUMB, CRUD_SERVICE } from '@app/tokens';
 
 const COLUMNS: Column[] = [
   {
@@ -59,16 +41,6 @@ const COLUMNS: Column[] = [
   },
 ];
 
-const BREADCRUMB: Breadcrumb[] = [
-  {
-    label: 'home',
-    url: '/',
-  },
-  {
-    label: 'smart-contracts',
-  },
-];
-
 @Component({
   selector: 'app-smart-contract-list',
   templateUrl: './list.component.html',
@@ -84,68 +56,41 @@ const BREADCRUMB: Breadcrumb[] = [
     InputComponent,
     IconButtonComponent,
   ],
+  providers: [
+    {
+      provide: BREADCRUMB,
+      useValue: [
+        {
+          label: 'home',
+          url: '/',
+        },
+        {
+          label: 'smart-contracts',
+        },
+      ],
+    },
+    {
+      provide: CRUD_SERVICE,
+      useClass: SmartContractService,
+    },
+  ],
 })
-export class ListComponent implements AfterViewInit, OnDestroy {
+export class ListComponent extends BaseListDirective<SmartContract> {
   columns = COLUMNS;
 
   displayedColumns = COLUMNS.map(column => column.id);
-
-  private breadcrumbService = inject(BreadcrumbService);
-  private service = inject(SmartContractService);
-  private formBuilder = inject(FormBuilder);
-
-  data: SmartContract[] = [];
-
-  loading = false;
-  hasMore = true;
-
-  form!: FormGroup;
-  formElement = viewChild<ElementRef<HTMLFormElement>>('filters');
-
-  private filters = viewChild<ElementRef<HTMLFormElement>>('filters');
-  tableHeight!: string;
-  private cdk = inject(ChangeDetectorRef);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private actionsColumn = viewChild<TemplateRef<any>>('actionsColumn');
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private actionsRow = viewChild<TemplateRef<any>>('actionsRow');
 
-  readonly dialog = inject(MatDialog);
-  private toastr = inject(ToastrService);
-  private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
-
-  constructor() {
-    this.breadcrumbService.update(BREADCRUMB);
-
-    this.form = this.formBuilder.group({
-      id: null,
-      name: null,
-      page: 1,
-      pageSize: 20,
-      orderBy: null,
-      orderDirection: null,
-    });
-
-    const queryParams = this.activatedRoute.snapshot.queryParams;
-    this.form.patchValue(queryParams, { emitEvent: false });
-
-    this.form.valueChanges.pipe(debounceTime(300)).subscribe(() => {
-      this.search();
-      this.updateRouteQueryParameters();
-    });
+  protected updateForm() {
+    this.form.addControl('id', new FormControl());
+    this.form.addControl('name', new FormControl());
   }
 
-  ngAfterViewInit(): void {
-    const form = this.formElement()?.nativeElement;
-
-    const marginBottom = getComputedStyle(
-      this.filters()?.nativeElement as Element,
-    ).marginBottom;
-
-    this.tableHeight = `calc(100vh - var(--hfdnm-toolbar-height) - (2 * var(--hfdnm-content-vertical-padding)) - ${form?.offsetHeight}px - ${marginBottom})`;
-
+  protected updateColumns() {
     this.columns = this.columns.map(column => {
       if (column.id !== 'actions') {
         return column;
@@ -157,12 +102,6 @@ export class ListComponent implements AfterViewInit, OnDestroy {
         templateColumn: this.actionsColumn(),
       };
     });
-
-    this.cdk.detectChanges();
-  }
-
-  ngOnDestroy(): void {
-    this.breadcrumbService.reset();
   }
 
   updateRouteQueryParameters() {
@@ -172,82 +111,9 @@ export class ListComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  openDialog(item: SmartContract): void {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      data: item.id,
-    });
-
-    dialogRef.afterClosed().subscribe((id: number | undefined) => {
-      if (id) {
-        this.service.delete(id).subscribe({
-          next: () => {
-            this.data = this.data.filter(item => item.id !== id);
-            this.toastr.success('DELETED_SUCCESSFULLY');
-          },
-          error: error => {
-            console.log('[error]', error);
-          },
-        });
-      }
-    });
-  }
-
-  scroll() {
-    if (this.hasMore) {
-      this.form.patchValue(
-        {
-          page: +this.form.get('page')?.value + 1,
-        },
-        { emitEvent: false },
-      );
-      this.findAll();
-    }
-  }
-
-  findAll() {
-    const _params = this.removeNullFields(this.form.value);
-    this.service.findAll(_params).subscribe({
-      next: response => {
-        this.data = [...this.data, ...response.data];
-        this.hasMore = response.hasMore;
-      },
-      error: error => {
-        console.log('[error]', error);
-      },
-    });
-  }
-
   removeNullFields<T extends object>(obj: T): Partial<T> {
     return Object.fromEntries(
       Object.entries(obj).filter(([_index, value]) => value !== null),
     ) as Partial<T>;
-  }
-
-  search() {
-    const page = 1;
-
-    this.form.patchValue({ page }, { emitEvent: false });
-    this.updateRouteQueryParameters();
-
-    const _params = this.removeNullFields(this.form.value);
-    _params['page'] = page;
-
-    this.service.findAll(_params).subscribe({
-      next: response => {
-        this.data = response.data;
-        this.hasMore = response.hasMore;
-      },
-      error: error => {
-        console.log('[error]', error);
-      },
-    });
-  }
-
-  sort(event: Sort) {
-    this.form.patchValue({
-      orderBy: event.active,
-      orderDirection: event.direction,
-      page: 1,
-    });
   }
 }

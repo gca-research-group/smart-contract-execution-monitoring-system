@@ -1,0 +1,10 @@
+<ng-template #name let-item>
+  {{ item.name }} ({{ item.blockchainPlatform }})
+</ng-template>
+
+<app-select
+  label="smart-contract"
+  [items]="items"
+  [formControl]="formControl"
+  [template]="name"
+/>

@@ -1,37 +1,23 @@
 import { TranslateModule } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-import { debounceTime, finalize } from 'rxjs';
+import { debounceTime } from 'rxjs';
 
-import { Location } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
-  FormBuilder,
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 
 import { BlockchainPlatformSelectorComponent } from '@app/components/blockchain-platform-selector';
 import { ButtonComponent } from '@app/components/button';
 import { InputComponent } from '@app/components/input';
 import { TextAreaComponent } from '@app/components/textarea';
+import { BaseFormDirective } from '@app/directives/base';
 import { Blockchain } from '@app/models';
 import { BlockchainService } from '@app/services/blockchain';
-import { BreadcrumbService } from '@app/services/breadcrumb';
-
-const BREADCRUMB = [
-  {
-    label: 'home',
-    url: '/',
-  },
-  {
-    label: 'blockchain',
-    url: '/blockchain',
-  },
-];
+import { BREADCRUMB, CRUD_SERVICE } from '@app/tokens';
 
 @Component({
   selector: 'app-blockchain-form',
@@ -49,58 +35,56 @@ const BREADCRUMB = [
     BlockchainPlatformSelectorComponent,
     TextAreaComponent,
   ],
+  providers: [
+    {
+      provide: BREADCRUMB,
+      useValue: [
+        {
+          label: 'home',
+          url: '/',
+        },
+        {
+          label: 'blockchain',
+          url: '/blockchain',
+        },
+      ],
+    },
+    {
+      provide: CRUD_SERVICE,
+      useClass: BlockchainService,
+    },
+  ],
 })
-export class FormComponent implements OnInit, OnDestroy {
-  form!: FormGroup<{
+export class FormComponent extends BaseFormDirective<
+  Blockchain,
+  {
     id: FormControl<number | null>;
     name: FormControl<string | null>;
     platform: FormControl<string | null>;
     parameters: FormGroup;
-  }>;
-
-  private formBuilder = inject(FormBuilder);
-  private breadcrumbService = inject(BreadcrumbService);
-  private service = inject(BlockchainService);
-  private location = inject(Location);
-  private activatedRoute = inject(ActivatedRoute);
-  loading = false;
-
-  private toastr = inject(ToastrService);
-
+  }
+> {
+  protected override service = inject<BlockchainService>(CRUD_SERVICE);
   parameters: { field: string; type: string; description: string }[] = [];
 
   parametersValues: object = {};
 
   constructor() {
+    super();
+
+    this.updateParameters();
+  }
+
+  protected override buildForm(): void {
     this.form = this.formBuilder.group({
       id: new FormControl(),
       name: new FormControl('', [Validators.required]),
       platform: new FormControl('HYPERLEDGER_FABRIC', [Validators.required]),
       parameters: this.formBuilder.group({}),
     });
-
-    this.breadcrumbService.update([
-      ...BREADCRUMB,
-      {
-        label: 'add',
-      },
-    ]);
-
-    this.updateParameters();
   }
 
-  ngOnInit(): void {
-    const id = this.activatedRoute.snapshot.params['id'] as unknown as number;
-
-    if (id) {
-      this.find(id);
-      this.breadcrumbService.update([...BREADCRUMB, { label: 'edit' }]);
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.breadcrumbService.reset();
-  }
+  protected override updateFormOnUpdateInitialization(): void {}
 
   private updateParameters() {
     this.form
@@ -132,44 +116,6 @@ export class FormComponent implements OnInit, OnDestroy {
             console.error('[error]', error);
           },
         });
-      });
-  }
-
-  find(id: number) {
-    this.service.findById(id).subscribe({
-      next: item => {
-        this.form.patchValue({
-          ...item,
-        });
-
-        this.parametersValues = item.parameters;
-      },
-    });
-  }
-
-  save() {
-    if (this.form.invalid) {
-      this.toastr.warning('INVALID_FORM');
-      return;
-    }
-
-    this.loading = true;
-    this.service
-      .save({ ...this.form.value } as unknown as Blockchain)
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        }),
-      )
-      .subscribe({
-        next: () => {
-          const message = this.form.value.id
-            ? 'RECORD_UPDATED_SUCCESSFULLY'
-            : 'RECORD_CREATED_SUCCESSFULLY';
-
-          this.toastr.success(message);
-          this.location.back();
-        },
       });
   }
 }

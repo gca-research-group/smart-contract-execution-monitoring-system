@@ -1,12 +1,9 @@
 import { TranslateModule } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-import { finalize } from 'rxjs';
 
-import { Location, NgForOf } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { NgForOf } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import {
   FormArray,
-  FormBuilder,
   FormControl,
   FormGroup,
   FormsModule,
@@ -15,7 +12,6 @@ import {
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { ActivatedRoute } from '@angular/router';
 
 import { BlockchainPlatformSelectorComponent } from '@app/components/blockchain-platform-selector';
 import { ButtonComponent } from '@app/components/button';
@@ -23,20 +19,10 @@ import { DeleteDialogComponent } from '@app/components/delete-dialog';
 import { FileUploaderComponent } from '@app/components/file-uploader';
 import { IconButtonComponent } from '@app/components/icon-button';
 import { InputComponent } from '@app/components/input';
+import { BaseFormDirective } from '@app/directives/base';
 import { SmartContract } from '@app/models';
-import { BreadcrumbService } from '@app/services/breadcrumb';
 import { SmartContractService } from '@app/services/smart-contract';
-
-const BREADCRUMB = [
-  {
-    label: 'home',
-    url: '/',
-  },
-  {
-    label: 'smart-contracts',
-    url: '/smart-contract',
-  },
-];
+import { BREADCRUMB, CRUD_SERVICE } from '@app/tokens';
 
 @Component({
   selector: 'app-smart-contract-form',
@@ -57,31 +43,43 @@ const BREADCRUMB = [
     MatExpansionModule,
     TranslateModule,
   ],
+  providers: [
+    {
+      provide: BREADCRUMB,
+      useValue: [
+        {
+          label: 'home',
+          url: '/',
+        },
+        {
+          label: 'smart-contracts',
+          url: '/smart-contract',
+        },
+      ],
+    },
+    {
+      provide: CRUD_SERVICE,
+      useClass: SmartContractService,
+    },
+  ],
 })
-export class FormComponent implements OnInit, OnDestroy {
-  form!: FormGroup<{
+export class FormComponent extends BaseFormDirective<
+  SmartContract,
+  {
     id: FormControl<number | null>;
     name: FormControl<string | null>;
     blockchainPlatform: FormControl<string | null>;
     files: FormControl<string[]>;
     clauses: FormArray;
-  }>;
-
-  private formBuilder = inject(FormBuilder);
-  private breadcrumbService = inject(BreadcrumbService);
-  private service = inject(SmartContractService);
-  private location = inject(Location);
-  private activatedRoute = inject(ActivatedRoute);
-  loading = false;
-
-  private toastr = inject(ToastrService);
+  }
+> {
   readonly dialog = inject(MatDialog);
 
   get clauses() {
     return this.form.get('clauses') as FormArray;
   }
 
-  constructor() {
+  protected override buildForm(): void {
     this.form = this.formBuilder.group({
       id: new FormControl(),
       name: new FormControl('', [Validators.required]),
@@ -91,28 +89,11 @@ export class FormComponent implements OnInit, OnDestroy {
       files: new FormControl(),
       clauses: this.formBuilder.array([]),
     });
-
-    this.breadcrumbService.update([
-      ...BREADCRUMB,
-      {
-        label: 'add',
-      },
-    ]);
   }
 
-  ngOnInit(): void {
-    const id = this.activatedRoute.snapshot.params['id'] as unknown as number;
-    if (id) {
-      this.find(id);
-      this.breadcrumbService.update([...BREADCRUMB, { label: 'edit' }]);
-    }
-  }
+  protected override updateFormOnUpdateInitialization(): void {}
 
-  ngOnDestroy(): void {
-    this.breadcrumbService.reset();
-  }
-
-  find(id: number) {
+  override find(id: number) {
     this.service.findById(id).subscribe({
       next: item => {
         for (const clause of item.clauses ?? []) {
@@ -130,32 +111,6 @@ export class FormComponent implements OnInit, OnDestroy {
         });
       },
     });
-  }
-
-  save() {
-    if (this.form.invalid) {
-      this.toastr.warning('INVALID_FORM');
-      return;
-    }
-
-    this.loading = true;
-    this.service
-      .save({ ...this.form.value } as unknown as SmartContract)
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        }),
-      )
-      .subscribe({
-        next: () => {
-          const message = this.form.value.id
-            ? 'RECORD_UPDATED_SUCCESSFULLY'
-            : 'RECORD_CREATED_SUCCESSFULLY';
-
-          this.toastr.success(message);
-          this.location.back();
-        },
-      });
   }
 
   addClause(addArgument = true) {

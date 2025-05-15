@@ -16,6 +16,6 @@ export class WrapperComponent {
     { label: 'home', icon: 'home', url: '' },
     { label: 'blockchain-connection', icon: 'link', url: 'blockchain' },
     { label: 'smart-contracts', icon: 'article', url: 'smart-contract' },
-    { label: 'settings', icon: 'settings', url: '' },
+    { label: 'execution', icon: 'settings', url: 'smart-contract-execution' },
   ];
 }

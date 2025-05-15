@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
-import { Blockchain } from '@app/models';
+import { Blockchain, CrudService, FindAllResponse } from '@app/models';
 
 import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
-export class BlockchainService {
+export class BlockchainService implements CrudService<Blockchain> {
   private readonly http = inject(HttpClient);
   private readonly url = `${environment.apiUrl}/blockchain/`;
 
@@ -21,7 +21,7 @@ export class BlockchainService {
   }
 
   findAll(params?: object) {
-    return this.http.get<{ data: Blockchain[]; hasMore: boolean }>(this.url, {
+    return this.http.get<FindAllResponse<Blockchain>>(this.url, {
       params: { ...params },
     });
   }
@@ -31,14 +31,14 @@ export class BlockchainService {
   }
 
   delete(id: number) {
-    return this.http.delete(`${this.url}${id}`);
+    return this.http.delete<void>(`${this.url}${id}`);
   }
 
   save(item: Blockchain) {
     if (item.id) {
-      return this.http.put(`${this.url}${item.id}`, item);
+      return this.http.put<Blockchain>(`${this.url}${item.id}`, item);
     }
 
-    return this.http.post(this.url, item);
+    return this.http.post<Blockchain>(this.url, item);
   }
 }

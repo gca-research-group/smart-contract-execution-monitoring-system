@@ -1,0 +1,3 @@
+networks:
+  scems_network:
+    name: scems_network

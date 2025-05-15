@@ -1,14 +1,14 @@
 services:
-  scems_database:
-    container_name: scems_database
+  scems_postgres:
+    container_name: scems_postgres
     image: postgres:17-alpine
     ports:
       - "5432:5432"
     user: postgres
     volumes:
-      - scems_database_volume:/var/lib/postgresql/data
+      - scems_postgres_volume:/var/lib/postgresql/data
     env_file:
-      - envs/.env.database
+      - envs/.env.postgres
     networks:
       - scems_network
     restart: always
@@ -20,14 +20,10 @@ services:
       start_period: 80s
 
 volumes:
-  scems_database_volume:
-    name: scems_database_volume
+  scems_postgres_volume:
+    name: scems_postgres_volume
     driver: local
     driver_opts:
       type: none
       o: bind
       device: ./volumes/postgres/data
-
-networks:
-  scems_network:
-    name: scems_network

@@ -62,12 +62,20 @@ export class SmartContractService
   }
 
   async update(id: string, data: UpdateSmartContractDto) {
-    const item = await this.findOne(id);
-    const updatedItem = await item.updateOne(data, { new: true });
-    return updatedItem;
+    const item = await this.model
+      .findByIdAndUpdate(id, data, {
+        new: true,
+      })
+      .exec();
+
+    if (!item) {
+      throw new BadRequestException('ITEM_NOT_FOUND');
+    }
+
+    return item;
   }
 
-  remove(id: number) {
-    this.model.deleteOne({ id });
+  async remove(id: number) {
+    await this.model.deleteOne({ id });
   }
 }

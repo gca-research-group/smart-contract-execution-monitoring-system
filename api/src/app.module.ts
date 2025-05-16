@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+import { MongooseModule } from '@nestjs/mongoose';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 
@@ -9,14 +10,13 @@ import { typeorm } from './database/typeorm.config';
 import { AuthModule } from './modules/auth';
 import { BlockchainModule } from './modules/blockchain';
 import { SmartContractModule } from './modules/smart-contract';
-import { SmartContractClauseModule } from './modules/smart-contract-clause';
-import { SmartContractClauseArgumentModule } from './modules/smart-contract-clause-argument';
 import { UserModule } from './modules/user';
 
 @Module({
   imports: [
     ServeStaticModule.forRoot({
       rootPath: PUBLIC_FOLDER,
+      serveRoot: '/static',
     }),
     ConfigModule.forRoot({
       isGlobal: true,
@@ -29,6 +29,15 @@ import { UserModule } from './modules/user';
         return { ...config, autoLoadEntities: true };
       },
     }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (config: ConfigService) => ({
+        uri: config.get<string>('MONGODB_URI'),
+        dbName: config.get<string>('MONGODB_DATABASE'),
+      }),
+      inject: [ConfigService],
+    }),
+
     JwtModule.register({
       global: true,
       secret: process.env.SECRET_KEY,
@@ -36,8 +45,6 @@ import { UserModule } from './modules/user';
     AuthModule,
     BlockchainModule,
     SmartContractModule,
-    SmartContractClauseModule,
-    SmartContractClauseArgumentModule,
     UserModule,
   ],
 })

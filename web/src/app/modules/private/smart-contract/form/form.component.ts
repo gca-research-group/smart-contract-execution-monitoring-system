@@ -66,7 +66,7 @@ import { BREADCRUMB, CRUD_SERVICE } from '@app/tokens';
 export class FormComponent extends BaseFormDirective<
   SmartContract,
   {
-    id: FormControl<number | null>;
+    _id: FormControl<string | null>;
     name: FormControl<string | null>;
     blockchainPlatform: FormControl<string | null>;
     files: FormControl<string[]>;
@@ -81,7 +81,7 @@ export class FormComponent extends BaseFormDirective<
 
   protected override buildForm(): void {
     this.form = this.formBuilder.group({
-      id: new FormControl(),
+      _id: new FormControl(),
       name: new FormControl('', [Validators.required]),
       blockchainPlatform: new FormControl('HYPERLEDGER_FABRIC', [
         Validators.required,
@@ -93,7 +93,7 @@ export class FormComponent extends BaseFormDirective<
 
   protected override updateFormOnUpdateInitialization(): void {}
 
-  override find(id: number) {
+  override find(id: string) {
     this.service.findById(id).subscribe({
       next: item => {
         for (const clause of item.clauses ?? []) {

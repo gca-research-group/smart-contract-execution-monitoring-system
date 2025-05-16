@@ -10,7 +10,7 @@ import * as crypto from 'crypto';
 
 import { Injectable } from '@nestjs/common';
 
-import { HyperledgerFabricConfig } from '@app/models';
+import { HyperledgerFabricConfig } from '@app/models/interfaces';
 
 @Injectable()
 export class HyperledgerFabricConnectionService {

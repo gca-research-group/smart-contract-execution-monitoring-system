@@ -1,4 +1,4 @@
-import { BlockchainPlatform } from '@app/models';
+import { BlockchainPlatform } from '@app/models/enums';
 
 export type UpdateBlockchainDto = {
   name: string;

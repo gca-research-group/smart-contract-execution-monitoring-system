@@ -1,8 +1,16 @@
 import { z } from 'zod';
 
-import { BlockchainPlatform } from '@app/models';
+import { BlockchainPlatform } from '@app/models/enums';
 
-import { CreateSmartContractClauseSchema } from '../smart-contract-clause';
+export const CreateSmartContractClauseArgumentSchema = z.object({
+  name: z.string({ message: 'NAME_IS_REQUIRED' }),
+  type: z.string({ message: 'TYPE_IS_REQUIRED' }),
+});
+
+export const CreateSmartContractClauseSchema = z.object({
+  name: z.string({ message: 'NAME_IS_REQUIRED' }),
+  arguments: z.array(CreateSmartContractClauseArgumentSchema).optional(),
+});
 
 export const CreateSmartContractSchema = z.object({
   name: z.string({ message: 'NAME_IS_REQUIRED' }),
@@ -10,8 +18,6 @@ export const CreateSmartContractSchema = z.object({
     message: 'INVALID_BLOCKCHAIN_PLATFORM',
   }),
   content: z.string().optional(),
-  status: z.boolean().optional(),
-  remarks: z.string().optional(),
   clauses: z.array(CreateSmartContractClauseSchema).optional(),
 });
 

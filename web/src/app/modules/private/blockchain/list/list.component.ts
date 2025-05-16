@@ -9,7 +9,7 @@ import { InputComponent } from '@app/components/input';
 import { TableComponent } from '@app/components/table';
 import { BaseListDirective } from '@app/directives/base';
 import { Column, ColumnType, Blockchain } from '@app/models';
-import { SmartContractService } from '@app/services/smart-contract';
+import { BlockchainService } from '@app/services/blockchain';
 import { BREADCRUMB, CRUD_SERVICE } from '@app/tokens';
 
 const COLUMNS: Column[] = [
@@ -71,7 +71,7 @@ const COLUMNS: Column[] = [
     },
     {
       provide: CRUD_SERVICE,
-      useClass: SmartContractService,
+      useClass: BlockchainService,
     },
   ],
 })
@@ -102,6 +102,12 @@ export class ListComponent extends BaseListDirective<Blockchain> {
         templateColumn: this.actionsColumn(),
       };
     });
+  }
+
+  override getCurrentItemId(
+    item: Blockchain,
+  ): string | number | null | undefined {
+    return item.id;
   }
 
   updateRouteQueryParameters() {

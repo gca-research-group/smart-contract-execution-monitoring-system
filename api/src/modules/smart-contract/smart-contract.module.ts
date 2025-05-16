@@ -1,23 +1,21 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { MongooseModule } from '@nestjs/mongoose';
 
-import { SmartContract, SmartContractFile } from '@app/models';
+import { SmartContract, SmartContractSchema } from '@app/models/schemas';
 import { AuthService } from '@app/services/auth';
 import { SmartContractService } from '@app/services/smart-contract';
 
 import { SmartContractController } from './smart-contract.controller';
-import { SmartContractClauseModule } from '../smart-contract-clause';
-import { SmartContractClauseArgumentModule } from '../smart-contract-clause-argument';
 import { UserModule } from '../user';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([SmartContract, SmartContractFile]),
     UserModule,
-    SmartContractClauseModule,
-    SmartContractClauseArgumentModule,
+    MongooseModule.forFeature([
+      { name: SmartContract.name, schema: SmartContractSchema },
+    ]),
   ],
-  providers: [SmartContractService, AuthService],
+  providers: [AuthService, SmartContractService],
   controllers: [SmartContractController],
   exports: [SmartContractService],
 })

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { BlockchainPlatform } from '@app/models';
+import { BlockchainPlatform } from '@app/models/enums';
 
 export const CreateBlockchainSchema = z.object({
   name: z.string({ message: 'NAME_IS_REQUIRED' }),

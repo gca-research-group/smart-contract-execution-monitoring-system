@@ -22,13 +22,13 @@ export class SmartContractService implements CrudService<SmartContract> {
     return this.http.get<SmartContract>(`${this.url}${id}`);
   }
 
-  delete(id: number) {
+  delete(id: string) {
     return this.http.delete<void>(`${this.url}${id}`);
   }
 
   save(item: SmartContract) {
-    if (item.id) {
-      return this.http.put<SmartContract>(`${this.url}${item.id}`, item);
+    if (item._id) {
+      return this.http.put<SmartContract>(`${this.url}${item._id}`, item);
     }
 
     return this.http.post<SmartContract>(this.url, item);

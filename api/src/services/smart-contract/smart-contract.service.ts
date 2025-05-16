@@ -1,57 +1,73 @@
-import { FindOptionsWhere, ILike, Repository } from 'typeorm';
+import { Model } from 'mongoose';
 
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectModel } from '@nestjs/mongoose';
 
 import {
   CreateSmartContractDto,
   ListSmartContractDto,
   UpdateSmartContractDto,
 } from '@app/dtos/smart-contract';
-import { SmartContract } from '@app/models';
-
-import { CrudBaseService } from '../crud-base.service';
+import { CrudBase } from '@app/models/interfaces';
+import { SmartContract, SmartContractDocument } from '@app/models/schemas';
 
 @Injectable()
-export class SmartContractService extends CrudBaseService<
-  SmartContract,
-  ListSmartContractDto,
-  CreateSmartContractDto,
-  UpdateSmartContractDto
->(SmartContract) {
+export class SmartContractService
+  implements
+    CrudBase<
+      SmartContractDocument,
+      ListSmartContractDto,
+      CreateSmartContractDto,
+      UpdateSmartContractDto
+    >
+{
   constructor(
-    @InjectRepository(SmartContract)
-    readonly _repository: Repository<SmartContract>,
-  ) {
-    super(_repository);
+    @InjectModel(SmartContract.name)
+    private model: Model<SmartContractDocument>,
+  ) {}
+  async findAll(options: ListSmartContractDto) {
+    const pageSize = +(options.pageSize ?? 20);
+    const page = +(options.page ?? 1);
+
+    const offset = (page - 1) * pageSize;
+
+    const [data, total] = await Promise.all([
+      this.model.find().skip(offset).limit(pageSize).exec(),
+      this.model.countDocuments().exec(),
+    ]);
+
+    const totalPages = Math.ceil(total / pageSize);
+
+    return {
+      pages: totalPages,
+      page,
+      hasMore: page < totalPages,
+      total,
+      data,
+    };
   }
 
-  buildWhereOptions(
-    options: ListSmartContractDto,
-  ): FindOptionsWhere<SmartContract> {
-    const whereOptions: FindOptionsWhere<SmartContract> = {};
-
-    if (options.id) {
-      whereOptions['id'] = options.id;
-    }
-
-    if (options.name) {
-      whereOptions['name'] = ILike(`%${options.name}%`);
-    }
-
-    return whereOptions;
-  }
-
-  async findOne(id: number): Promise<SmartContract> {
-    const item = await this._repository.findOne({
-      where: { id },
-      relations: ['clauses', 'clauses.arguments', 'files'],
-    });
-
+  async findOne(id: string) {
+    const item = await this.model.findById(id).exec();
     if (!item) {
       throw new BadRequestException('ITEM_NOT_FOUND');
     }
 
     return item;
+  }
+
+  create(data: CreateSmartContractDto) {
+    const model = new this.model(data);
+    return model.save();
+  }
+
+  async update(id: string, data: UpdateSmartContractDto) {
+    const item = await this.findOne(id);
+    const updatedItem = await item.updateOne(data, { new: true });
+    return updatedItem;
+  }
+
+  remove(id: number) {
+    this.model.deleteOne({ id });
   }
 }

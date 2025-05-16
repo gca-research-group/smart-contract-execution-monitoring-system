@@ -71,8 +71,14 @@ export class FormComponent extends BaseFormDirective<
 
   constructor() {
     super();
-
     this.updateParameters();
+  }
+
+  protected override patchValue(item: Blockchain) {
+    this.parametersValues = item.parameters;
+    this.form.patchValue({
+      ...item,
+    });
   }
 
   protected override buildForm(): void {

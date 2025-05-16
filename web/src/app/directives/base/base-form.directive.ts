@@ -60,7 +60,7 @@ export abstract class BaseFormDirective<
     ]);
   }
 
-  protected find(id: number) {
+  protected find(id: number | string) {
     this.service.findById(id).subscribe({
       next: (item: T) => {
         this.patchValue(item);

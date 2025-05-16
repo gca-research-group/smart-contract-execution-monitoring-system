@@ -1,48 +1,45 @@
 import { Column, Entity } from 'typeorm';
 
 import { BaseModel } from './base-model';
-
-export type HyperledgerFabricConfig = {
-  mspId: string;
-  signcert: string;
-  keystore: string;
-  cacrt: string;
-  peerEndpoint: string;
-  peerHostAlias: string;
-};
+import { BlockchainPlatform } from './enums';
 
 export const BLOCKCHAIN_CONFIG = {
   HYPERLEDGER_FABRIC: [
     {
       field: 'mspId',
-      type: 'text',
+      type: 'string',
+      description: 'Org1MSP',
+    },
+    {
+      field: 'peerEndpoint',
+      type: 'string',
+      description: 'localhost:7051',
+    },
+    {
+      field: 'peerHostAlias',
+      type: 'string',
+      description: 'peer0.org1.example.com',
     },
     {
       field: 'signcert',
+      description:
+        'You can find it at crypto-materials/peerOrganizations/org*/users/User*@org*/msp/signcerts',
       type: 'text',
     },
     {
       field: 'keystore',
+      description:
+        'You can find it at crypto-materials/peerOrganizations/org*/users/User*@org*/msp/keystore',
       type: 'text',
     },
     {
       field: 'cacrt',
-      type: 'text',
-    },
-    {
-      field: 'peerEndpoint',
-      type: 'text',
-    },
-    {
-      field: 'peerHostAlias',
+      description:
+        'You can find it at crypto-materials/peerOrganizations/org*/peers/peer*/tls/ca.crt',
       type: 'text',
     },
   ],
 };
-
-export enum BlockchainPlatform {
-  HYPERLEDGER_FABRIC = 'HYPERLEDGER_FABRIC',
-}
 
 @Entity({ name: 'blockchains' })
 export class Blockchain extends BaseModel {

@@ -34,7 +34,7 @@ export class SmartContractController {
   }
 
   @Get(':id')
-  show(@Param('id') id: number) {
+  show(@Param('id') id: string) {
     return this.service.findOne(id);
   }
 
@@ -47,7 +47,7 @@ export class SmartContractController {
 
   @Put(':id')
   update(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() updateSmartContractDto: UpdateSmartContractDto,
   ) {
     return this.service.update(id, updateSmartContractDto);

@@ -1,17 +1,17 @@
 export interface SmartContractClauseArgument {
-  id: number;
+  _id: string;
   name: string;
   type: string;
 }
 
 export interface SmartContractClause {
-  id: number;
+  _id: string;
   name: string;
   arguments?: SmartContractClauseArgument[];
 }
 
 export interface SmartContract {
-  id: number;
+  _id: string;
   name: string;
   clauses?: SmartContractClause[];
   createdAt: Date;

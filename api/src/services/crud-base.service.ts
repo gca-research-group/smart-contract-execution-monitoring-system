@@ -11,7 +11,7 @@ import { BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { ListBaseDto } from '@app/dtos';
-import { Response } from '@app/models';
+import { CrudBase, Response } from '@app/models/interfaces';
 
 type Entity<T> = new (...args: any[]) => T;
 
@@ -21,7 +21,7 @@ export function CrudBaseService<
   R,
   S,
 >(entity: Entity<E>) {
-  class BaseCrudServiceHost {
+  class BaseCrudServiceHost implements CrudBase<E, L, R, S> {
     constructor(
       @InjectRepository(entity)
       readonly _repository: Repository<E>,

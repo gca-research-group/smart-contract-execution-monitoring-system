@@ -22,9 +22,7 @@ import { BREADCRUMB, CRUD_SERVICE } from '@app/tokens';
 import { removeEmptyKeys } from '@app/utils';
 
 @Directive()
-export abstract class BaseListDirective<T extends { id?: number }>
-  implements AfterViewInit, OnDestroy
-{
+export abstract class BaseListDirective<T> implements AfterViewInit, OnDestroy {
   protected breadcrumbService = inject(BreadcrumbService);
   protected service = inject<CrudService<T>>(CRUD_SERVICE);
   protected formBuilder = inject(FormBuilder);
@@ -106,16 +104,20 @@ export abstract class BaseListDirective<T extends { id?: number }>
     this.tableHeight = `calc(100vh - var(--hfdnm-toolbar-height) - (2 * var(--hfdnm-content-vertical-padding)) - ${form?.offsetHeight}px - 16px)`;
   }
 
+  abstract getCurrentItemId(item: T): string | number | null | undefined;
+
   openDialog(item: T): void {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      data: item.id,
+      data: this.getCurrentItemId(item),
     });
 
     dialogRef.afterClosed().subscribe((id: number | undefined) => {
       if (id) {
         this.service.delete(id).subscribe({
           next: () => {
-            this.data = this.data.filter(item => item.id !== id);
+            this.data = this.data.filter(
+              item => this.getCurrentItemId(item) !== id,
+            );
             this.toastr.success('DELETED_SUCCESSFULLY');
           },
           error: error => {
@@ -164,6 +166,7 @@ export abstract class BaseListDirective<T extends { id?: number }>
         this.data = response.data;
         this.hasMore = response.hasMore;
         this.total = response.total;
+        console.log('[total]', this.total);
       },
       error: error => {
         console.log('[error]', error);

@@ -4,10 +4,8 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 import { BlockchainPlatform } from '../enums';
 
-export type SmartContractDocument = HydratedDocument<SmartContract>;
-
 @Schema()
-export class Argument {
+class Argument {
   @Prop()
   name: string;
 
@@ -15,21 +13,21 @@ export class Argument {
   type: string;
 }
 
-export const ArgumentSchema = SchemaFactory.createForClass(Argument);
+const ArgumentSchema = SchemaFactory.createForClass(Argument);
 
 @Schema()
-export class Clause {
+class Clause {
   @Prop()
   name: string;
 
-  @Prop({ type: [Argument], default: [] })
+  @Prop({ type: [ArgumentSchema], default: [] })
   arguments: Argument[];
 }
 
-export const ClauseSchema = SchemaFactory.createForClass(Clause);
+const ClauseSchema = SchemaFactory.createForClass(Clause);
 
 @Schema()
-export class File {
+class File {
   @Prop()
   name: string;
 
@@ -37,7 +35,7 @@ export class File {
   content: string;
 }
 
-export const FileSchema = SchemaFactory.createForClass(File);
+const FileSchema = SchemaFactory.createForClass(File);
 
 @Schema({ timestamps: true })
 export class SmartContract {
@@ -50,11 +48,12 @@ export class SmartContract {
   @Prop()
   content: string;
 
-  @Prop({ type: [ClauseSchema] })
+  @Prop({ type: [ClauseSchema], default: [] })
   clauses: Clause[];
 
-  @Prop({ type: [FileSchema] })
+  @Prop({ type: [FileSchema], default: [] })
   files: File[];
 }
 
 export const SmartContractSchema = SchemaFactory.createForClass(SmartContract);
+export type SmartContractDocument = HydratedDocument<SmartContract>;

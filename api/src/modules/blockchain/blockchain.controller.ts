@@ -18,6 +18,7 @@ import {
   CreateBlockchainSchema,
   ListBlockchainDto,
   UpdateBlockchainDto,
+  UpdateBlockchainSchema,
 } from '@app/dtos/blockchain';
 import { AuthGuard } from '@app/guards';
 import { BLOCKCHAIN_CONFIG } from '@app/models';
@@ -52,6 +53,7 @@ export class BlockchainController {
   }
 
   @Put(':id')
+  @UsePipes(new ZodValidationPipe(UpdateBlockchainSchema))
   update(
     @Param('id') id: number,
     @Body() updateBlockchainDto: UpdateBlockchainDto,

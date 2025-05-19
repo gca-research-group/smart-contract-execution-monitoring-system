@@ -18,6 +18,7 @@ import {
   CreateSmartContractSchema,
   ListSmartContractDto,
   UpdateSmartContractDto,
+  UpdateSmartContractSchema,
 } from '@app/dtos/smart-contract';
 import { AuthGuard } from '@app/guards';
 import { ZodValidationPipe } from '@app/pipes/zod';
@@ -46,6 +47,7 @@ export class SmartContractController {
   }
 
   @Put(':id')
+  @UsePipes(new ZodValidationPipe(UpdateSmartContractSchema))
   update(
     @Param('id') id: string,
     @Body() updateSmartContractDto: UpdateSmartContractDto,
@@ -56,11 +58,5 @@ export class SmartContractController {
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.service.remove(id);
-  }
-
-  @Post(':id/execute')
-  @HttpCode(HttpStatus.OK)
-  execute(@Param('id') id: number) {
-    return id;
   }
 }

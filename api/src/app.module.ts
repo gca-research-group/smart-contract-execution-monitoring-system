@@ -9,6 +9,7 @@ import { PUBLIC_FOLDER } from './const';
 import { typeorm } from './database/typeorm.config';
 import { AuthModule } from './modules/auth';
 import { BlockchainModule } from './modules/blockchain';
+import { ClauseExecutionModule } from './modules/clause-execution';
 import { SmartContractModule } from './modules/smart-contract';
 import { UserModule } from './modules/user';
 
@@ -44,6 +45,7 @@ import { UserModule } from './modules/user';
     }),
     AuthModule,
     BlockchainModule,
+    ClauseExecutionModule,
     SmartContractModule,
     UserModule,
   ],

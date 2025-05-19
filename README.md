@@ -82,10 +82,24 @@ This is an open-source project that aims to be a middleware between the software
 git clone https://github.com/gca-research-group/smart-contract-execution-monitoring-system.git
 ```
 
-- Running the database
+- Setting up the environment variables
+
+  - You must provide values for the environment variables for MongoDB, PostgreSQL, and RabbitMQ.
+  - Each service has its own env file. They are located at `.docker/scems/env`.
+  - There is an example file for each service.
+  - If you prefer, there is a script (`.scripts/scems/env.sh`) that fills in all variables automatically.
+
+- Running required services
 
 ```sh
-./.scripts/scems/up.sh
+# Mongo database
+./.scripts/scems/mongo/up.sh
+
+# PostgreSQL
+./.scripts/scems/postgres/up.sh
+
+# RabbitMq
+./.scripts/scems/rabbitmq/up.sh
 ```
 
 - Running the frontend
@@ -97,30 +111,32 @@ npm run start
 ```
 
 - Running the backend
+  - Installing dependencies
+  ```sh
+  cd api
+  npm i
+  ```
 
-```sh
-cd api
-npm i
-npm run start
-```
+  - Running the migrations
+  ```sh
+  cd api
+  npm run migration:run
+  ```
 
-- Running the migrations
+  - Running the seeds
+  ```sh
+  cd api
+  npm run seed
+  ```
 
-```sh
-cd api
-npm run migration:run
-```
+  - Starting the application
+  ```sh
+  npm run start
+  ```
 
-- Running the seeds
+- Accessing the application
 
-```sh
-cd api
-npm run seed
-```
-
-- Executing the application
-
-You have to access the address [https://localhost:4200](https://localhost:4200) on your web browser. The default user is `admin@admin.com` and the default password is `admin`
+Open [https://localhost:4200](https://localhost:4200) in your browser. The default user is `admin@admin.com` and the default password is `admin`
 
 ## License
 

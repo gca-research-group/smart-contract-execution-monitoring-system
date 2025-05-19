@@ -1,0 +1,20 @@
+services:
+  scems_rabbitmq:
+    image: rabbitmq:4.1.0-management-alpine
+    container_name: scems_rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    env_file:
+      - envs/.env.rabbitmq
+    volumes:
+      - scems_rabbitmq_volume:/var/lib/rabbitmq
+
+volumes:
+  scems_rabbitmq_volume:
+    name: scems_rabbitmq_volume
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./volumes/rabbitmq

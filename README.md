@@ -87,7 +87,7 @@ git clone https://github.com/gca-research-group/smart-contract-execution-monitor
   - You must provide values for the environment variables for MongoDB, PostgreSQL, and RabbitMQ.
   - Each service has its own env file. They are located at `.docker/scems/env`.
   - There is an example file for each service.
-  - If you prefer, there is a script (`.scripts/scems/env.sh`) that fills in all variables automatically.
+  - If you prefer, there is a script (`.scripts/scems/envs/up.sh`) that fills in all variables automatically.
 
 - Running required services
 

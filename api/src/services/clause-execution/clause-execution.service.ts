@@ -11,6 +11,8 @@ import {
 import { CrudBase } from '@app/models/interfaces';
 import { ClauseExecution, ClauseExecutionDocument } from '@app/models/schemas';
 
+import { SmartContractExecutionQueueService } from '../queue/smart-contract-execution-queue';
+
 @Injectable()
 export class ClauseExecutionService
   implements
@@ -24,6 +26,7 @@ export class ClauseExecutionService
   constructor(
     @InjectModel(ClauseExecution.name)
     private model: Model<ClauseExecutionDocument>,
+    private producerService: SmartContractExecutionQueueService,
   ) {}
   async findAll(options: ListClauseExecutionDto) {
     const pageSize = +(options.pageSize ?? 20);
@@ -56,8 +59,9 @@ export class ClauseExecutionService
     return item;
   }
 
-  create(data: CreateClauseExecutionDto) {
+  async create(data: CreateClauseExecutionDto) {
     const model = new this.model(data);
+    await this.producerService.send(data);
     return model.save();
   }
 

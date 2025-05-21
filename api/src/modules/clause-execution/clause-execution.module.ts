@@ -6,6 +6,7 @@ import { AuthService } from '@app/services/auth';
 import { ClauseExecutionService } from '@app/services/clause-execution';
 
 import { ClauseExecutionController } from './clause-execution.controller';
+import { QueueModule } from '../queue';
 import { UserModule } from '../user';
 
 @Module({
@@ -14,6 +15,7 @@ import { UserModule } from '../user';
     MongooseModule.forFeature([
       { name: ClauseExecution.name, schema: ClauseExecutionSchema },
     ]),
+    QueueModule,
   ],
   providers: [AuthService, ClauseExecutionService],
   controllers: [ClauseExecutionController],

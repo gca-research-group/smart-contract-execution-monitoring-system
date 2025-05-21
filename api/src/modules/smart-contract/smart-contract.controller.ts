@@ -10,12 +10,13 @@ import {
   Put,
   Query,
   UseGuards,
-  UsePipes,
 } from '@nestjs/common';
 
 import {
   CreateSmartContractDto,
   CreateSmartContractSchema,
+  ExecuteSmartContractDto,
+  ExecuteSmartContractSchema,
   ListSmartContractDto,
   UpdateSmartContractDto,
   UpdateSmartContractSchema,
@@ -41,22 +42,33 @@ export class SmartContractController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  @UsePipes(new ZodValidationPipe(CreateSmartContractSchema))
-  create(@Body() createSmartContractDto: CreateSmartContractDto) {
+  create(
+    @Body(new ZodValidationPipe(CreateSmartContractSchema))
+    createSmartContractDto: CreateSmartContractDto,
+  ) {
     return this.service.create(createSmartContractDto);
   }
 
   @Put(':id')
-  @UsePipes(new ZodValidationPipe(UpdateSmartContractSchema))
   update(
     @Param('id') id: string,
-    @Body() updateSmartContractDto: UpdateSmartContractDto,
+    @Body(new ZodValidationPipe(UpdateSmartContractSchema))
+    updateSmartContractDto: UpdateSmartContractDto,
   ) {
     return this.service.update(id, updateSmartContractDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number) {
+  remove(@Param('id') id: string) {
     return this.service.remove(id);
+  }
+
+  @Post(':id/execute')
+  @HttpCode(HttpStatus.CREATED)
+  execute(
+    @Body(new ZodValidationPipe(ExecuteSmartContractSchema))
+    executeSmartContractDto: ExecuteSmartContractDto,
+  ) {
+    return this.service.execute(executeSmartContractDto);
   }
 }

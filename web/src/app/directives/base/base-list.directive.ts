@@ -166,7 +166,6 @@ export abstract class BaseListDirective<T> implements AfterViewInit, OnDestroy {
         this.data = response.data;
         this.hasMore = response.hasMore;
         this.total = response.total;
-        console.log('[total]', this.total);
       },
       error: error => {
         console.log('[error]', error);

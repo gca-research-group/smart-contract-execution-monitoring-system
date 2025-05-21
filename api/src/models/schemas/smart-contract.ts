@@ -25,6 +25,7 @@ class Clause {
 }
 
 const ClauseSchema = SchemaFactory.createForClass(Clause);
+export type ClauseDocument = HydratedDocument<Clause>;
 
 @Schema()
 class File {
@@ -49,10 +50,16 @@ export class SmartContract {
   content: string;
 
   @Prop({ type: [ClauseSchema], default: [] })
-  clauses: Clause[];
+  clauses: ClauseDocument[];
 
   @Prop({ type: [FileSchema], default: [] })
   files: File[];
+
+  @Prop({ default: true })
+  status: boolean;
+
+  @Prop()
+  remarks: string;
 }
 
 export const SmartContractSchema = SchemaFactory.createForClass(SmartContract);

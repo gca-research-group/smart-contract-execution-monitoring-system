@@ -14,7 +14,7 @@ import { BREADCRUMB, CRUD_SERVICE } from '@app/tokens';
 
 const COLUMNS: Column[] = [
   {
-    id: 'id',
+    id: '_id',
     label: 'id',
   },
   {
@@ -86,7 +86,7 @@ export class ListComponent extends BaseListDirective<Blockchain> {
   private actionsRow = viewChild<TemplateRef<any>>('actionsRow');
 
   protected updateForm() {
-    this.form.addControl('id', new FormControl());
+    this.form.addControl('_id', new FormControl());
     this.form.addControl('name', new FormControl());
   }
 
@@ -107,7 +107,7 @@ export class ListComponent extends BaseListDirective<Blockchain> {
   override getCurrentItemId(
     item: Blockchain,
   ): string | number | null | undefined {
-    return item.id;
+    return item._id;
   }
 
   updateRouteQueryParameters() {

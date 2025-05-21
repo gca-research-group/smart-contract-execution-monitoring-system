@@ -1,7 +1,8 @@
-import { Column, Entity } from 'typeorm';
+import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
 
-import { BaseModel } from './base-model';
-import { BlockchainPlatform } from './enums';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+
+import { BlockchainPlatform } from '../enums';
 
 export const BLOCKCHAIN_CONFIG = {
   HYPERLEDGER_FABRIC: [
@@ -41,14 +42,17 @@ export const BLOCKCHAIN_CONFIG = {
   ],
 };
 
-@Entity({ name: 'blockchains' })
-export class Blockchain extends BaseModel {
-  @Column()
+@Schema({ timestamps: true })
+export class Blockchain {
+  @Prop()
   name: string;
 
-  @Column()
+  @Prop()
   platform: BlockchainPlatform;
 
-  @Column()
-  parameters: string;
+  @Prop({ type: MongooseSchema.Types.Mixed })
+  parameters: any;
 }
+
+export const BlockchainSchema = SchemaFactory.createForClass(Blockchain);
+export type BlockchainDocument = HydratedDocument<Blockchain>;

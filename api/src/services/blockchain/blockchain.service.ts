@@ -1,35 +1,84 @@
-import { FindOptionsWhere, ILike } from 'typeorm';
+import { Model } from 'mongoose';
 
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 
 import {
   CreateBlockchainDto,
   ListBlockchainDto,
   UpdateBlockchainDto,
 } from '@app/dtos/blockchain';
-import { Blockchain, BLOCKCHAIN_CONFIG } from '@app/models';
-
-import { CrudBaseService } from '../crud-base.service';
+import { CrudBase } from '@app/models/interfaces';
+import { Blockchain, BLOCKCHAIN_CONFIG } from '@app/models/schemas/blockchain';
 
 @Injectable()
-export class BlockchainService extends CrudBaseService<
-  Blockchain,
-  ListBlockchainDto,
-  CreateBlockchainDto,
-  UpdateBlockchainDto
->(Blockchain) {
-  buildWhereOptions(options: ListBlockchainDto): FindOptionsWhere<Blockchain> {
-    const whereOptions: FindOptionsWhere<Blockchain> = {};
+export class BlockchainService
+  implements
+    CrudBase<
+      Blockchain,
+      ListBlockchainDto,
+      CreateBlockchainDto,
+      UpdateBlockchainDto
+    >
+{
+  constructor(
+    @InjectModel(Blockchain.name)
+    private model: Model<Blockchain>,
+  ) {}
 
-    if (options.id) {
-      whereOptions['id'] = options.id;
+  async findAll(options: ListBlockchainDto) {
+    const pageSize = +(options.pageSize ?? 20);
+    const page = +(options.page ?? 1);
+
+    const offset = (page - 1) * pageSize;
+
+    const [data, total] = await Promise.all([
+      this.model.find().skip(offset).limit(pageSize).exec(),
+      this.model.countDocuments().exec(),
+    ]);
+
+    const totalPages = Math.ceil(total / pageSize);
+
+    return {
+      pages: totalPages,
+      page,
+      hasMore: page < totalPages,
+      total,
+      data,
+    };
+  }
+
+  async findOne(id: string) {
+    const item = await this.model.findById(id).exec();
+
+    if (!item) {
+      throw new BadRequestException('ITEM_NOT_FOUND');
     }
 
-    if (options.name) {
-      whereOptions['name'] = ILike(`%${options.name}%`);
+    return item;
+  }
+
+  create(data: CreateBlockchainDto) {
+    const model = new this.model(data);
+    return model.save();
+  }
+
+  async update(id: string, data: UpdateBlockchainDto) {
+    const item = await this.model
+      .findByIdAndUpdate(id, data, {
+        new: true,
+      })
+      .exec();
+
+    if (!item) {
+      throw new BadRequestException('ITEM_NOT_FOUND');
     }
 
-    return whereOptions;
+    return item;
+  }
+
+  async remove(id: string) {
+    await this.model.deleteOne({ _id: id });
   }
 
   config(platform: keyof typeof BLOCKCHAIN_CONFIG) {

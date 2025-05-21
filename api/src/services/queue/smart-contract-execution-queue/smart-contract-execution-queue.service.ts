@@ -3,7 +3,7 @@ import { Channel, ConfirmChannel } from 'amqplib';
 
 import { Injectable, Logger } from '@nestjs/common';
 
-import { CreateClauseExecutionDto } from '@app/dtos/clause-execution';
+import { ExecuteSmartContractDto } from '@app/dtos/smart-contract';
 import { ContractInvokerService } from '@app/services/contract-invoker';
 
 export const SMART_CONTRACT_EXECUTION_QUEUE = 'smart-contract-execution-queue';
@@ -31,9 +31,7 @@ export class SmartContractExecutionQueueService {
         await channel.consume(SMART_CONTRACT_EXECUTION_QUEUE, (message) => {
           if (message) {
             this.contractInvokerService.invoke(
-              JSON.parse(
-                message.content.toString(),
-              ) as CreateClauseExecutionDto,
+              JSON.parse(message.content.toString()) as ExecuteSmartContractDto,
             );
 
             channel.ack(message);

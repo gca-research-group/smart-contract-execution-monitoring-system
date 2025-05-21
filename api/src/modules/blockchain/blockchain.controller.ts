@@ -10,7 +10,6 @@ import {
   Put,
   Query,
   UseGuards,
-  UsePipes,
 } from '@nestjs/common';
 
 import {
@@ -21,7 +20,7 @@ import {
   UpdateBlockchainSchema,
 } from '@app/dtos/blockchain';
 import { AuthGuard } from '@app/guards';
-import { BLOCKCHAIN_CONFIG } from '@app/models';
+import { BLOCKCHAIN_CONFIG } from '@app/models/schemas/blockchain';
 import { ZodValidationPipe } from '@app/pipes/zod';
 import { BlockchainService } from '@app/services/blockchain';
 
@@ -41,28 +40,30 @@ export class BlockchainController {
   }
 
   @Get(':id')
-  show(@Param('id') id: number) {
+  show(@Param('id') id: string) {
     return this.service.findOne(id);
   }
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  @UsePipes(new ZodValidationPipe(CreateBlockchainSchema))
-  create(@Body() createBlockchainDto: CreateBlockchainDto) {
+  create(
+    @Body(new ZodValidationPipe(CreateBlockchainSchema))
+    createBlockchainDto: CreateBlockchainDto,
+  ) {
     return this.service.create(createBlockchainDto);
   }
 
   @Put(':id')
-  @UsePipes(new ZodValidationPipe(UpdateBlockchainSchema))
   update(
-    @Param('id') id: number,
-    @Body() updateBlockchainDto: UpdateBlockchainDto,
+    @Param('id') id: string,
+    @Body(new ZodValidationPipe(UpdateBlockchainSchema))
+    updateBlockchainDto: UpdateBlockchainDto,
   ) {
     return this.service.update(id, updateBlockchainDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number) {
+  remove(@Param('id') id: string) {
     return this.service.remove(id);
   }
 }

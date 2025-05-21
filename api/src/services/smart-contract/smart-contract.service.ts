@@ -5,11 +5,15 @@ import { InjectModel } from '@nestjs/mongoose';
 
 import {
   CreateSmartContractDto,
+  ExecuteSmartContractDto,
   ListSmartContractDto,
   UpdateSmartContractDto,
 } from '@app/dtos/smart-contract';
 import { CrudBase } from '@app/models/interfaces';
 import { SmartContract, SmartContractDocument } from '@app/models/schemas';
+
+import { BlockchainService } from '../blockchain';
+import { SmartContractExecutionQueueService } from '../queue/smart-contract-execution-queue';
 
 @Injectable()
 export class SmartContractService
@@ -24,6 +28,8 @@ export class SmartContractService
   constructor(
     @InjectModel(SmartContract.name)
     private model: Model<SmartContractDocument>,
+    private blockchainService: BlockchainService,
+    private producerService: SmartContractExecutionQueueService,
   ) {}
   async findAll(options: ListSmartContractDto) {
     const pageSize = +(options.pageSize ?? 20);
@@ -49,6 +55,7 @@ export class SmartContractService
 
   async findOne(id: string) {
     const item = await this.model.findById(id).exec();
+
     if (!item) {
       throw new BadRequestException('ITEM_NOT_FOUND');
     }
@@ -75,7 +82,22 @@ export class SmartContractService
     return item;
   }
 
-  async remove(id: number) {
-    await this.model.deleteOne({ id });
+  async remove(id: string) {
+    await this.model.deleteOne({ _id: id });
+  }
+
+  async execute(data: ExecuteSmartContractDto) {
+    const { blockchainId, smartContractId, clauseId } = data;
+
+    const blockchain = await this.blockchainService.findOne(blockchainId);
+    const smartContract = await this.findOne(smartContractId);
+    const clause = smartContract.clauses.find((item) => item.id === clauseId);
+
+    await this.producerService.send({
+      blockchain,
+      smartContract,
+      clause,
+      arguments: data.arguments,
+    });
   }
 }

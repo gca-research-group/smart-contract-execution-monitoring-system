@@ -35,8 +35,8 @@ export class BlockchainService implements CrudService<Blockchain> {
   }
 
   save(item: Blockchain) {
-    if (item.id) {
-      return this.http.put<Blockchain>(`${this.url}${item.id}`, item);
+    if (item._id) {
+      return this.http.put<Blockchain>(`${this.url}${item._id}`, item);
     }
 
     return this.http.post<Blockchain>(this.url, item);

@@ -58,7 +58,7 @@ import { BREADCRUMB, CRUD_SERVICE } from '@app/tokens';
 export class FormComponent extends BaseFormDirective<
   Blockchain,
   {
-    id: FormControl<number | null>;
+    _id: FormControl<string | null>;
     name: FormControl<string | null>;
     platform: FormControl<string | null>;
     parameters: FormGroup;
@@ -83,7 +83,7 @@ export class FormComponent extends BaseFormDirective<
 
   protected override buildForm(): void {
     this.form = this.formBuilder.group({
-      id: new FormControl(),
+      _id: new FormControl(),
       name: new FormControl('', [Validators.required]),
       platform: new FormControl('HYPERLEDGER_FABRIC', [Validators.required]),
       parameters: this.formBuilder.group({}),

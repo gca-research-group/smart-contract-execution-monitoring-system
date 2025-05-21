@@ -4,18 +4,13 @@ import { isAuthenticatedGuard } from '@app/guards';
 
 import { blockchainRoutes } from './blockchain';
 import { smartContractRoutes } from './smart-contract';
-import { smartContractExecutionRoutes } from './smart-contract-execution';
 import { WrapperComponent } from './wrapper';
 
 export const privateRoutes: Routes = [
   {
     path: '',
     component: WrapperComponent,
-    children: [
-      ...smartContractRoutes,
-      ...blockchainRoutes,
-      ...smartContractExecutionRoutes,
-    ],
+    children: [...blockchainRoutes, ...smartContractRoutes],
     canActivate: [isAuthenticatedGuard],
   },
 ];

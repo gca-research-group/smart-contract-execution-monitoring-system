@@ -1,6 +1,6 @@
 <form [formGroup]="form" class="mb-3 d-flex" style="gap: 8px" #filters>
   <app-input
-    formControlName="id"
+    formControlName="_id"
     label="id"
     type="number"
     [min]="1"
@@ -34,7 +34,7 @@
   </ng-template>
   <ng-template #actionsRow let-element="element">
     <div style="display: flex; justify-content: center; width: 100%">
-      <a [routerLink]="['./', element.id]">
+      <a [routerLink]="['./', element._id]">
         <app-icon-button icon="edit_square" tooltip="edit" />
       </a>
       <app-icon-button

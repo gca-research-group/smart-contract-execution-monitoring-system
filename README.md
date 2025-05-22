@@ -69,6 +69,8 @@ This is an open-source project that aims to be a middleware between the software
 
 > Currently, you can only execute this project by cloning it. However, we are working on developing a Docker image. Therefore, in the coming weeks, you will be able to run it with a single, fast command.
 
+> We have created some shell scripts to ease the execution of certain commands. If you are a Windows user, we recommend using the Git Bash terminal.
+
 ### Prerequisites
 
 - Docker

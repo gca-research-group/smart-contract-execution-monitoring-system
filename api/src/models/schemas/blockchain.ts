@@ -22,6 +22,11 @@ export const BLOCKCHAIN_CONFIG = {
       description: 'peer0.org1.example.com',
     },
     {
+      field: 'channel',
+      description: '',
+      type: 'string',
+    },
+    {
       field: 'signcert',
       description:
         'You can find it at crypto-materials/peerOrganizations/org*/users/User*@org*/msp/signcerts',
@@ -51,7 +56,7 @@ export class Blockchain {
   platform: BlockchainPlatform;
 
   @Prop({ type: MongooseSchema.Types.Mixed })
-  parameters: any;
+  parameters: unknown;
 }
 
 export const BlockchainSchema = SchemaFactory.createForClass(Blockchain);

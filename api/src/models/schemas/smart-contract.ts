@@ -14,6 +14,7 @@ class Argument {
 }
 
 const ArgumentSchema = SchemaFactory.createForClass(Argument);
+export type ArgumentDocument = HydratedDocument<Argument>;
 
 @Schema()
 class Clause {
@@ -21,7 +22,7 @@ class Clause {
   name: string;
 
   @Prop({ type: [ArgumentSchema], default: [] })
-  arguments: Argument[];
+  arguments: ArgumentDocument[];
 }
 
 const ClauseSchema = SchemaFactory.createForClass(Clause);
@@ -37,6 +38,7 @@ class File {
 }
 
 const FileSchema = SchemaFactory.createForClass(File);
+export type FileDocument = HydratedDocument<File>;
 
 @Schema({ timestamps: true })
 export class SmartContract {
@@ -53,7 +55,7 @@ export class SmartContract {
   clauses: ClauseDocument[];
 
   @Prop({ type: [FileSchema], default: [] })
-  files: File[];
+  files: FileDocument[];
 
   @Prop({ default: true })
   status: boolean;

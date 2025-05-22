@@ -5,4 +5,5 @@ export interface HyperledgerFabricConfig {
   cacrt: string;
   peerEndpoint: string;
   peerHostAlias: string;
+  channel: string;
 }

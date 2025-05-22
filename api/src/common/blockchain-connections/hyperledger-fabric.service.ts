@@ -1,8 +1,9 @@
 import * as grpc from '@grpc/grpc-js';
 import {
-  connect,
+  connect as connectToFabric,
   hash,
   Identity,
+  Network,
   Signer,
   signers,
 } from '@hyperledger/fabric-gateway';
@@ -12,11 +13,35 @@ import { Injectable } from '@nestjs/common';
 
 import { HyperledgerFabricConfig } from '@app/models/interfaces';
 
+export interface IBlockchainConnectionService<
+  ConnectionParameters = unknown,
+  ConnectResponse = unknown,
+  Connection = unknown,
+  InvokeResponse = unknown,
+> {
+  connect(parameters: ConnectionParameters): Promise<ConnectResponse>;
+  invoke(
+    connection: Connection,
+    smartContractName: string,
+    clauseName: string,
+    args?: { name: string; value: string }[],
+  ): Promise<InvokeResponse>;
+}
+
 @Injectable()
-export class HyperledgerFabricConnectionService {
-  connection(parameters: HyperledgerFabricConfig) {
-    const { mspId, signcert, keystore, cacrt, peerEndpoint, peerHostAlias } =
-      parameters;
+export class HyperledgerFabricConnectionService
+  implements IBlockchainConnectionService
+{
+  connect(parameters: HyperledgerFabricConfig) {
+    const {
+      mspId,
+      signcert,
+      keystore,
+      cacrt,
+      peerEndpoint,
+      peerHostAlias,
+      channel,
+    } = parameters;
 
     const client = this.newGrpcConnection(
       Buffer.from(cacrt, 'utf8'),
@@ -24,7 +49,7 @@ export class HyperledgerFabricConnectionService {
       peerHostAlias,
     );
 
-    return connect({
+    const connection = connectToFabric({
       client,
       identity: this.newIdentity(mspId, Buffer.from(signcert)),
       signer: this.newSigner(keystore),
@@ -43,6 +68,10 @@ export class HyperledgerFabricConnectionService {
         return { deadline: Date.now() + 60000 }; // 1 minute
       },
     });
+
+    const network = connection.getNetwork(channel);
+
+    return Promise.resolve(network);
   }
 
   private newGrpcConnection(
@@ -63,5 +92,16 @@ export class HyperledgerFabricConnectionService {
 
   private newIdentity(mspId: string, cert: Buffer): Identity {
     return { mspId, credentials: Buffer.from(cert) };
+  }
+
+  async invoke(
+    network: Network,
+    smartContractName: string,
+    clauseName: string,
+  ) {
+    const contract = network.getContract(smartContractName);
+    const resultBytes = await contract.evaluateTransaction(clauseName);
+    const resultJson = new TextDecoder().decode(resultBytes);
+    return JSON.parse(resultJson) as unknown;
   }
 }

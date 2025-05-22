@@ -3,7 +3,7 @@ import { Channel, ConfirmChannel } from 'amqplib';
 
 import { Injectable, Logger } from '@nestjs/common';
 
-import { ExecuteSmartContractDto } from '@app/dtos/smart-contract';
+import { ContractInvokerDto } from '@app/dtos';
 import { ContractInvokerService } from '@app/services/contract-invoker';
 
 export const SMART_CONTRACT_EXECUTION_QUEUE = 'smart-contract-execution-queue';
@@ -30,11 +30,16 @@ export class SmartContractExecutionQueueService {
       await this.channelWrapper.addSetup(async (channel: ConfirmChannel) => {
         await channel.consume(SMART_CONTRACT_EXECUTION_QUEUE, (message) => {
           if (message) {
-            this.contractInvokerService.invoke(
-              JSON.parse(message.content.toString()) as ExecuteSmartContractDto,
-            );
-
-            channel.ack(message);
+            this.contractInvokerService
+              .invoke(
+                JSON.parse(message.content.toString()) as ContractInvokerDto,
+              )
+              .then(() => {
+                channel.ack(message);
+              })
+              .catch((err) => {
+                this.logger.error('Error processing message:', err);
+              });
           }
         });
       });
@@ -43,11 +48,11 @@ export class SmartContractExecutionQueueService {
     }
   }
 
-  async send<T>(mail: T) {
+  async send(data: ContractInvokerDto) {
     try {
       await this.channelWrapper.sendToQueue(
         SMART_CONTRACT_EXECUTION_QUEUE,
-        Buffer.from(JSON.stringify(mail)),
+        Buffer.from(JSON.stringify(data)),
         {
           persistent: true,
         },

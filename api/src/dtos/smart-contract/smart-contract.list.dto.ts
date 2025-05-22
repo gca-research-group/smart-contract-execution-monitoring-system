@@ -1,4 +1,4 @@
-import { ListBaseDto } from '../list-base-dto';
+import { ListBaseDto } from '../list-base.dto';
 
 export interface ListSmartContractDto extends ListBaseDto {
   name: string;

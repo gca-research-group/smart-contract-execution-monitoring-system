@@ -75,7 +75,10 @@ const COLUMNS: Column[] = [
     },
   ],
 })
-export class ListComponent extends BaseListDirective<Blockchain> {
+export class ListComponent extends BaseListDirective<
+  Blockchain,
+  BlockchainService
+> {
   columns = COLUMNS;
 
   displayedColumns = COLUMNS.map(column => column.id);
@@ -101,6 +104,14 @@ export class ListComponent extends BaseListDirective<Blockchain> {
         templateRow: this.actionsRow(),
         templateColumn: this.actionsColumn(),
       };
+    });
+  }
+
+  testConnection(id: string) {
+    this.service.testConnection(id).subscribe({
+      next: () => {
+        this.toastr.success('THE_CONNECTION_IS_UP');
+      },
     });
   }
 

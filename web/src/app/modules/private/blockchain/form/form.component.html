@@ -28,7 +28,7 @@
       @if (parameter.type === 'string') {
         <app-input
           [formControlName]="parameter.field"
-          [label]="`${parameter.field} (${parameter.description})`"
+          [label]="parameter.description ? `${parameter.field} (${parameter.description})` : parameter.field"
           class="col"
         />
       } @else if (parameter.type === 'text') {

@@ -3,12 +3,14 @@ import { Model } from 'mongoose';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
+import { BlockchainConnectionFactory } from '@app/common/blockchain-connections';
+import { HyperledgerFabricConnectionService } from '@app/common/blockchain-connections/hyperledger-fabric.service';
 import {
   CreateBlockchainDto,
   ListBlockchainDto,
   UpdateBlockchainDto,
 } from '@app/dtos/blockchain';
-import { CrudBase } from '@app/models/interfaces';
+import { CrudBase, HyperledgerFabricConfig } from '@app/models/interfaces';
 import { Blockchain, BLOCKCHAIN_CONFIG } from '@app/models/schemas/blockchain';
 
 @Injectable()
@@ -83,5 +85,14 @@ export class BlockchainService
 
   config(platform: keyof typeof BLOCKCHAIN_CONFIG) {
     return BLOCKCHAIN_CONFIG[platform];
+  }
+
+  async testConnection(id: string) {
+    const blockchain = await this.findOne(id);
+    const service =
+      BlockchainConnectionFactory.getService<HyperledgerFabricConnectionService>(
+        blockchain.platform,
+      );
+    return service.connect(blockchain.parameters as HyperledgerFabricConfig);
   }
 }

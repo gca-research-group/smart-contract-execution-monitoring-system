@@ -26,11 +26,11 @@ export class BlockchainService implements CrudService<Blockchain> {
     });
   }
 
-  findById(id: number) {
+  findById(id: string) {
     return this.http.get<Blockchain>(`${this.url}${id}`);
   }
 
-  delete(id: number) {
+  delete(id: string) {
     return this.http.delete<void>(`${this.url}${id}`);
   }
 
@@ -40,5 +40,9 @@ export class BlockchainService implements CrudService<Blockchain> {
     }
 
     return this.http.post<Blockchain>(this.url, item);
+  }
+
+  testConnection(id: string) {
+    return this.http.get<void>(`${this.url}${id}/test-connection`);
   }
 }

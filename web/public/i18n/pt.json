@@ -26,6 +26,7 @@
   "save": "Salvar",
   "settings": "Configurações",
   "smart-contracts": "Contratos Inteligentes",
+  "test-blockchain-connection": "Testar conexão com a blockchain",
   "type": "Tipo",
   "updatedAt": "Data de Atualizaçao"
 }

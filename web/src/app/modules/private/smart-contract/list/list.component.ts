@@ -75,7 +75,10 @@ const COLUMNS: Column[] = [
     },
   ],
 })
-export class ListComponent extends BaseListDirective<SmartContract> {
+export class ListComponent extends BaseListDirective<
+  SmartContract,
+  SmartContractService
+> {
   columns = COLUMNS;
 
   displayedColumns = COLUMNS.map(column => column.id);

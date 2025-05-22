@@ -22,9 +22,11 @@ import { BREADCRUMB, CRUD_SERVICE } from '@app/tokens';
 import { removeEmptyKeys } from '@app/utils';
 
 @Directive()
-export abstract class BaseListDirective<T> implements AfterViewInit, OnDestroy {
+export abstract class BaseListDirective<T, R extends CrudService<T>>
+  implements AfterViewInit, OnDestroy
+{
   protected breadcrumbService = inject(BreadcrumbService);
-  protected service = inject<CrudService<T>>(CRUD_SERVICE);
+  protected service = inject<R>(CRUD_SERVICE);
   protected formBuilder = inject(FormBuilder);
   protected cdk = inject(ChangeDetectorRef);
   protected activatedRoute = inject(ActivatedRoute);

@@ -42,6 +42,11 @@
         tooltip="delete"
         (click)="openDialog(element)"
       />
+      <app-icon-button
+        icon="play_circle"
+        tooltip="test-blockchain-connection"
+        (click)="testConnection(element._id)"
+      />
     </div>
   </ng-template>
 </app-table>

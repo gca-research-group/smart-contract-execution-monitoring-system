@@ -26,6 +26,7 @@
   "save": "Save",
   "settings": "Settings",
   "smart-contracts": "Smart Contracts",
+  "test-blockchain-connection": "Test the blockchain connection",
   "type": "Type",
   "updatedAt": "Updated At"
 }

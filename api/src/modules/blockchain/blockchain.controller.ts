@@ -66,4 +66,9 @@ export class BlockchainController {
   remove(@Param('id') id: string) {
     return this.service.remove(id);
   }
+
+  @Get(':id/test-connection')
+  testConnection(@Param('id') id: string) {
+    return this.service.testConnection(id);
+  }
 }

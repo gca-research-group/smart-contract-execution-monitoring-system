@@ -8,7 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import {
   createFileFromBase64,
-  extFromBase64,
+  getExtensionFromBase64,
   hashPassword,
 } from '@app/common/utils';
 import { PUBLIC_FOLDER } from '@app/const';
@@ -112,7 +112,7 @@ export class UserService {
   }
 
   private saveFile(filepath: string, content: string) {
-    const ext = extFromBase64(content);
+    const ext = getExtensionFromBase64(content);
     const filename = `${uuidv4()}.${ext}`;
 
     createFileFromBase64(content, join(filepath, filename));

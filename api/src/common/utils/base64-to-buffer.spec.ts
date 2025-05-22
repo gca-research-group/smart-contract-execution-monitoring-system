@@ -1,5 +1,5 @@
 import { FILE_CONTENT } from './__tests__/const';
-import { base64ToBuffer } from './base64ToBuffer';
+import { base64ToBuffer } from './base64-to-buffer';
 
 describe('base64ToBuffer', () => {
   it('should throw an exception if the content is empty', () => {

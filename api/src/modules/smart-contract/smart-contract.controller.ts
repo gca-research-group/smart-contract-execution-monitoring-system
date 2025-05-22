@@ -63,7 +63,7 @@ export class SmartContractController {
     return this.service.remove(id);
   }
 
-  @Post(':id/execute')
+  @Post('execute')
   @HttpCode(HttpStatus.CREATED)
   execute(
     @Body(new ZodValidationPipe(ExecuteSmartContractSchema))

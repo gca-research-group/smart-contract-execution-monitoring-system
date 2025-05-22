@@ -1,4 +1,4 @@
-import { hashPassword } from './hashPassword';
+import { hashPassword } from './hash-password';
 
 describe('hashPassword', () => {
   it('should hash the password', () => {

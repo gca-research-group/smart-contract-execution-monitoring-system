@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 
-export const extFromBase64 = (content: string) => {
+export const getExtensionFromBase64 = (content: string) => {
   if (!content.includes(';base64')) {
     throw new BadRequestException('INVALID_FILE');
   }

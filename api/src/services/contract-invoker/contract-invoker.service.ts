@@ -1,11 +1,16 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 
-import { BlockchainConnectionFactory } from '@app/common/blockchain-connections';
 import { ContractInvokerDto } from '@app/dtos';
+import { BlockchainConnectionFactory } from '@app/factories';
+
+import { SmartContractOutboundQueueService } from '../smart-contract-queue/smart-contract-execution-queue';
 
 @Injectable()
 export class ContractInvokerService {
-  private readonly logger = new Logger(ContractInvokerService.name);
+  constructor(
+    @Inject(forwardRef(() => SmartContractOutboundQueueService))
+    private smartContractOutboundQueueService: SmartContractOutboundQueueService,
+  ) {}
 
   async invoke(data: ContractInvokerDto) {
     const {
@@ -25,6 +30,6 @@ export class ContractInvokerService {
       clauseName,
     );
 
-    this.logger.log(`processing the clause: ${JSON.stringify(result)}`);
+    await this.smartContractOutboundQueueService.send(result);
   }
 }

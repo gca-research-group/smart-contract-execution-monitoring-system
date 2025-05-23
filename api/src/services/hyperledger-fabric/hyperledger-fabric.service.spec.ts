@@ -1,7 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { BLOCKCHAIN_CONNECTIONS } from './blockchain-connections.const';
-import { BlockchainConnetionsModule } from './blockchain-connections.module';
 import { HyperledgerFabricConnectionService } from './hyperledger-fabric.service';
 
 describe('HyperledgerFabricConnectionService', () => {
@@ -9,10 +7,10 @@ describe('HyperledgerFabricConnectionService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [BlockchainConnetionsModule],
+      providers: [HyperledgerFabricConnectionService],
     }).compile();
 
-    service = module.get(BLOCKCHAIN_CONNECTIONS.HYPERLEDGER_FABRIC);
+    service = module.get(HyperledgerFabricConnectionService);
   });
 
   it('should be defined', () => {

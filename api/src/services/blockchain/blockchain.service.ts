@@ -3,15 +3,16 @@ import { Model } from 'mongoose';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
-import { BlockchainConnectionFactory } from '@app/common/blockchain-connections';
-import { HyperledgerFabricConnectionService } from '@app/common/blockchain-connections/hyperledger-fabric.service';
 import {
   CreateBlockchainDto,
   ListBlockchainDto,
   UpdateBlockchainDto,
 } from '@app/dtos/blockchain';
+import { BlockchainConnectionFactory } from '@app/factories';
 import { CrudBase, HyperledgerFabricConfig } from '@app/models/interfaces';
 import { Blockchain, BLOCKCHAIN_CONFIG } from '@app/models/schemas/blockchain';
+
+import { HyperledgerFabricConnectionService } from '../hyperledger-fabric';
 
 @Injectable()
 export class BlockchainService

@@ -3,8 +3,6 @@ import { Channel, ConfirmChannel } from 'amqplib';
 
 import { Injectable, Logger } from '@nestjs/common';
 
-import { ContractInvokerDto } from '@app/dtos';
-
 export const SMART_CONTRACT_OUTBOUND_QUEUE = 'smart-contract-outbound-queue';
 
 @Injectable()
@@ -38,7 +36,7 @@ export class SmartContractOutboundQueueService {
     }
   }
 
-  async send(data: ContractInvokerDto) {
+  async send(data: unknown) {
     try {
       await this.channelWrapper.sendToQueue(
         SMART_CONTRACT_OUTBOUND_QUEUE,

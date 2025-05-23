@@ -21,7 +21,7 @@ import { SmartContract, SmartContractDocument } from '@app/models/schemas';
 import { BlockchainDocument } from '@app/models/schemas/blockchain';
 
 import { BlockchainService } from '../blockchain';
-import { SmartContractExecutionQueueService } from '../queue/smart-contract-execution-queue';
+import { SmartContractExecutionQueueService } from '../smart-contract-queue/smart-contract-execution-queue';
 
 @Injectable()
 export class SmartContractService

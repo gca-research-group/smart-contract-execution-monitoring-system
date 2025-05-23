@@ -11,22 +11,10 @@ import * as crypto from 'crypto';
 
 import { Injectable } from '@nestjs/common';
 
-import { HyperledgerFabricConfig } from '@app/models/interfaces';
-
-export interface IBlockchainConnectionService<
-  ConnectionParameters = unknown,
-  ConnectResponse = unknown,
-  Connection = unknown,
-  InvokeResponse = unknown,
-> {
-  connect(parameters: ConnectionParameters): Promise<ConnectResponse>;
-  invoke(
-    connection: Connection,
-    smartContractName: string,
-    clauseName: string,
-    args?: { name: string; value: string }[],
-  ): Promise<InvokeResponse>;
-}
+import {
+  HyperledgerFabricConfig,
+  IBlockchainConnectionService,
+} from '@app/models/interfaces';
 
 @Injectable()
 export class HyperledgerFabricConnectionService

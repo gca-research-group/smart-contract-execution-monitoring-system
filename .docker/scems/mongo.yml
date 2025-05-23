@@ -2,13 +2,13 @@ services:
   scems_mongo:
     container_name: scems_mongo
     image: mongo:latest
-    restart: unless-stopped
     ports:
       - "27017:27017"
     env_file:
       - envs/.env.mongo
     networks:
       - scems_network
+    restart: unless-stopped
     volumes:
       - scems_mongo_volume:/data/db
 

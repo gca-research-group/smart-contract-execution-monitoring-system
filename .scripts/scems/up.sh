@@ -1,4 +1,4 @@
 #!/bin/bash
-./.scripts/scems/down.sh
-./.scripts/scems/api/up.sh
+./.scripts/scems/mongo/up.sh
+./.scripts/scems/postgres/up.sh
 ./.scripts/scems/rabbitmq/up.sh

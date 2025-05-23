@@ -11,7 +11,7 @@ services:
       - envs/.env.postgres
     networks:
       - scems_network
-    restart: always
+    restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready", "-d", "scemsdb"]
       interval: 30s

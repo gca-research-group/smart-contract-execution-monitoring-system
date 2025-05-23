@@ -7,6 +7,9 @@ services:
       - "15672:15672"
     env_file:
       - envs/.env.rabbitmq
+    networks:
+      - scems_network
+    restart: unless-stopped
     volumes:
       - scems_rabbitmq_volume:/var/lib/rabbitmq
 

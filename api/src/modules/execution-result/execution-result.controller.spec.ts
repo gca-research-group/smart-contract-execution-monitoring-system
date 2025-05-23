@@ -3,20 +3,20 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 
 import { AppTestingModule } from '@app/app-testing.module';
 import { User } from '@app/models';
-import { SmartContractService } from '@app/modules/smart-contract/services';
+import { ExecutionResultService } from '@app/modules/execution-result/services';
 
-import { SmartContractController } from './smart-contract.controller';
+import { ExecutionResultController } from './execution-result.controller';
 import { AuthService } from '../auth/services';
 import { UserService } from '../user/services';
 
-describe('SmartContractController', () => {
-  let controller: SmartContractController;
+describe('ExecutionResultController', () => {
+  let controller: ExecutionResultController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [AppTestingModule],
       providers: [
-        SmartContractService,
+        ExecutionResultService,
         AuthService,
         UserService,
         {
@@ -24,10 +24,12 @@ describe('SmartContractController', () => {
           useValue: {},
         },
       ],
-      controllers: [SmartContractController],
+      controllers: [ExecutionResultController],
     }).compile();
 
-    controller = module.get<SmartContractController>(SmartContractController);
+    controller = module.get<ExecutionResultController>(
+      ExecutionResultController,
+    );
   });
 
   it('should be defined', () => {

@@ -22,7 +22,8 @@ import {
 import { AuthGuard } from '@app/guards';
 import { BLOCKCHAIN_CONFIG } from '@app/models/schemas/blockchain';
 import { ZodValidationPipe } from '@app/pipes/zod';
-import { BlockchainService } from '@app/services/blockchain';
+
+import { BlockchainService } from './services';
 
 @UseGuards(AuthGuard)
 @Controller('blockchain')

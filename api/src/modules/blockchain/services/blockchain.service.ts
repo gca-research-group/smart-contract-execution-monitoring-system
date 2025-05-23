@@ -11,8 +11,7 @@ import {
 import { BlockchainConnectionFactory } from '@app/factories';
 import { CrudBase, HyperledgerFabricConfig } from '@app/models/interfaces';
 import { Blockchain, BLOCKCHAIN_CONFIG } from '@app/models/schemas/blockchain';
-
-import { HyperledgerFabricConnectionService } from '../hyperledger-fabric';
+import { HyperledgerFabricConnectionService } from '@app/modules/hyperledger-fabric/services';
 
 @Injectable()
 export class BlockchainService
@@ -61,9 +60,9 @@ export class BlockchainService
     return item;
   }
 
-  create(data: CreateBlockchainDto) {
+  async create(data: CreateBlockchainDto) {
     const model = new this.model(data);
-    return model.save();
+    return await model.save();
   }
 
   async update(id: string, data: UpdateBlockchainDto) {

@@ -14,7 +14,8 @@ import {
 import { CreateUserDto, CreateUserSchema, UpdateUserDto } from '@app/dtos/user';
 import { AuthGuard } from '@app/guards';
 import { ZodValidationPipe } from '@app/pipes/zod';
-import { UserService } from '@app/services/user';
+
+import { UserService } from './services';
 
 @UseGuards(AuthGuard)
 @Controller('user')

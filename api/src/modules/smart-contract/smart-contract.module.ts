@@ -2,12 +2,12 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { SmartContract, SmartContractSchema } from '@app/models/schemas';
-import { AuthService } from '@app/services/auth';
-import { SmartContractService } from '@app/services/smart-contract';
-import { SmartContractQueueModule } from '@app/services/smart-contract-queue/smart-contract-execution-queue';
+import { SmartContractService } from '@app/modules/smart-contract/services';
 
 import { SmartContractController } from './smart-contract.controller';
+import { AuthService } from '../auth/services';
 import { BlockchainModule } from '../blockchain';
+import { SmartContractQueueModule } from '../smart-contract-execution-queue';
 import { UserModule } from '../user';
 
 @Module({

@@ -17,11 +17,13 @@ import {
   InvalidClauseException,
 } from '@app/exceptions';
 import { CrudBase } from '@app/models/interfaces';
-import { SmartContract, SmartContractDocument } from '@app/models/schemas';
-import { BlockchainDocument } from '@app/models/schemas/blockchain';
-
-import { BlockchainService } from '../blockchain';
-import { SmartContractExecutionQueueService } from '../smart-contract-queue/smart-contract-execution-queue';
+import {
+  BlockchainDocument,
+  SmartContract,
+  SmartContractDocument,
+} from '@app/models/schemas';
+import { BlockchainService } from '@app/modules/blockchain/services';
+import { SmartContractExecutionQueueService } from '@app/modules/smart-contract-execution-queue/services';
 
 @Injectable()
 export class SmartContractService
@@ -38,7 +40,7 @@ export class SmartContractService
     @InjectModel(SmartContract.name)
     private model: Model<SmartContractDocument>,
     private blockchainService: BlockchainService,
-    private producerService: SmartContractExecutionQueueService,
+    private smartContractExecutionQueueService: SmartContractExecutionQueueService,
   ) {}
   async findAll(options: ListSmartContractDto) {
     const pageSize = +(options.pageSize ?? 20);
@@ -135,10 +137,11 @@ export class SmartContractService
       throw new InvalidArgumentException();
     }
 
-    await this.producerService.send({
+    await this.smartContractExecutionQueueService.send({
       blockchainParameters: blockchain.parameters,
       blockchainPlatform: blockchain.platform,
       smartContractName: smartContract.name,
+      smartContractId: String(smartContract.id),
       clauseName: clause.name,
       arguments: data.arguments?.map((item) => ({
         ...item,

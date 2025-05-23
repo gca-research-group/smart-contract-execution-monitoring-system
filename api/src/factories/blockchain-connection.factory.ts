@@ -1,6 +1,6 @@
 import { BlockchainPlatform } from '@app/models/enums';
 import { IBlockchainConnectionService } from '@app/models/interfaces';
-import { HyperledgerFabricConnectionService } from '@app/services/hyperledger-fabric';
+import { HyperledgerFabricConnectionService } from '@app/modules/hyperledger-fabric/services';
 
 export class BlockchainConnectionFactory {
   private static instances: Map<string, IBlockchainConnectionService> =

@@ -12,7 +12,8 @@ import {
 } from '@nestjs/common';
 
 import { LoginDto } from '@app/dtos';
-import { AuthService } from '@app/services/auth';
+
+import { AuthService } from './services';
 
 @Controller('auth')
 export class AuthController {

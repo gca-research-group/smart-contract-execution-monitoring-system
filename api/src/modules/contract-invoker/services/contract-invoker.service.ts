@@ -2,8 +2,7 @@ import { forwardRef, Inject, Injectable } from '@nestjs/common';
 
 import { ContractInvokerDto } from '@app/dtos';
 import { BlockchainConnectionFactory } from '@app/factories';
-
-import { SmartContractOutboundQueueService } from '../smart-contract-queue/smart-contract-execution-queue';
+import { SmartContractOutboundQueueService } from '@app/modules/smart-contract-execution-queue/services';
 
 @Injectable()
 export class ContractInvokerService {
@@ -17,6 +16,7 @@ export class ContractInvokerService {
       blockchainPlatform,
       blockchainParameters,
       smartContractName,
+      smartContractId,
       clauseName,
     } = data;
 
@@ -30,6 +30,9 @@ export class ContractInvokerService {
       clauseName,
     );
 
-    await this.smartContractOutboundQueueService.send(result);
+    await this.smartContractOutboundQueueService.send({
+      smartContractId,
+      result,
+    });
   }
 }

@@ -4,7 +4,7 @@ import { Channel, ConfirmChannel } from 'amqplib';
 import { Injectable, Logger } from '@nestjs/common';
 
 import { ContractInvokerDto } from '@app/dtos';
-import { ContractInvokerService } from '@app/services/contract-invoker';
+import { ContractInvokerService } from '@app/modules/contract-invoker/services';
 
 export const SMART_CONTRACT_EXECUTION_QUEUE = 'smart-contract-execution-queue';
 

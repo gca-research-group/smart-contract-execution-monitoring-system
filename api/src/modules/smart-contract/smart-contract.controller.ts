@@ -22,8 +22,8 @@ import {
   UpdateSmartContractSchema,
 } from '@app/dtos/smart-contract';
 import { AuthGuard } from '@app/guards';
+import { SmartContractService } from '@app/modules/smart-contract/services';
 import { ZodValidationPipe } from '@app/pipes/zod';
-import { SmartContractService } from '@app/services/smart-contract';
 
 @UseGuards(AuthGuard)
 @Controller('smart-contract')

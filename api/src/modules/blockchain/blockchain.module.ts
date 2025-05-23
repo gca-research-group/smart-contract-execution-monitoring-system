@@ -2,11 +2,11 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { Blockchain, BlockchainSchema } from '@app/models/schemas/blockchain';
-import { AuthService } from '@app/services/auth';
-import { BlockchainService } from '@app/services/blockchain';
 
 import { BlockchainController } from './blockchain.controller';
 import { UserModule } from '../user';
+import { BlockchainService } from './services';
+import { AuthService } from '../auth/services';
 
 @Module({
   imports: [

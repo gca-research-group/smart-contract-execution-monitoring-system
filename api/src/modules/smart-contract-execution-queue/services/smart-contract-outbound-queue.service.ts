@@ -3,6 +3,9 @@ import { Channel, ConfirmChannel } from 'amqplib';
 
 import { Injectable, Logger } from '@nestjs/common';
 
+import { EventUpdater } from '@app/dtos';
+import { ExecutionResultService } from '@app/modules/execution-result/services';
+
 export const SMART_CONTRACT_OUTBOUND_QUEUE = 'smart-contract-outbound-queue';
 
 @Injectable()
@@ -10,7 +13,7 @@ export class SmartContractOutboundQueueService {
   private readonly logger = new Logger(SmartContractOutboundQueueService.name);
   private channelWrapper: ChannelWrapper;
 
-  constructor() {
+  constructor(private eventUpdaterService: ExecutionResultService) {
     this.connect();
   }
 
@@ -27,7 +30,14 @@ export class SmartContractOutboundQueueService {
       await this.channelWrapper.addSetup(async (channel: ConfirmChannel) => {
         await channel.consume(SMART_CONTRACT_OUTBOUND_QUEUE, (message) => {
           if (message) {
-            // TODO: add service to process the message
+            this.eventUpdaterService
+              .create(JSON.parse(message.content.toString()) as EventUpdater)
+              .then(() => {
+                channel.ack(message);
+              })
+              .catch((err) => {
+                this.logger.error('Error processing message:', err);
+              });
           }
         });
       });

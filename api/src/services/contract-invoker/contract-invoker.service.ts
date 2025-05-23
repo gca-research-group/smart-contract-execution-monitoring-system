@@ -15,11 +15,6 @@ export class ContractInvokerService {
       clauseName,
     } = data;
 
-    if (!clauseName) {
-      this.logger.warn(`The clause's name is empty.`);
-      return;
-    }
-
     const service = BlockchainConnectionFactory.getService(blockchainPlatform);
 
     const connection = await service.connect(blockchainParameters);

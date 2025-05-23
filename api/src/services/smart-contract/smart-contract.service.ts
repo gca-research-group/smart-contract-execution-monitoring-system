@@ -9,8 +9,16 @@ import {
   ListSmartContractDto,
   UpdateSmartContractDto,
 } from '@app/dtos/smart-contract';
+import {
+  BlockchainNotFoundException,
+  ContractNotFoundException,
+  InvalidArgumentException,
+  InvalidBlockchainPlatformException,
+  InvalidClauseException,
+} from '@app/exceptions';
 import { CrudBase } from '@app/models/interfaces';
 import { SmartContract, SmartContractDocument } from '@app/models/schemas';
+import { BlockchainDocument } from '@app/models/schemas/blockchain';
 
 import { BlockchainService } from '../blockchain';
 import { SmartContractExecutionQueueService } from '../queue/smart-contract-execution-queue';
@@ -90,19 +98,51 @@ export class SmartContractService
   async execute(data: ExecuteSmartContractDto) {
     const { blockchainId, smartContractId, clauseId } = data;
 
-    const blockchain = await this.blockchainService.findOne(blockchainId);
-    const smartContract = await this.findOne(smartContractId);
+    let blockchain: BlockchainDocument;
+    let smartContract: SmartContractDocument;
+
+    try {
+      blockchain = await this.blockchainService.findOne(blockchainId);
+    } catch {
+      throw new BlockchainNotFoundException();
+    }
+
+    try {
+      smartContract = await this.findOne(smartContractId);
+    } catch {
+      throw new ContractNotFoundException();
+    }
+
     const clause = smartContract.clauses.find((item) => item.id === clauseId);
+
+    if (smartContract.blockchainPlatform !== blockchain.platform) {
+      throw new InvalidBlockchainPlatformException();
+    }
+
+    if (!clause) {
+      throw new InvalidClauseException();
+    }
+
+    const argumentsMap = clause.arguments.reduce<Record<string, string>>(
+      (acc, { id, name }) => {
+        acc[String(id)] = name;
+        return acc;
+      },
+      {},
+    );
+
+    if (data.arguments?.some((item) => !!argumentsMap[item.id] === false)) {
+      throw new InvalidArgumentException();
+    }
 
     await this.producerService.send({
       blockchainParameters: blockchain.parameters,
       blockchainPlatform: blockchain.platform,
       smartContractName: smartContract.name,
-      clauseName: clause?.name,
+      clauseName: clause.name,
       arguments: data.arguments?.map((item) => ({
         ...item,
-        name: clause?.arguments.find((argument) => argument.id === item.id)
-          ?.name,
+        name: argumentsMap[item.id],
       })),
     });
   }

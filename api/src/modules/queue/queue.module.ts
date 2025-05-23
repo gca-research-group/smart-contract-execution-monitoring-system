@@ -1,10 +1,17 @@
 import { Module } from '@nestjs/common';
 
 import { ContractInvokerService } from '@app/services/contract-invoker';
-import { SmartContractExecutionQueueService } from '@app/services/queue/smart-contract-execution-queue';
+import {
+  SmartContractExecutionQueueService,
+  SmartContractOutboundQueueService,
+} from '@app/services/queue/smart-contract-execution-queue';
 
 @Module({
-  providers: [SmartContractExecutionQueueService, ContractInvokerService],
+  providers: [
+    SmartContractExecutionQueueService,
+    SmartContractOutboundQueueService,
+    ContractInvokerService,
+  ],
   exports: [SmartContractExecutionQueueService],
 })
 export class QueueModule {}

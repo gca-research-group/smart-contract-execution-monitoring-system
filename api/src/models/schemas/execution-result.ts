@@ -8,7 +8,7 @@ export class ExecutionResult {
   smartContractId: string;
 
   @Prop({ type: MongooseSchema.Types.Mixed })
-  event: unknown;
+  result: unknown;
 }
 
 export const ExecutionResultSchema =

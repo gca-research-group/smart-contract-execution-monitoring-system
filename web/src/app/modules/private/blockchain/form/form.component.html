@@ -7,18 +7,18 @@
     placeholder="Name"
     formControlName="name"
     label="name"
-    class="col mb-5"
+    class="col"
   />
 
   <app-blockchain-platform-selector
     formControlName="platform"
-    class="col mb-5"
+    class="col"
   />
 
   <fieldset
     formGroupName="parameters"
     class="d-flex flex-column"
-    style="gap: 32px"
+    style="gap: 16px"
   >
     <legend class="mb-2">
       {{ 'parameters' | translate }}
@@ -44,7 +44,7 @@
 
   <app-button
     label="save"
-    class="w-100 mt-5"
+    class="w-100"
     type="submit"
     [disabled]="form.invalid"
   />

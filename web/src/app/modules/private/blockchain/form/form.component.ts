@@ -22,7 +22,7 @@ import { BREADCRUMB, CRUD_SERVICE } from '@app/tokens';
 @Component({
   selector: 'app-blockchain-form',
   templateUrl: './form.component.html',
-  styleUrl: './form.component.scss',
+  styleUrls: ['./../../form.base.scss', './form.component.scss'],
   host: { class: 'd-md-flex d-sm-block justify-content-center' },
   imports: [
     ReactiveFormsModule,

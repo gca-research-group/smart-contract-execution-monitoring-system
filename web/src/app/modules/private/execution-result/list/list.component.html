@@ -20,6 +20,7 @@
 >
   <ng-template #actionsColumn>
     <div style="display: flex; justify-content: center; width: 100%">
+      <app-icon-button icon="refresh" tooltip="refresh" (click)="search()"/>
       <a routerLink="./add">
         <app-icon-button icon="add_circle" tooltip="add" />
       </a>
@@ -28,6 +29,11 @@
 
   <ng-template #actionsRow let-element="element">
     <div style="display: flex; justify-content: center; width: 100%">
+      <app-icon-button
+        icon="content_paste_search"
+        tooltip="results"
+        (click)="openExecutionResultDialog(element)"
+      />
       <a [routerLink]="['./', element._id]">
         <app-icon-button icon="edit_square" tooltip="edit" />
       </a>

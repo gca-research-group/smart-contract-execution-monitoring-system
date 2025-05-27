@@ -1,26 +1,27 @@
 <form
   [formGroup]="form"
   class="d-flex flex-column col-lg-6 col-md-12"
-  (ngSubmit)="save()"
+  (ngSubmit)="execute()"
 >
-  <app-blockchain-platform-selector
-    formControlName="blockchainPlatform"
+
+  <app-blockchain-selector
+    formControlName="blockchainId"
     class="col"
   />
 
   <app-smart-contract-selector
-    formControlName="smartContract"
+    formControlName="smartContractId"
     class="col"
   />
 
   <app-smart-contract-clause-selector
-    formControlName="clause"
-    [smartContractId]="form.get('smartContract')?.value"
+    formControlName="clauseId"
+    [smartContractId]="smartContractId"
     class="col"
   />
 
   <app-button
-    label="save"
+    label="execute"
     class="w-100"
     type="submit"
     [disabled]="form.invalid"

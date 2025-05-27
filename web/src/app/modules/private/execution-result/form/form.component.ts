@@ -1,4 +1,5 @@
 import { TranslateModule } from '@ngx-translate/core';
+import { finalize } from 'rxjs';
 
 import { Component, inject } from '@angular/core';
 import {
@@ -8,14 +9,16 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { BlockchainPlatformSelectorComponent } from '@app/components/blockchain-platform-selector';
+import { BlockchainSelectorComponent } from '@app/components/blockchain-selector';
 import { ButtonComponent } from '@app/components/button';
 import { SmartContractClauseSelectorComponent } from '@app/components/smart-contract-clause-selector';
 import { SmartContractSelectorComponent } from '@app/components/smart-contract-selector';
 import { BaseFormDirective } from '@app/directives/base';
 import { ExecutionResult } from '@app/models';
 import { ExecutionResultService } from '@app/services/execution-result';
+import { SmartContractService } from '@app/services/smart-contract';
 import { BREADCRUMB, CRUD_SERVICE } from '@app/tokens';
+import { removeEmptyKeys } from '@app/utils';
 
 @Component({
   selector: 'app-execution-result-form',
@@ -29,7 +32,7 @@ import { BREADCRUMB, CRUD_SERVICE } from '@app/tokens';
     TranslateModule,
 
     ButtonComponent,
-    BlockchainPlatformSelectorComponent,
+    BlockchainSelectorComponent,
     SmartContractSelectorComponent,
     SmartContractClauseSelectorComponent,
   ],
@@ -57,31 +60,62 @@ export class FormComponent extends BaseFormDirective<
   ExecutionResult,
   {
     _id: FormControl<string | null>;
-    smartContract: FormControl<string | null>;
-    clause: FormControl<string | null>;
-    blockchainPlatform: FormControl<string | null>;
+    blockchainId: FormControl<string | null>;
+    smartContractId: FormControl<string | null>;
+    clauseId: FormControl<string | null>;
   }
 > {
   protected override service = inject<ExecutionResultService>(CRUD_SERVICE);
+  private smartContractService = inject(SmartContractService);
+  smartContractId: string | null = null;
+
+  constructor() {
+    super();
+    this.form.get('smartContractId')?.valueChanges.subscribe(value => {
+      this.smartContractId = value;
+    });
+  }
 
   protected override patchValue(item: ExecutionResult) {
     this.form.patchValue({
-      smartContract: item.payload.smartContract.id,
-      clause: item.payload.clause.id,
-      blockchainPlatform: item.payload.blockchain.platform,
+      blockchainId: item.payload.blockchain.id,
+      smartContractId: item.payload.smartContract.id,
+      clauseId: item.payload.clause.id,
     });
   }
 
   protected override buildForm(): void {
     this.form = this.formBuilder.group({
       _id: new FormControl(),
-      smartContract: new FormControl('', [Validators.required]),
-      clause: new FormControl('', [Validators.required]),
-      blockchainPlatform: new FormControl('HYPERLEDGER_FABRIC', [
-        Validators.required,
-      ]),
+      blockchainId: new FormControl('', [Validators.required]),
+      smartContractId: new FormControl('', [Validators.required]),
+      clauseId: new FormControl('', [Validators.required]),
     });
   }
 
   protected override updateFormOnUpdateInitialization(): void {}
+
+  execute() {
+    if (this.form.invalid) {
+      this.toastr.warning('INVALID_FORM');
+      return;
+    }
+
+    this.loading = true;
+    this.smartContractService
+      .execute(removeEmptyKeys(this.form.value))
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        }),
+      )
+      .subscribe({
+        next: () => {
+          const message = 'RECORD_CREATED_SUCCESSFULLY';
+
+          this.toastr.success(message);
+          this.location.back();
+        },
+      });
+  }
 }

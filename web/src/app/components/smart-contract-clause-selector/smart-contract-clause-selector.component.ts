@@ -38,17 +38,6 @@ export class SmartContractClauseSelectorComponent extends BaseSelectorDirective 
     });
   }
 
-  override writeValue(event: unknown): void {
-    const value =
-      (event as { target: { value: unknown } })?.target?.value || event;
-
-    if (value !== this.formControl.value) {
-      this.formControl.setValue(value, { emitEvent: false });
-      this.formControl.updateValueAndValidity();
-      this.cdr.detectChanges();
-    }
-  }
-
   override findItens() {
     if (!this.smartContractId()) {
       return;

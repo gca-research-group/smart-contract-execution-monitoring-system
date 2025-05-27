@@ -6,15 +6,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { BaseSelectorDirective } from '@app/directives/base';
 import { Selector } from '@app/models';
-import { SmartContractService } from '@app/services/smart-contract';
+import { BlockchainService } from '@app/services/blockchain';
 import { CRUD_SERVICE } from '@app/tokens';
 
 import { SelectComponent } from '../select';
 
 @Component({
-  selector: 'app-smart-contract-selector',
-  templateUrl: './smart-contract-selector.component.html',
-  styleUrl: './smart-contract-selector.component.scss',
+  selector: 'app-blockchain-selector',
+  templateUrl: './blockchain-selector.component.html',
+  styleUrl: './blockchain-selector.component.scss',
   imports: [
     FormsModule,
     ReactiveFormsModule,
@@ -25,11 +25,11 @@ import { SelectComponent } from '../select';
   providers: [
     {
       provide: CRUD_SERVICE,
-      useClass: SmartContractService,
+      useClass: BlockchainService,
     },
   ],
 })
-export class SmartContractSelectorComponent extends BaseSelectorDirective {
+export class BlockchainSelectorComponent extends BaseSelectorDirective {
   override findItens() {
     this.service
       .findAll({

@@ -4,6 +4,7 @@ import { Component, TemplateRef, viewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
+import { ExecutionResultDialogComponent } from '@app/components/execution-result-dialog';
 import { IconButtonComponent } from '@app/components/icon-button';
 import { InputComponent } from '@app/components/input';
 import { TableComponent } from '@app/components/table';
@@ -56,6 +57,7 @@ const COLUMNS: Column[] = [
     TableComponent,
     InputComponent,
     IconButtonComponent,
+    ExecutionResultDialogComponent,
   ],
   providers: [
     {
@@ -143,5 +145,12 @@ export class ListComponent extends BaseListDirective<
     return Object.fromEntries(
       Object.entries(obj).filter(([_index, value]) => value !== null),
     ) as Partial<T>;
+  }
+
+  openExecutionResultDialog(item: ExecutionResult): void {
+    this.dialog.open(ExecutionResultDialogComponent, {
+      data: item,
+      width: '60%',
+    });
   }
 }

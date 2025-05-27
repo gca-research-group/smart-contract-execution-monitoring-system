@@ -33,4 +33,16 @@ export class SmartContractService implements CrudService<SmartContract> {
 
     return this.http.post<SmartContract>(this.url, item);
   }
+
+  execute(item: {
+    blockchainId: string;
+    smartContractId: string;
+    clauseId: string;
+    arguments?: {
+      id: string;
+      value: string;
+    }[];
+  }) {
+    return this.http.post<void>(`${this.url}execute/`, item);
+  }
 }

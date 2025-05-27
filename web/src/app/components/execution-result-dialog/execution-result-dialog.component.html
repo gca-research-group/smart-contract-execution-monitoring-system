@@ -1,0 +1,7 @@
+<h2 mat-dialog-title>{{ 'result' | translate }}</h2>
+<mat-dialog-content>
+  <pre> {{ data.result | json }} </pre>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="ok()" >Ok</button>
+</mat-dialog-actions>

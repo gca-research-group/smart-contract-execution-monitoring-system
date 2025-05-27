@@ -57,7 +57,6 @@ const COLUMNS: Column[] = [
     TableComponent,
     InputComponent,
     IconButtonComponent,
-    ExecutionResultDialogComponent,
   ],
   providers: [
     {

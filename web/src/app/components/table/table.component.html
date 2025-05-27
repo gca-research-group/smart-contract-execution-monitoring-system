@@ -60,9 +60,11 @@
             style="display: block"
             [style.textAlign]="isMobile ? 'left' : 'right'"
           >
-            Exibindo {{ dataSource().length }} de
-            {{ total() ?? 0 }} itens</small
-          >
+            {{
+              'diplaying-itens'
+                | translate: { current: dataSource().length, total: total() }
+            }}
+          </small>
         }
       </th>
     </ng-container>

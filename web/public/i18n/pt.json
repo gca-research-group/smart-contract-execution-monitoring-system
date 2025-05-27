@@ -13,6 +13,7 @@
   "createdAt": "Data de Cadastro",
   "delete": "Excluir",
   "delete-record": "Excluir este registro?",
+  "diplaying-itens": "Exibindo {{current}} itens de {{total}}",
   "edit": "Editar",
   "execute": "Executar",
   "execution-result": "Resultado da Execução",

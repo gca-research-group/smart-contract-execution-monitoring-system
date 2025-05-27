@@ -13,6 +13,7 @@
   "createdAt": "Created At",
   "delete": "Delete",
   "delete-record": "Delete the record?",
+  "diplaying-itens": "Displaying {{current}} items of {{total}}",
   "edit": "Edit",
   "execute": "Execute",
   "execution-result": "Execution Result",

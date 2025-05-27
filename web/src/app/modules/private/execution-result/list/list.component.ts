@@ -96,7 +96,6 @@ export class ListComponent extends BaseListDirective<
 
   protected updateForm() {
     this.form.addControl('id', new FormControl());
-    this.form.addControl('name', new FormControl());
   }
 
   protected updateColumns() {

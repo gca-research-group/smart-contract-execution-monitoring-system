@@ -13,6 +13,7 @@
   "createdAt": "Data de Registro",
   "delete": "Borrar",
   "delete-record": "Borrar este registro?",
+  "diplaying-itens": "Mostrando {{current}} artículos de {{total}}",
   "edit": "Editar",
   "execute": "Ejecutar",
   "execution-result": "Resultado de la Ejecución",

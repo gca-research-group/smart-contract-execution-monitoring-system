@@ -1,6 +1,6 @@
 import { Model } from 'mongoose';
 
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import {
@@ -35,7 +35,6 @@ export class SmartContractService
       UpdateSmartContractDto
     >
 {
-  private readonly logger = new Logger(SmartContractService.name);
   constructor(
     @InjectModel(SmartContract.name)
     private model: Model<SmartContractDocument>,
@@ -138,15 +137,23 @@ export class SmartContractService
     }
 
     await this.smartContractExecutionQueueService.send({
-      blockchainParameters: blockchain.parameters,
-      blockchainPlatform: blockchain.platform,
-      smartContractName: smartContract.name,
-      smartContractId: String(smartContract.id),
-      clauseName: clause.name,
-      arguments: data.arguments?.map((item) => ({
-        ...item,
-        name: argumentsMap[item.id],
-      })),
+      blockchain: {
+        parameters: blockchain.parameters,
+        platform: blockchain.platform,
+      },
+      smartContract: {
+        id: String(smartContract.id),
+        name: smartContract.name,
+      },
+      clause: {
+        id: String(clause.id),
+        name: clause.name,
+      },
+      arguments:
+        data.arguments?.map((item) => ({
+          ...item,
+          name: argumentsMap[item.id],
+        })) ?? [],
     });
   }
 }

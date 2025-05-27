@@ -2,6 +2,7 @@ export * from './blockchain.model';
 export * from './breadcrumb.model';
 export * from './column.model';
 export * from './crud.model';
+export * from './execution-result.model';
 export * from './login.model';
 export * from './response.model';
 export * from './selector.model';

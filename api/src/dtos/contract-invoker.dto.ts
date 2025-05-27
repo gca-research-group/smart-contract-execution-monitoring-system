@@ -1,13 +1,21 @@
 import { BlockchainPlatform } from '@app/models/enums';
 
-export type ContractInvokerDto = {
-  blockchainParameters: unknown;
-  blockchainPlatform: BlockchainPlatform;
-  smartContractName: string;
-  smartContractId: string;
-  clauseName: string;
+export interface ContractInvokerDto<T = unknown> {
+  blockchain: {
+    parameters: T;
+    platform: BlockchainPlatform;
+  };
+  smartContract: {
+    id: string;
+    name: string;
+  };
+  clause: {
+    id: string;
+    name: string;
+  };
   arguments?: {
-    name: string | undefined;
+    id: string;
+    name: string;
     value: string;
   }[];
-};
+}

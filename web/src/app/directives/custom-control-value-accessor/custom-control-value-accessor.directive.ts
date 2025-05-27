@@ -19,7 +19,7 @@ import {
 export class CustomControlValueAccessorDirective<T = any>
   implements ControlValueAccessor, Validators, OnInit
 {
-  private cdr = inject(ChangeDetectorRef);
+  protected cdr = inject(ChangeDetectorRef);
 
   @Input()
   set required(required: boolean) {

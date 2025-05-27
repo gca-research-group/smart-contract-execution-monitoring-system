@@ -15,7 +15,11 @@ export class WrapperComponent {
   menus: Sidebar[] = [
     { label: 'home', icon: 'home', url: '' },
     { label: 'blockchain-connection', icon: 'link', url: 'blockchain' },
-    { label: 'smart-contracts', icon: 'article', url: 'smart-contract' },
-    { label: 'execution', icon: 'settings', url: 'smart-contract-execution' },
+    { label: 'smart-contract', icon: 'article', url: 'smart-contract' },
+    {
+      label: 'execution-result',
+      icon: 'settings',
+      url: 'execution-result',
+    },
   ];
 }

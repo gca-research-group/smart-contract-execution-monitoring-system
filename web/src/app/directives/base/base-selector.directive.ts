@@ -1,4 +1,4 @@
-import { Directive, inject, input, OnInit } from '@angular/core';
+import { Directive, inject, input, model, OnInit } from '@angular/core';
 
 import { CustomControlValueAccessorDirective } from '@app/directives/custom-control-value-accessor';
 import { Selector } from '@app/models';
@@ -11,7 +11,7 @@ export class BaseSelectorDirective
 {
   orderBy = input('name');
 
-  items: Selector[] = [];
+  items = model<Selector[]>([]);
   protected service = inject(CRUD_SERVICE);
 
   override ngOnInit(): void {
@@ -28,7 +28,7 @@ export class BaseSelectorDirective
       })
       .subscribe({
         next: response => {
-          this.items = response.data as Selector[];
+          this.items.set(response.data as Selector[]);
         },
       });
   }

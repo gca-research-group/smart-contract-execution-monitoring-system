@@ -1,6 +1,6 @@
 import { Model } from 'mongoose';
 
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import {
@@ -21,7 +21,6 @@ export class ExecutionResultService
       UpdateExecutionResultDto
     >
 {
-  private readonly logger = new Logger(ExecutionResultService.name);
   constructor(
     @InjectModel(ExecutionResult.name)
     private model: Model<ExecutionResultDocument>,

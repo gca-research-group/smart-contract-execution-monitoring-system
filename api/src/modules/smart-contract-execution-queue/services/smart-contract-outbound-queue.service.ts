@@ -3,17 +3,17 @@ import { Channel, ConfirmChannel } from 'amqplib';
 
 import { Injectable, Logger } from '@nestjs/common';
 
-import { EventUpdater } from '@app/dtos';
+import { CreateExecutionResultDto } from '@app/dtos/execution-result';
 import { ExecutionResultService } from '@app/modules/execution-result/services';
 
 export const SMART_CONTRACT_OUTBOUND_QUEUE = 'smart-contract-outbound-queue';
 
 @Injectable()
-export class SmartContractOutboundQueueService {
+export class SmartContractOutboundQueueService<T = unknown> {
   private readonly logger = new Logger(SmartContractOutboundQueueService.name);
   private channelWrapper: ChannelWrapper;
 
-  constructor(private eventUpdaterService: ExecutionResultService) {
+  constructor(private executionResultService: ExecutionResultService) {
     this.connect();
   }
 
@@ -30,8 +30,12 @@ export class SmartContractOutboundQueueService {
       await this.channelWrapper.addSetup(async (channel: ConfirmChannel) => {
         await channel.consume(SMART_CONTRACT_OUTBOUND_QUEUE, (message) => {
           if (message) {
-            this.eventUpdaterService
-              .create(JSON.parse(message.content.toString()) as EventUpdater)
+            this.executionResultService
+              .create(
+                JSON.parse(
+                  message.content.toString(),
+                ) as CreateExecutionResultDto,
+              )
               .then(() => {
                 channel.ack(message);
               })
@@ -46,7 +50,7 @@ export class SmartContractOutboundQueueService {
     }
   }
 
-  async send(data: unknown) {
+  async send(data: T) {
     try {
       await this.channelWrapper.sendToQueue(
         SMART_CONTRACT_OUTBOUND_QUEUE,

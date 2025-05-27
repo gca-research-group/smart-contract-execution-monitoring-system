@@ -138,6 +138,7 @@ export class SmartContractService
 
     await this.smartContractExecutionQueueService.send({
       blockchain: {
+        id: String(blockchain.id),
         parameters: blockchain.parameters,
         platform: blockchain.platform,
       },

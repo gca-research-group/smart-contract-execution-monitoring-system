@@ -43,13 +43,13 @@ export class BlockchainSelectorComponent extends BaseSelectorDirective {
             (
               response.data as {
                 name: string;
-                blockchainPlatform: string;
+                platform: string;
                 _id: string;
               }[]
             ).map(item => ({
               name: item.name,
               id: item._id,
-              blockchainPlatform: item.blockchainPlatform,
+              platform: item.platform,
             })) as Selector[],
           );
         },

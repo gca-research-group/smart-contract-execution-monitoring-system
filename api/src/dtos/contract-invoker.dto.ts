@@ -2,6 +2,7 @@ import { BlockchainPlatform } from '@app/models/enums';
 
 export interface ContractInvokerDto<T = unknown> {
   blockchain: {
+    id: string;
     parameters: T;
     platform: BlockchainPlatform;
   };

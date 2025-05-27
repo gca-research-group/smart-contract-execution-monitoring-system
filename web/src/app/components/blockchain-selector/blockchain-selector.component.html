@@ -1,5 +1,10 @@
+<ng-template #name let-item>
+  {{ item.name }} ({{ item.platform }})
+</ng-template>
+
 <app-select
   label="blockchain"
   [items]="items()"
   [formControl]="formControl"
+  [template]="name"
 />

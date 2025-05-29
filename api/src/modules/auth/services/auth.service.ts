@@ -66,7 +66,7 @@ export class AuthService {
   }
 
   async createRefreshToken(payload: { sub: number }) {
-    return await this.jwtService.signAsync(payload, { expiresIn: '1d' });
+    return await this.jwtService.signAsync(payload, { expiresIn: '7d' });
   }
 
   async refresh(token: string) {

@@ -1,6 +1,13 @@
 import { TranslateModule } from '@ngx-translate/core';
+import { interval, Subscription, tap } from 'rxjs';
 
-import { Component, TemplateRef, viewChild } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  viewChild,
+} from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
@@ -54,9 +61,9 @@ const COLUMNS: Column[] = [
 
     TranslateModule,
 
-    TableComponent,
-    InputComponent,
     IconButtonComponent,
+    InputComponent,
+    TableComponent,
   ],
   providers: [
     {
@@ -77,13 +84,15 @@ const COLUMNS: Column[] = [
     },
   ],
 })
-export class ListComponent extends BaseListDirective<
-  ExecutionResult,
-  ExecutionResultService
-> {
+export class ListComponent
+  extends BaseListDirective<ExecutionResult, ExecutionResultService>
+  implements OnInit, OnDestroy
+{
   columns = COLUMNS;
 
   displayedColumns = COLUMNS.map(column => column.id);
+
+  private subscription?: Subscription;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private actionsColumn = viewChild<TemplateRef<any>>('actionsColumn');
@@ -93,6 +102,17 @@ export class ListComponent extends BaseListDirective<
   private smartContractRow = viewChild<TemplateRef<any>>('smartContractRow');
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private blockchainRow = viewChild<TemplateRef<any>>('blockchainRow');
+
+  toggleAutoRefresh = true;
+
+  ngOnInit() {
+    this.autoRefresh();
+  }
+
+  override ngOnDestroy(): void {
+    super.ngOnDestroy();
+    this.subscription?.unsubscribe();
+  }
 
   protected updateForm() {
     this.form.addControl('id', new FormControl());
@@ -139,16 +159,28 @@ export class ListComponent extends BaseListDirective<
     });
   }
 
-  removeNullFields<T extends object>(obj: T): Partial<T> {
-    return Object.fromEntries(
-      Object.entries(obj).filter(([_index, value]) => value !== null),
-    ) as Partial<T>;
-  }
-
   openExecutionResultDialog(item: ExecutionResult): void {
     this.dialog.open(ExecutionResultDialogComponent, {
       data: item,
       width: '60%',
     });
+  }
+
+  autoRefresh() {
+    const TEN_SECONDS = 5000;
+
+    this.subscription?.unsubscribe();
+
+    this.subscription = interval(TEN_SECONDS)
+      .pipe(
+        tap(() => {
+          if (!this.toggleAutoRefresh) {
+            this.subscription?.unsubscribe();
+            return;
+          }
+          this.search();
+        }),
+      )
+      .subscribe();
   }
 }

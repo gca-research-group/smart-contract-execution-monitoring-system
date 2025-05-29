@@ -119,10 +119,4 @@ export class ListComponent extends BaseListDirective<
       queryParamsHandling: 'merge',
     });
   }
-
-  removeNullFields<T extends object>(obj: T): Partial<T> {
-    return Object.fromEntries(
-      Object.entries(obj).filter(([_index, value]) => value !== null),
-    ) as Partial<T>;
-  }
 }

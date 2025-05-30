@@ -1,7 +1,12 @@
+import { WinstonModule } from 'nest-winston';
+
 import { Module } from '@nestjs/common';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ServeStaticModule } from '@nestjs/serve-static';
 
+import { WINSTON_CONFIG } from './configs';
 import { PUBLIC_FOLDER } from './const';
+import { LoggerInterceptor } from './interceptors';
 import { AuthModule } from './modules/auth';
 import { BlockchainModule } from './modules/blockchain';
 import { ExecutionResultModule } from './modules/execution-result';
@@ -23,12 +28,19 @@ import {
     MongoDbProviderModule,
     PostgresProviderModule,
     JwtProviderModule,
+    WinstonModule.forRoot(WINSTON_CONFIG),
 
     AuthModule,
     BlockchainModule,
     ExecutionResultModule,
     SmartContractModule,
     UserModule,
+  ],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggerInterceptor,
+    },
   ],
 })
 export class AppModule {}

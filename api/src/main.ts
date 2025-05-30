@@ -1,38 +1,15 @@
 import * as cookieParser from 'cookie-parser';
-import {
-  utilities as nestWinstonModuleUtilities,
-  WinstonModule,
-} from 'nest-winston';
-import * as winston from 'winston';
+import { WinstonModule } from 'nest-winston';
 
 import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app.module';
+import { WINSTON_CONFIG } from './configs';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    logger: WinstonModule.createLogger({
-      transports: [
-        new winston.transports.Console({
-          format: winston.format.combine(
-            winston.format.timestamp(),
-            winston.format.ms(),
-            nestWinstonModuleUtilities.format.nestLike('Api', {
-              colors: true,
-              prettyPrint: true,
-              processId: true,
-              appName: true,
-            }),
-          ),
-        }),
-        new winston.transports.File({
-          level: 'verbose',
-          filename: 'app.log',
-          dirname: 'logs',
-        }),
-      ],
-    }),
-  });
+  const logger = WinstonModule.createLogger(WINSTON_CONFIG);
+
+  const app = await NestFactory.create(AppModule, { logger });
 
   app.enableCors({
     credentials: true,
@@ -43,7 +20,8 @@ async function bootstrap() {
 
   const port = process.env.PORT ?? 3000;
   await app.listen(port);
-  console.log(`Server started on port: ${port}`);
+
+  logger.log(`Server started on port: ${port}`);
 }
 
 bootstrap().catch((err) => {

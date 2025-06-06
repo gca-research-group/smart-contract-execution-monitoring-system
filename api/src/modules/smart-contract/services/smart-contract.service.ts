@@ -23,7 +23,8 @@ import {
   SmartContractDocument,
 } from '@app/models/schemas';
 import { BlockchainService } from '@app/modules/blockchain/services';
-import { SmartContractExecutionQueueService } from '@app/modules/smart-contract-execution-queue/services';
+import { ExecutionResultService } from '@app/modules/execution-result/services';
+import { SmartContractExecutionQueueService } from '@app/modules/smart-contract-queue/services';
 
 @Injectable()
 export class SmartContractService
@@ -40,6 +41,7 @@ export class SmartContractService
     private model: Model<SmartContractDocument>,
     private blockchainService: BlockchainService,
     private smartContractExecutionQueueService: SmartContractExecutionQueueService,
+    private executionResultService: ExecutionResultService,
   ) {}
   async findAll(options: ListSmartContractDto) {
     const pageSize = +(options.pageSize ?? 20);
@@ -136,7 +138,7 @@ export class SmartContractService
       throw new InvalidArgumentException();
     }
 
-    await this.smartContractExecutionQueueService.send({
+    const payload = {
       blockchain: {
         id: String(blockchain.id),
         parameters: blockchain.parameters,
@@ -155,6 +157,16 @@ export class SmartContractService
           ...item,
           name: argumentsMap[item.id],
         })) ?? [],
+    };
+
+    const saved = await this.executionResultService.create({
+      payload,
+      succeeded: false,
+    });
+
+    await this.smartContractExecutionQueueService.send({
+      payload,
+      id: String(saved.id),
     });
   }
 }

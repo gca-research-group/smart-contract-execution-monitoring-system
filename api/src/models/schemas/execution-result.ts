@@ -78,6 +78,9 @@ export class ExecutionResult {
 
   @Prop({ type: MongooseSchema.Types.Mixed })
   result: unknown;
+
+  @Prop({ default: false })
+  succeeded: boolean;
 }
 
 export const ExecutionResultSchema =

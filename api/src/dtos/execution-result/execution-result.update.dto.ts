@@ -25,6 +25,7 @@ const PayloadSchema = z.object({
 export const UpdateExecutionResultSchema = z.object({
   payload: z.object({ shape: PayloadSchema }),
   result: z.any({ message: 'RESULT_IS_REQUIRED' }),
+  succeeded: z.boolean(),
 });
 
 export type UpdateExecutionResultDto = z.infer<

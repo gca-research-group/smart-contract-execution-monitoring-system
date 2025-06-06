@@ -29,10 +29,10 @@ export class DeleteDialogComponent<T> {
   readonly data = inject<T>(MAT_DIALOG_DATA);
 
   cancel(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
   ok() {
-    this.dialogRef.close(this.data);
+    this.dialogRef.close(this.data ?? true);
   }
 }

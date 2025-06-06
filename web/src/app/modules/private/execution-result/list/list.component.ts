@@ -1,16 +1,12 @@
 import { TranslateModule } from '@ngx-translate/core';
 import { interval, Subscription, tap } from 'rxjs';
 
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-  viewChild,
-} from '@angular/core';
+import { NgStyle } from '@angular/common';
+import { Component, OnDestroy, TemplateRef, viewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
+import { DeleteDialogComponent } from '@app/components/delete-dialog';
 import { ExecutionResultDialogComponent } from '@app/components/execution-result-dialog';
 import { IconButtonComponent } from '@app/components/icon-button';
 import { InputComponent } from '@app/components/input';
@@ -21,6 +17,13 @@ import { ExecutionResultService } from '@app/services/execution-result';
 import { BREADCRUMB, CRUD_SERVICE } from '@app/tokens';
 
 const COLUMNS: Column[] = [
+  {
+    id: 'succeeded',
+    label: '',
+    columnType: ColumnType.TEMPLATE,
+    rowType: ColumnType.TEMPLATE,
+    sortable: false,
+  },
   {
     id: '_id',
     label: 'id',
@@ -58,6 +61,7 @@ const COLUMNS: Column[] = [
     ReactiveFormsModule,
     FormsModule,
     RouterLink,
+    NgStyle,
 
     TranslateModule,
 
@@ -86,7 +90,7 @@ const COLUMNS: Column[] = [
 })
 export class ListComponent
   extends BaseListDirective<ExecutionResult, ExecutionResultService>
-  implements OnInit, OnDestroy
+  implements OnDestroy
 {
   columns = COLUMNS;
 
@@ -102,12 +106,10 @@ export class ListComponent
   private smartContractRow = viewChild<TemplateRef<any>>('smartContractRow');
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private blockchainRow = viewChild<TemplateRef<any>>('blockchainRow');
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private succeededRow = viewChild<TemplateRef<any>>('succeededRow');
 
   toggleAutoRefresh = true;
-
-  ngOnInit() {
-    this.autoRefresh();
-  }
 
   override ngOnDestroy(): void {
     super.ngOnDestroy();
@@ -125,6 +127,13 @@ export class ListComponent
           ...column,
           templateRow: this.actionsRow(),
           templateColumn: this.actionsColumn(),
+        };
+      }
+
+      if (column.id === 'succeeded') {
+        return {
+          ...column,
+          templateRow: this.succeededRow(),
         };
       }
 
@@ -182,5 +191,23 @@ export class ListComponent
         }),
       )
       .subscribe();
+  }
+
+  deleteAll(): void {
+    const dialogRef = this.dialog.open(DeleteDialogComponent);
+
+    dialogRef.afterClosed().subscribe((value: boolean) => {
+      if (value) {
+        this.service.deleteAll().subscribe({
+          next: () => {
+            this.toastr.success('DELETED_SUCCESSFULLY');
+            this.search();
+          },
+          error: error => {
+            console.log('[error]', error);
+          },
+        });
+      }
+    });
   }
 }

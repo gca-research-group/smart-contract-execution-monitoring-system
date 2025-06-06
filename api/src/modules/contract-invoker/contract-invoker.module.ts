@@ -1,7 +1,7 @@
 import { forwardRef, Module } from '@nestjs/common';
 
-import { SmartContractQueueModule } from '../smart-contract-execution-queue';
 import { ContractInvokerService } from './services';
+import { SmartContractQueueModule } from '../smart-contract-queue';
 
 @Module({
   imports: [forwardRef(() => SmartContractQueueModule)],

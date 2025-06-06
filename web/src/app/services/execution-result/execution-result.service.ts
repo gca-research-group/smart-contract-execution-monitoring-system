@@ -26,6 +26,10 @@ export class ExecutionResultService implements CrudService<ExecutionResult> {
     return this.http.delete<void>(`${this.url}${id}`);
   }
 
+  deleteAll() {
+    return this.http.delete<void>(`${this.url}`);
+  }
+
   save(item: ExecutionResult) {
     if (item._id) {
       return this.http.put<ExecutionResult>(`${this.url}${item._id}`, item);

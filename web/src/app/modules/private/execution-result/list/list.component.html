@@ -21,13 +21,13 @@
     <div style="display: flex; justify-content: center; width: 100%">
       <app-icon-button
         icon="change_circle"
-        [color]="toggleAutoRefresh ? 'green' : ''"
         tooltip="refresh"
-        (click)="toggleAutoRefresh = !toggleAutoRefresh"
+        (click)="search()"
       />
       <a routerLink="./add">
         <app-icon-button icon="add_circle" tooltip="add" />
       </a>
+      <app-icon-button icon="delete" tooltip="delete" (click)="deleteAll()" />
     </div>
   </ng-template>
 
@@ -59,5 +59,15 @@
     <span>
       {{ element.payload?.blockchain?.platform }}
     </span>
+  </ng-template>
+
+  <ng-template #succeededRow let-element="element">
+    <div
+      [attr.data-status]="element.succeeded"
+      [ngStyle]="{
+        backgroundColor: element.succeeded ? 'green' : 'red'
+      }"
+      style="height: 16px; width: 16px; border-radius: 50%"
+    ></div>
   </ng-template>
 </app-table>

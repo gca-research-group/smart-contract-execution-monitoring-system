@@ -3,17 +3,17 @@ import { Channel, ConfirmChannel } from 'amqplib';
 
 import { Injectable, Logger } from '@nestjs/common';
 
-import { ContractInvokerDto } from '@app/dtos';
-import { ContractInvokerService } from '@app/modules/contract-invoker/services';
+import { UpdateExecutionResultDto } from '@app/dtos/execution-result';
+import { ExecutionResultService } from '@app/modules/execution-result/services';
 
-export const SMART_CONTRACT_EXECUTION_QUEUE = 'smart-contract-execution-queue';
+export const SMART_CONTRACT_OUTBOUND_QUEUE = 'smart-contract-outbound-queue';
 
 @Injectable()
-export class SmartContractExecutionQueueService {
-  private readonly logger = new Logger(SmartContractExecutionQueueService.name);
+export class SmartContractOutboundQueueService<T = unknown> {
+  private readonly logger = new Logger(SmartContractOutboundQueueService.name);
   private channelWrapper: ChannelWrapper;
 
-  constructor(private contractInvokerService: ContractInvokerService) {
+  constructor(private executionResultService: ExecutionResultService) {
     this.connect();
   }
 
@@ -21,19 +21,28 @@ export class SmartContractExecutionQueueService {
     const connection = amqp.connect([process.env.RABBITMQ_URI!]);
     this.channelWrapper = connection.createChannel({
       setup: (channel: Channel) =>
-        channel.assertQueue(SMART_CONTRACT_EXECUTION_QUEUE, { durable: true }),
+        channel.assertQueue(SMART_CONTRACT_OUTBOUND_QUEUE, { durable: true }),
     });
   }
 
   async onModuleInit() {
     try {
       await this.channelWrapper.addSetup(async (channel: ConfirmChannel) => {
-        await channel.consume(SMART_CONTRACT_EXECUTION_QUEUE, (message) => {
+        await channel.consume(SMART_CONTRACT_OUTBOUND_QUEUE, (message) => {
           if (message) {
-            this.contractInvokerService
-              .invoke(
-                JSON.parse(message.content.toString()) as ContractInvokerDto,
-              )
+            const data = JSON.parse(message.content.toString()) as {
+              id: string;
+              payload: unknown;
+              result: unknown;
+              succeeded: boolean;
+            };
+
+            this.executionResultService
+              .update(data.id, {
+                payload: data.payload,
+                result: data.result,
+                succeeded: data.succeeded,
+              } as UpdateExecutionResultDto)
               .then(() => {
                 channel.ack(message);
               })
@@ -48,10 +57,10 @@ export class SmartContractExecutionQueueService {
     }
   }
 
-  async send(data: ContractInvokerDto) {
+  async send(data: T) {
     try {
       await this.channelWrapper.sendToQueue(
-        SMART_CONTRACT_EXECUTION_QUEUE,
+        SMART_CONTRACT_OUTBOUND_QUEUE,
         Buffer.from(JSON.stringify(data)),
         {
           persistent: true,

@@ -60,4 +60,9 @@ export class ExecutionResultController {
   remove(@Param('id') id: string) {
     return this.service.remove(id);
   }
+
+  @Delete()
+  removeAll() {
+    return this.service.removeAll();
+  }
 }

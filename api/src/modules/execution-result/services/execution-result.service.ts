@@ -79,4 +79,8 @@ export class ExecutionResultService
   async remove(id: string) {
     await this.model.deleteOne({ _id: id });
   }
+
+  async removeAll() {
+    await this.model.deleteMany();
+  }
 }

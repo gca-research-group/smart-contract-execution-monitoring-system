@@ -3,7 +3,7 @@ import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { ContractInvokerDto } from '@app/dtos';
 import { CreateExecutionResultDto } from '@app/dtos/execution-result';
 import { BlockchainConnectionFactory } from '@app/factories';
-import { SmartContractOutboundQueueService } from '@app/modules/smart-contract-execution-queue/services';
+import { SmartContractOutboundQueueService } from '@app/modules/smart-contract-queue/services';
 
 @Injectable()
 export class ContractInvokerService {
@@ -12,8 +12,8 @@ export class ContractInvokerService {
     private smartContractOutboundQueueService: SmartContractOutboundQueueService<CreateExecutionResultDto>,
   ) {}
 
-  async invoke(payload: ContractInvokerDto) {
-    const { blockchain, smartContract, clause } = payload;
+  async invoke(data: { id: string; payload: ContractInvokerDto }) {
+    const { blockchain, smartContract, clause } = data.payload;
 
     const service = BlockchainConnectionFactory.getService(blockchain.platform);
 
@@ -26,8 +26,10 @@ export class ContractInvokerService {
     );
 
     await this.smartContractOutboundQueueService.send({
-      payload,
+      id: data.id,
+      payload: data.payload,
       result,
+      succeeded: true,
     });
   }
 }

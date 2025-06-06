@@ -23,8 +23,10 @@ const PayloadSchema = z.object({
 });
 
 export const CreateExecutionResultSchema = z.object({
+  id: z.string().optional(),
   payload: PayloadSchema,
   result: z.any({ message: 'RESULT_IS_REQUIRED' }),
+  succeeded: z.boolean(),
 });
 
 export type CreateExecutionResultDto = z.infer<

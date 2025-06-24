@@ -2,6 +2,7 @@
   <div class="toolbar-container">
     <div class="toolbar-left-container">
       <app-icon-button
+        ariaLabel="close"
         [icon]="isCollapsed ? 'menu' : 'close'"
         (click)="toggleSadebar()"
         (keydown.enter)="toggleSadebar()"

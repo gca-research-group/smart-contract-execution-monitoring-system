@@ -1,7 +1,14 @@
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 
-import { Component, inject, OnDestroy, signal, effect } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnDestroy,
+  signal,
+  effect,
+  OnInit,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -37,7 +44,7 @@ import { LanguageSelectorComponent } from '../language-selector/language-selecto
     LanguageSelectorComponent,
   ],
 })
-export class ToolbarComponent implements OnDestroy {
+export class ToolbarComponent implements OnDestroy, OnInit {
   private sidebarService = inject(SidebarService);
   private translateService = inject(TranslateService);
   private languageService = inject(LanguageService);
@@ -67,6 +74,14 @@ export class ToolbarComponent implements OnDestroy {
     });
   }
 
+  ngOnInit(): void {
+    this.sidebarService.isCollapsed$
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(value => {
+        this.isCollapsed = value;
+      });
+  }
+
   ngOnDestroy(): void {
     this.onDestroy$.complete();
     this.onDestroy$.unsubscribe();
@@ -74,7 +89,6 @@ export class ToolbarComponent implements OnDestroy {
 
   toggleSadebar() {
     this.sidebarService.toggleSidebar();
-    this.isCollapsed = !this.isCollapsed;
   }
 
   logout() {

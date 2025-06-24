@@ -2,7 +2,14 @@ import { TranslateModule } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 
 import { NgIf } from '@angular/common';
-import { Component, inject, input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDrawerMode, MatSidenavModule } from '@angular/material/sidenav';
 import { RouterLink } from '@angular/router';
@@ -41,6 +48,21 @@ export class SidebarComponent implements OnInit, OnDestroy {
   opened = this.isMobile ? false : true;
   autosize = this.isMobile ? false : true;
   mode: MatDrawerMode = this.isMobile ? 'over' : 'side';
+
+  @HostListener('document:click', ['$event.target'])
+  public onClick(targetElement: HTMLElement) {
+    const navbar = document.querySelector('mat-sidenav');
+
+    const isCloseButton =
+      targetElement.tagName.toLowerCase() === 'mat-icon' &&
+      targetElement.getAttribute('aria-label') === 'close';
+
+    const clickedInside = navbar?.contains(targetElement) || isCloseButton;
+
+    if (!clickedInside && !this.isCollapsed) {
+      this.sidebarService.collapse();
+    }
+  }
 
   ngOnInit(): void {
     this.sidebarService.isCollapsed$

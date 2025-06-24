@@ -45,12 +45,13 @@ a {
 
 
 :root {
-  --hfdnm-sidebar-collapsed-width: 50px;
-  --hfdnm-sidebar-background-color: #333;
-  --hfdnm-toolbar-height: 40px;
-  --hfdnm-menu-icon-height: 40px;
-  --hfdnm-content-horizontal-padding: 8px;
-  --hfdnm-content-vertical-padding: 16px;
+  --scems-sidebar-collapsed-width: 50px;
+  --scems-sidebar-expanded-width: 250px;
+  --scems-sidebar-background-color: #333;
+  --scems-toolbar-height: 40px;
+  --scems-menu-icon-height: 40px;
+  --scems-content-horizontal-padding: 8px;
+  --scems-content-vertical-padding: 16px;
 }
 
 .ng-select {

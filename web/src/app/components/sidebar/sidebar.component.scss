@@ -1,25 +1,25 @@
 .sidenav-container {
-  height: calc(100vh - var(--hfdnm-toolbar-height));
+  height: calc(100vh - var(--scems-toolbar-height));
 }
 
 mat-sidenav {
   padding-top: 8px;
-  width: 250px;
+  width: var(--scems-sidebar-expanded-width);
   transition: width 0.3s ease;
-  background-color: var(--hfdnm-sidebar-background-color);
+  background-color: var(--scems-sidebar-background-color);
   color: white;
 }
 
 .sidenav-container app-icon {
-  min-width: var(--hfdnm-sidebar-collapsed-width);
+  min-width: var(--scems-sidebar-collapsed-width);
 }
 
 mat-sidenav.collapsed {
-  width: var(--hfdnm-sidebar-collapsed-width);
+  width: var(--scems-sidebar-collapsed-width);
 }
 
 mat-sidenav-content {
-  padding: var(--hfdnm-content-vertical-padding) var(--hfdnm-content-horizontal-padding);
+  padding: var(--scems-content-vertical-padding) var(--scems-content-horizontal-padding);
 }
 
 .mat-drawer,

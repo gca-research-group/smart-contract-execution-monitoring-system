@@ -8,9 +8,8 @@ describe('ToogleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ToogleComponent]
-    })
-    .compileComponents();
+      imports: [ToogleComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ToogleComponent);
     component = fixture.componentInstance;

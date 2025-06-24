@@ -17,9 +17,9 @@ export class WrapperComponent {
     { label: 'blockchain-connection', icon: 'link', url: 'blockchain' },
     { label: 'smart-contract', icon: 'article', url: 'smart-contract' },
     {
-      label: 'execution-result',
+      label: 'smart-contract-execution',
       icon: 'settings',
-      url: 'execution-result',
+      url: 'smart-contract-execution',
     },
   ];
 }

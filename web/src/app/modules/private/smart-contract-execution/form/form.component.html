@@ -1,0 +1,52 @@
+<form
+  [formGroup]="form"
+  class="d-flex flex-column col-lg-6 col-md-12"
+  (ngSubmit)="execute()"
+>
+  <app-blockchain-selector formControlName="blockchainId" class="col" />
+
+  <app-smart-contract-selector formControlName="smartContractId" class="col" />
+
+  <app-smart-contract-clause-selector
+    formControlName="clauseId"
+    [smartContractId]="smartContractId"
+    class="col"
+    (arguments)="setArguments($event)"
+  />
+
+  @if (!!clauseArguments.controls.length) {
+    <div formArrayName="clauseArguments">
+      <mat-expansion-panel class="w-100" [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title
+            class="d-flex justify-content-between align-items-center"
+          >
+            <span> {{ 'arguments' | translate }}</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="d-flex align-items-center" style="gap: 8px">
+          @for (
+            clauseArgument of clauseArguments.controls;
+            track clauseArgument;
+            let argumentIndex = $index
+          ) {
+            <div [formGroupName]="argumentIndex" class="col">
+              <app-input
+                formControlName="value"
+                [label]="clauseArgument.get('name')!.value"
+                class="w-100"
+              />
+            </div>
+          }
+        </div>
+      </mat-expansion-panel>
+    </div>
+  }
+
+  <app-button
+    label="execute"
+    class="w-100"
+    type="submit"
+    [disabled]="form.invalid"
+  />
+</form>

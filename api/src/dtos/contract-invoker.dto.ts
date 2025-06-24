@@ -14,7 +14,7 @@ export interface ContractInvokerDto<T = unknown> {
     id: string;
     name: string;
   };
-  arguments?: {
+  clauseArguments?: {
     id: string;
     name: string;
     value: string;

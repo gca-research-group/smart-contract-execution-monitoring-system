@@ -9,7 +9,7 @@ import { PUBLIC_FOLDER } from './const';
 import { LoggerInterceptor } from './interceptors';
 import { AuthModule } from './modules/auth';
 import { BlockchainModule } from './modules/blockchain';
-import { ExecutionResultModule } from './modules/execution-result';
+import { SmartContractExecutionModule } from './modules/smart-contract-execution';
 import { SmartContractModule } from './modules/smart-contract';
 import { UserModule } from './modules/user';
 import {
@@ -32,7 +32,7 @@ import {
 
     AuthModule,
     BlockchainModule,
-    ExecutionResultModule,
+    SmartContractExecutionModule,
     SmartContractModule,
     UserModule,
   ],

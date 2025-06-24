@@ -86,10 +86,18 @@ export class HyperledgerFabricConnectionService
     network: Network,
     smartContractName: string,
     clauseName: string,
+    clauseArguments: {
+      id: string;
+      name: string;
+      value: string;
+    }[],
   ) {
     const contract = network.getContract(smartContractName);
-    const resultBytes = await contract.evaluateTransaction(clauseName);
-    const resultJson = new TextDecoder().decode(resultBytes);
-    return JSON.parse(resultJson) as unknown;
+    const resultBytes = await contract.submitTransaction(
+      clauseName,
+      ...(clauseArguments?.map((item) => item.value) ?? []),
+    );
+    const result = new TextDecoder().decode(resultBytes);
+    return result;
   }
 }

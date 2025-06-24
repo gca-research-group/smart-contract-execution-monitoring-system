@@ -7,7 +7,7 @@ export interface SmartContractClauseArgument {
 export interface SmartContractClause {
   _id: string;
   name: string;
-  arguments?: SmartContractClauseArgument[];
+  clauseArguments?: SmartContractClauseArgument[];
 }
 
 export interface SmartContract {

@@ -16,91 +16,92 @@
   />
 
   <div formArrayName="clauses">
-    <legend class="d-flex justify-content-between align-items-center w-100 mb-1">
+    <legend
+      class="d-flex justify-content-between align-items-center w-100 mb-1"
+    >
       <span>{{ 'clauses' | translate }}</span>
       <app-icon-button icon="add_circle" (click)="addClause()" tooltip="add" />
     </legend>
 
-    <div
-      *ngFor="let item of clauses.controls; let clauseIndex = index"
-      [formGroupName]="clauseIndex"
-      class="mb-3"
-    >
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title  class="d-flex justify-content-between align-items-center">
-            <span>
-              {{ 'clause' | translate }} {{ clauseIndex + 1 }}
-            </span>
-            <app-icon-button
-              icon="delete"
-              (click)="removeClause(clauseIndex)"
-              tooltip="delete"
+    @for (item of clauses.controls; track item; let clauseIndex = $index) {
+      <div [formGroupName]="clauseIndex" class="mb-3">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title
+              class="d-flex justify-content-between align-items-center"
+            >
+              <span> {{ 'clause' | translate }} {{ clauseIndex + 1 }} </span>
+              <app-icon-button
+                icon="delete"
+                (click)="removeClause(clauseIndex)"
+                tooltip="delete"
+              />
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="d-flex align-items-center mb-3" style="gap: 8px">
+            <app-input
+              formControlName="name"
+              placeholder="name"
+              label="name"
+              class="col"
             />
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <div class="d-flex align-items-center mb-3" style="gap: 8px">
-          <app-input
-            formControlName="name"
-            placeholder="name"
-            label="name"
-            class="col"
-          />
-        </div>
-
-        <div formArrayName="arguments">
-          <legend
-            class="d-flex justify-content-between align-items-center w-100 mb-1"
-          >
-            <span>{{ 'arguments' | translate }}</span>
-            <app-icon-button
-              icon="add_circle"
-              (click)="addArgument(clauseIndex)"
-              tooltip="add"
-            />
-          </legend>
-
-          <div
-            *ngFor="
-              let argument of $any(item.get('arguments')).controls;
-              let argumentIndex = index
-            "
-            class="mb-3"
-            [formGroupName]="argumentIndex"
-          >
-            <mat-expansion-panel class="w-100">
-              <mat-expansion-panel-header>
-                <mat-panel-title class="d-flex justify-content-between align-items-center">
-                  <span>
-                    {{ 'argument' | translate }} {{ argumentIndex + 1 }}
-                  </span>
-                  <app-icon-button
-                    icon="delete"
-                    (click)="removeArgument(clauseIndex, argumentIndex)"
-                    tooltip="delete"
-                  />
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <div class="d-flex align-items-center" style="gap: 8px">
-                <app-input
-                  formControlName="name"
-                  placeholder="name"
-                  label="name"
-                  class="col"
-                />
-
-                <app-input
-                  formControlName="type"
-                  placeholder="type"
-                  label="type"
-                  class="col"
-                />
-              </div>
-            </mat-expansion-panel>
           </div>
-        </div>
-      </mat-expansion-panel>
-    </div>
+
+          <div formArrayName="clauseArguments">
+            <legend
+              class="d-flex justify-content-between align-items-center w-100 mb-1"
+            >
+              <span>{{ 'arguments' | translate }}</span>
+              <app-icon-button
+                icon="add_circle"
+                (click)="addClauseArgument(clauseIndex)"
+                tooltip="add"
+              />
+            </legend>
+
+            @for (
+              argument of $any(item.get('clauseArguments')).controls;
+              track argument;
+              let argumentIndex = $index
+            ) {
+              <div class="mb-3" [formGroupName]="argumentIndex">
+                <mat-expansion-panel class="w-100">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title
+                      class="d-flex justify-content-between align-items-center"
+                    >
+                      <span>
+                        {{ 'argument' | translate }} {{ argumentIndex + 1 }}
+                      </span>
+                      <app-icon-button
+                        icon="delete"
+                        (click)="removeClauseArgument(clauseIndex, argumentIndex)"
+                        tooltip="delete"
+                      />
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div class="d-flex align-items-center" style="gap: 8px">
+                    <app-input
+                      formControlName="name"
+                      placeholder="name"
+                      label="name"
+                      class="col"
+                    />
+
+                    <app-input
+                      formControlName="type"
+                      placeholder="type"
+                      label="type"
+                      class="col"
+                    />
+                  </div>
+                </mat-expansion-panel>
+              </div>
+            }
+          </div>
+        </mat-expansion-panel>
+      </div>
+    }
   </div>
 
   <app-file-uploader class="col" formControlName="files" />

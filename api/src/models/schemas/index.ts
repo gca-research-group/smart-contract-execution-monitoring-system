@@ -1,3 +1,3 @@
 export * from './blockchain';
-export * from './execution-result';
+export * from './smart-contract-execution';
 export * from './smart-contract';

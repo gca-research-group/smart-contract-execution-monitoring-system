@@ -1,6 +1,5 @@
 import { TranslateModule } from '@ngx-translate/core';
 
-import { NgForOf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   FormArray,
@@ -32,7 +31,6 @@ import { BREADCRUMB, CRUD_SERVICE } from '@app/tokens';
   imports: [
     ReactiveFormsModule,
     FormsModule,
-    NgForOf,
 
     InputComponent,
     ButtonComponent,
@@ -101,8 +99,8 @@ export class FormComponent extends BaseFormDirective<
           const index = this.clauses.length - 1;
 
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          for (const argument of clause.arguments ?? []) {
-            this.addArgument(index);
+          for (const argument of clause.clauseArguments ?? []) {
+            this.addClauseArgument(index);
           }
         }
 
@@ -113,27 +111,29 @@ export class FormComponent extends BaseFormDirective<
     });
   }
 
-  addClause(addArgument = true) {
+  addClause(addClauseArgument = true) {
     this.clauses.push(
       this.formBuilder.group({
-        id: null,
+        _id: null,
         name: [null, [Validators.required]],
-        arguments: this.formBuilder.array([]),
+        clauseArguments: this.formBuilder.array([]),
       }),
     );
 
-    if (addArgument) {
+    if (addClauseArgument) {
       const index = this.clauses.length - 1;
-      this.addArgument(index);
+      this.addClauseArgument(index);
     }
   }
 
-  addArgument(index: number) {
-    const _arguments = this.clauses.at(index).get('arguments') as FormArray;
+  addClauseArgument(index: number) {
+    const _clauseArguments = this.clauses
+      .at(index)
+      .get('clauseArguments') as FormArray;
 
-    _arguments.push(
+    _clauseArguments.push(
       this.formBuilder.group({
-        id: null,
+        _id: null,
         name: [null, [Validators.required]],
         type: [null, [Validators.required]],
       }),
@@ -142,14 +142,14 @@ export class FormComponent extends BaseFormDirective<
 
   removeClause(index: number) {
     const clause = this.clauses.at(index);
-    const _arguments = clause.get('arguments') as FormArray<
+    const _clauseArguments = clause.get('clauseArguments') as FormArray<
       FormGroup<{
         name: FormControl<string | null>;
         type: FormControl<string | null>;
       }>
     >;
 
-    if (!!clause.get('name')?.value || _arguments.value.length) {
+    if (!!clause.get('name')?.value || _clauseArguments.value.length) {
       const dialogRef = this.dialog.open(DeleteDialogComponent, {
         data: true,
       });
@@ -166,32 +166,35 @@ export class FormComponent extends BaseFormDirective<
     this.clauses.removeAt(index);
   }
 
-  removeArgument(clauseIndex: number, argumentIndex: number) {
-    const _arguments = this.clauses
+  removeClauseArgument(clauseIndex: number, argumentIndex: number) {
+    const _clauseArguments = this.clauses
       .at(clauseIndex)
-      .get('arguments') as FormArray<
+      .get('clauseArguments') as FormArray<
       FormGroup<{
         name: FormControl<string | null>;
         type: FormControl<string | null>;
       }>
     >;
 
-    const _argument = _arguments.at(argumentIndex);
+    const _clauseArgument = _clauseArguments.at(argumentIndex);
 
-    if (!!_argument.get('name')?.value || _argument.get('type')?.value) {
+    if (
+      !!_clauseArgument.get('name')?.value ||
+      _clauseArgument.get('type')?.value
+    ) {
       const dialogRef = this.dialog.open(DeleteDialogComponent, {
         data: true,
       });
 
       dialogRef.afterClosed().subscribe((value: boolean) => {
         if (value) {
-          _arguments.removeAt(argumentIndex);
+          _clauseArguments.removeAt(argumentIndex);
         }
       });
 
       return;
     }
 
-    _arguments.removeAt(argumentIndex);
+    _clauseArguments.removeAt(argumentIndex);
   }
 }

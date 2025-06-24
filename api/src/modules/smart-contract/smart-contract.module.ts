@@ -7,7 +7,7 @@ import { SmartContractService } from '@app/modules/smart-contract/services';
 import { SmartContractController } from './smart-contract.controller';
 import { AuthService } from '../auth/services';
 import { BlockchainModule } from '../blockchain';
-import { ExecutionResultModule } from '../execution-result';
+import { SmartContractExecutionModule } from '../smart-contract-execution';
 import { SmartContractQueueModule } from '../smart-contract-queue';
 import { UserModule } from '../user';
 
@@ -15,7 +15,7 @@ import { UserModule } from '../user';
   imports: [
     UserModule,
     SmartContractQueueModule,
-    ExecutionResultModule,
+    SmartContractExecutionModule,
     BlockchainModule,
     MongooseModule.forFeature([
       { name: SmartContract.name, schema: SmartContractSchema },

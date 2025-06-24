@@ -6,6 +6,8 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ContractInvokerDto } from '@app/dtos';
 import { ContractInvokerService } from '@app/modules/contract-invoker/services';
 
+import { SmartContractOutboundQueueService } from './smart-contract-outbound-queue.service';
+
 export const SMART_CONTRACT_EXECUTION_QUEUE = 'smart-contract-execution-queue';
 
 @Injectable()
@@ -13,7 +15,10 @@ export class SmartContractExecutionQueueService {
   private readonly logger = new Logger(SmartContractExecutionQueueService.name);
   private channelWrapper: ChannelWrapper;
 
-  constructor(private contractInvokerService: ContractInvokerService) {
+  constructor(
+    private contractInvokerService: ContractInvokerService,
+    private smartContractOutboundQueueService: SmartContractOutboundQueueService,
+  ) {
     this.connect();
   }
 
@@ -30,17 +35,22 @@ export class SmartContractExecutionQueueService {
       await this.channelWrapper.addSetup(async (channel: ConfirmChannel) => {
         await channel.consume(SMART_CONTRACT_EXECUTION_QUEUE, (message) => {
           if (message) {
+            const data = JSON.parse(message.content.toString()) as {
+              id: string;
+              payload: ContractInvokerDto;
+            };
             this.contractInvokerService
-              .invoke(
-                JSON.parse(message.content.toString()) as {
-                  id: string;
-                  payload: ContractInvokerDto;
-                },
-              )
+              .invoke(data)
               .then(() => {
                 channel.ack(message);
               })
-              .catch((err) => {
+              .catch(async (err) => {
+                await this.smartContractOutboundQueueService.send({
+                  id: data.id,
+                  payload: data.payload,
+                  result: err as unknown,
+                  status: 'FAIL',
+                });
                 this.logger.error('Error processing message:', err);
               });
           }

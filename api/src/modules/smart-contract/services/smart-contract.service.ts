@@ -23,7 +23,7 @@ import {
   SmartContractDocument,
 } from '@app/models/schemas';
 import { BlockchainService } from '@app/modules/blockchain/services';
-import { ExecutionResultService } from '@app/modules/execution-result/services';
+import { SmartContractExecutionService } from '@app/modules/smart-contract-execution/services';
 import { SmartContractExecutionQueueService } from '@app/modules/smart-contract-queue/services';
 
 @Injectable()
@@ -41,7 +41,7 @@ export class SmartContractService
     private model: Model<SmartContractDocument>,
     private blockchainService: BlockchainService,
     private smartContractExecutionQueueService: SmartContractExecutionQueueService,
-    private executionResultService: ExecutionResultService,
+    private executionResultService: SmartContractExecutionService,
   ) {}
   async findAll(options: ListSmartContractDto) {
     const pageSize = +(options.pageSize ?? 20);
@@ -126,7 +126,7 @@ export class SmartContractService
       throw new InvalidClauseException();
     }
 
-    const argumentsMap = clause.arguments.reduce<Record<string, string>>(
+    const argumentsMap = clause.clauseArguments.reduce<Record<string, string>>(
       (acc, { id, name }) => {
         acc[String(id)] = name;
         return acc;
@@ -134,7 +134,9 @@ export class SmartContractService
       {},
     );
 
-    if (data.arguments?.some((item) => !!argumentsMap[item.id] === false)) {
+    if (
+      data.clauseArguments?.some((item) => !!argumentsMap[item.id] === false)
+    ) {
       throw new InvalidArgumentException();
     }
 
@@ -152,8 +154,8 @@ export class SmartContractService
         id: String(clause.id),
         name: clause.name,
       },
-      arguments:
-        data.arguments?.map((item) => ({
+      clauseArguments:
+        data.clauseArguments?.map((item) => ({
           ...item,
           name: argumentsMap[item.id],
         })) ?? [],
@@ -161,7 +163,7 @@ export class SmartContractService
 
     const saved = await this.executionResultService.create({
       payload,
-      succeeded: false,
+      status: 'PENDING',
     });
 
     await this.smartContractExecutionQueueService.send({

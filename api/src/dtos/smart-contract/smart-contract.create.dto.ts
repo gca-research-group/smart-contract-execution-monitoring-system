@@ -9,7 +9,7 @@ export const CreateSmartContractClauseArgumentSchema = z.object({
 
 export const CreateSmartContractClauseSchema = z.object({
   name: z.string({ message: 'NAME_IS_REQUIRED' }),
-  arguments: z.array(CreateSmartContractClauseArgumentSchema).optional(),
+  clauseArguments: z.array(CreateSmartContractClauseArgumentSchema).optional(),
 });
 
 export const CreateSmartContractSchema = z.object({

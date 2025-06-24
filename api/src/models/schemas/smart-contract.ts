@@ -22,7 +22,7 @@ class Clause {
   name: string;
 
   @Prop({ type: [ArgumentSchema], default: [] })
-  arguments: ArgumentDocument[];
+  clauseArguments: ArgumentDocument[];
 }
 
 const ClauseSchema = SchemaFactory.createForClass(Clause);

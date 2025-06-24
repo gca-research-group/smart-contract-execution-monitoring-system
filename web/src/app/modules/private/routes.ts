@@ -3,8 +3,8 @@ import { Routes } from '@angular/router';
 import { isAuthenticatedGuard } from '@app/guards';
 
 import { blockchainRoutes } from './blockchain';
-import { executionResultRoutes } from './execution-result';
 import { smartContractRoutes } from './smart-contract';
+import { SmartContractExecutionRoutes } from './smart-contract-execution';
 import { WrapperComponent } from './wrapper';
 
 export const privateRoutes: Routes = [
@@ -13,7 +13,7 @@ export const privateRoutes: Routes = [
     component: WrapperComponent,
     children: [
       ...blockchainRoutes,
-      ...executionResultRoutes,
+      ...SmartContractExecutionRoutes,
       ...smartContractRoutes,
     ],
     canActivate: [isAuthenticatedGuard],

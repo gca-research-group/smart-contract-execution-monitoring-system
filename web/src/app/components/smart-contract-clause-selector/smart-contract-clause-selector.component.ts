@@ -1,10 +1,16 @@
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
+import { Subject, takeUntil } from 'rxjs';
 
-import { Component, effect, input } from '@angular/core';
+import { Component, effect, input, OnDestroy, output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { BaseSelectorDirective } from '@app/directives/base';
+import {
+  SmartContract,
+  SmartContractClause,
+  SmartContractClauseArgument,
+} from '@app/models';
 import { SmartContractService } from '@app/services/smart-contract';
 import { CRUD_SERVICE } from '@app/tokens';
 
@@ -17,8 +23,11 @@ import { SelectComponent } from '../select';
   imports: [
     FormsModule,
     ReactiveFormsModule,
+
     NgSelectModule,
+
     TranslateModule,
+
     SelectComponent,
   ],
   providers: [
@@ -28,14 +37,28 @@ import { SelectComponent } from '../select';
     },
   ],
 })
-export class SmartContractClauseSelectorComponent extends BaseSelectorDirective {
+export class SmartContractClauseSelectorComponent
+  extends BaseSelectorDirective
+  implements OnDestroy
+{
   smartContractId = input<string | null>();
+
+  arguments = output<SmartContractClauseArgument[]>();
+
+  private _items: SmartContractClause[] = [];
+  private onDestroy$ = new Subject();
 
   constructor() {
     super();
+
     effect(() => {
       this.findItens();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.complete();
+    this.onDestroy$.unsubscribe();
   }
 
   override findItens() {
@@ -43,12 +66,23 @@ export class SmartContractClauseSelectorComponent extends BaseSelectorDirective 
       return;
     }
 
+    this.formControl.valueChanges
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(clauseId => {
+        const clause = this._items.find(item => item._id === clauseId);
+        if (clause?.clauseArguments?.length) {
+          this.arguments.emit(clause?.clauseArguments);
+        }
+      });
+
     this.service.findById(this.smartContractId()!).subscribe({
       next: response => {
+        this._items = (response as SmartContract).clauses ?? [];
         this.items.set(
-          (
-            response as { clauses: { _id: string; name: string }[] }
-          ).clauses.map(item => ({ id: item._id, name: item.name })),
+          ((response as SmartContract).clauses ?? []).map(item => ({
+            id: item._id,
+            name: item.name,
+          })),
         );
       },
     });

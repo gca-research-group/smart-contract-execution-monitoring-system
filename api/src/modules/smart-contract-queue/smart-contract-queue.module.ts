@@ -1,9 +1,12 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { ExecutionResult, ExecutionResultSchema } from '@app/models/schemas';
+import {
+  SmartContractExecution,
+  SmartContractExecutionSchema,
+} from '@app/models/schemas';
 import { ContractInvokerModule } from '@app/modules/contract-invoker';
-import { ExecutionResultService } from '@app/modules/execution-result/services';
+import { SmartContractExecutionService } from '@app/modules/smart-contract-execution/services';
 
 import {
   SmartContractExecutionQueueService,
@@ -14,14 +17,17 @@ import {
   imports: [
     forwardRef(() => ContractInvokerModule),
     MongooseModule.forFeature([
-      { name: ExecutionResult.name, schema: ExecutionResultSchema },
+      {
+        name: SmartContractExecution.name,
+        schema: SmartContractExecutionSchema,
+      },
     ]),
   ],
   providers: [
     SmartContractExecutionQueueService,
     SmartContractOutboundQueueService,
-    ExecutionResultService,
-    ExecutionResultService,
+    SmartContractExecutionService,
+    SmartContractExecutionService,
   ],
   exports: [
     SmartContractExecutionQueueService,

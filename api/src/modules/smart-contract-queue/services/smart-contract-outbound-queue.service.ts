@@ -3,8 +3,8 @@ import { Channel, ConfirmChannel } from 'amqplib';
 
 import { Injectable, Logger } from '@nestjs/common';
 
-import { UpdateExecutionResultDto } from '@app/dtos/execution-result';
-import { ExecutionResultService } from '@app/modules/execution-result/services';
+import { UpdateSmartContractExecutionDto } from '@app/dtos/smart-contract-execution';
+import { SmartContractExecutionService } from '@app/modules/smart-contract-execution/services';
 
 export const SMART_CONTRACT_OUTBOUND_QUEUE = 'smart-contract-outbound-queue';
 
@@ -13,7 +13,7 @@ export class SmartContractOutboundQueueService<T = unknown> {
   private readonly logger = new Logger(SmartContractOutboundQueueService.name);
   private channelWrapper: ChannelWrapper;
 
-  constructor(private executionResultService: ExecutionResultService) {
+  constructor(private executionResultService: SmartContractExecutionService) {
     this.connect();
   }
 
@@ -34,15 +34,15 @@ export class SmartContractOutboundQueueService<T = unknown> {
               id: string;
               payload: unknown;
               result: unknown;
-              succeeded: boolean;
+              status: string;
             };
 
             this.executionResultService
               .update(data.id, {
                 payload: data.payload,
                 result: data.result,
-                succeeded: data.succeeded,
-              } as UpdateExecutionResultDto)
+                status: data.status,
+              } as UpdateSmartContractExecutionDto)
               .then(() => {
                 channel.ack(message);
               })

@@ -5,26 +5,11 @@ import { InjectModel } from '@nestjs/mongoose';
 
 import {
   CreateSmartContractDto,
-  ExecuteSmartContractDto,
   ListSmartContractDto,
   UpdateSmartContractDto,
 } from '@app/dtos/smart-contract';
-import {
-  BlockchainNotFoundException,
-  ContractNotFoundException,
-  InvalidArgumentException,
-  InvalidBlockchainPlatformException,
-  InvalidClauseException,
-} from '@app/exceptions';
 import { CrudBase } from '@app/models/interfaces';
-import {
-  BlockchainDocument,
-  SmartContract,
-  SmartContractDocument,
-} from '@app/models/schemas';
-import { BlockchainService } from '@app/modules/blockchain/services';
-import { SmartContractExecutionService } from '@app/modules/smart-contract-execution/services';
-import { SmartContractExecutionQueueService } from '@app/modules/smart-contract-queue/services';
+import { SmartContract, SmartContractDocument } from '@app/models/schemas';
 
 @Injectable()
 export class SmartContractService
@@ -39,10 +24,8 @@ export class SmartContractService
   constructor(
     @InjectModel(SmartContract.name)
     private model: Model<SmartContractDocument>,
-    private blockchainService: BlockchainService,
-    private smartContractExecutionQueueService: SmartContractExecutionQueueService,
-    private executionResultService: SmartContractExecutionService,
   ) {}
+
   async findAll(options: ListSmartContractDto) {
     const pageSize = +(options.pageSize ?? 20);
     const page = +(options.page ?? 1);
@@ -96,79 +79,5 @@ export class SmartContractService
 
   async remove(id: string) {
     await this.model.deleteOne({ _id: id });
-  }
-
-  async execute(data: ExecuteSmartContractDto) {
-    const { blockchainId, smartContractId, clauseId } = data;
-
-    let blockchain: BlockchainDocument;
-    let smartContract: SmartContractDocument;
-
-    try {
-      blockchain = await this.blockchainService.findOne(blockchainId);
-    } catch {
-      throw new BlockchainNotFoundException();
-    }
-
-    try {
-      smartContract = await this.findOne(smartContractId);
-    } catch {
-      throw new ContractNotFoundException();
-    }
-
-    const clause = smartContract.clauses.find((item) => item.id === clauseId);
-
-    if (smartContract.blockchainPlatform !== blockchain.platform) {
-      throw new InvalidBlockchainPlatformException();
-    }
-
-    if (!clause) {
-      throw new InvalidClauseException();
-    }
-
-    const argumentsMap = clause.clauseArguments.reduce<Record<string, string>>(
-      (acc, { id, name }) => {
-        acc[String(id)] = name;
-        return acc;
-      },
-      {},
-    );
-
-    if (
-      data.clauseArguments?.some((item) => !!argumentsMap[item.id] === false)
-    ) {
-      throw new InvalidArgumentException();
-    }
-
-    const payload = {
-      blockchain: {
-        id: String(blockchain.id),
-        parameters: blockchain.parameters,
-        platform: blockchain.platform,
-      },
-      smartContract: {
-        id: String(smartContract.id),
-        name: smartContract.name,
-      },
-      clause: {
-        id: String(clause.id),
-        name: clause.name,
-      },
-      clauseArguments:
-        data.clauseArguments?.map((item) => ({
-          ...item,
-          name: argumentsMap[item.id],
-        })) ?? [],
-    };
-
-    const saved = await this.executionResultService.create({
-      payload,
-      status: 'PENDING',
-    });
-
-    await this.smartContractExecutionQueueService.send({
-      payload,
-      id: String(saved.id),
-    });
   }
 }

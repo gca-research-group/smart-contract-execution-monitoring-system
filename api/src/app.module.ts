@@ -9,7 +9,6 @@ import { PUBLIC_FOLDER } from './const';
 import { LoggerInterceptor } from './interceptors';
 import { AuthModule } from './modules/auth';
 import { BlockchainModule } from './modules/blockchain';
-import { SmartContractExecutionModule } from './modules/smart-contract-execution';
 import { SmartContractModule } from './modules/smart-contract';
 import { UserModule } from './modules/user';
 import {
@@ -32,7 +31,6 @@ import {
 
     AuthModule,
     BlockchainModule,
-    SmartContractExecutionModule,
     SmartContractModule,
     UserModule,
   ],

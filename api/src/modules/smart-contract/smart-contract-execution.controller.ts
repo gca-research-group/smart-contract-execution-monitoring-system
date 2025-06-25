@@ -20,8 +20,9 @@ import {
   UpdateSmartContractExecutionSchema,
 } from '@app/dtos/smart-contract-execution';
 import { AuthGuard } from '@app/guards';
-import { SmartContractExecutionService } from '@app/modules/smart-contract-execution/services';
 import { ZodValidationPipe } from '@app/pipes/zod';
+
+import { SmartContractExecutionService } from './services';
 
 @UseGuards(AuthGuard)
 @Controller('smart-contract-execution')

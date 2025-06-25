@@ -44,7 +44,7 @@ import { LanguageSelectorComponent } from '../language-selector/language-selecto
     LanguageSelectorComponent,
   ],
 })
-export class ToolbarComponent implements OnDestroy, OnInit {
+export class ToolbarComponent implements OnInit, OnDestroy {
   private sidebarService = inject(SidebarService);
   private translateService = inject(TranslateService);
   private languageService = inject(LanguageService);

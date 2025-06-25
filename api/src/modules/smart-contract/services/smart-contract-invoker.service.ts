@@ -1,14 +1,14 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 import { ContractInvokerDto } from '@app/dtos';
 import { CreateSmartContractExecutionDto } from '@app/dtos/smart-contract-execution';
 import { BlockchainConnectionFactory } from '@app/factories';
-import { SmartContractOutboundQueueService } from '@app/modules/smart-contract-queue/services';
+
+import { SmartContractOutboundQueueService } from './smart-contract-outbound-queue.service';
 
 @Injectable()
-export class ContractInvokerService {
+export class SmartContractInvokerService {
   constructor(
-    @Inject(forwardRef(() => SmartContractOutboundQueueService))
     private smartContractOutboundQueueService: SmartContractOutboundQueueService<CreateSmartContractExecutionDto>,
   ) {}
 

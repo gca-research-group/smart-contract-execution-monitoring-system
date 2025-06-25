@@ -12,23 +12,28 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
+import { EventHandlerDto, EventHandlerSchema } from '@app/dtos';
 import {
   CreateSmartContractDto,
   CreateSmartContractSchema,
-  ExecuteSmartContractDto,
-  ExecuteSmartContractSchema,
   ListSmartContractDto,
   UpdateSmartContractDto,
   UpdateSmartContractSchema,
 } from '@app/dtos/smart-contract';
 import { AuthGuard } from '@app/guards';
-import { SmartContractService } from '@app/modules/smart-contract/services';
+import {
+  SmartContractInboundQueueService,
+  SmartContractService,
+} from '@app/modules/smart-contract/services';
 import { ZodValidationPipe } from '@app/pipes/zod';
 
 @UseGuards(AuthGuard)
 @Controller('smart-contract')
 export class SmartContractController {
-  constructor(private service: SmartContractService) {}
+  constructor(
+    private service: SmartContractService,
+    private smartContractInboundQueueService: SmartContractInboundQueueService,
+  ) {}
 
   @Get()
   index(@Query() query: ListSmartContractDto) {
@@ -66,9 +71,9 @@ export class SmartContractController {
   @Post('execute')
   @HttpCode(HttpStatus.CREATED)
   execute(
-    @Body(new ZodValidationPipe(ExecuteSmartContractSchema))
-    executeSmartContractDto: ExecuteSmartContractDto,
+    @Body(new ZodValidationPipe(EventHandlerSchema))
+    eventHandlerDto: EventHandlerDto,
   ) {
-    return this.service.execute(executeSmartContractDto);
+    return this.smartContractInboundQueueService.send(eventHandlerDto);
   }
 }

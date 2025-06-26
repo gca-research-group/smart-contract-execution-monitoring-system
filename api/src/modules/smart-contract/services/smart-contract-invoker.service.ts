@@ -18,6 +18,7 @@ export class SmartContractInvokerService {
     const service = BlockchainConnectionFactory.getService(blockchain.platform);
 
     const connection = await service.connect(blockchain.parameters);
+
     try {
       const result = await service.invoke(
         connection,

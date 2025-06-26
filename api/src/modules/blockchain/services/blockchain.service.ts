@@ -1,4 +1,4 @@
-import { Model } from 'mongoose';
+import { isValidObjectId, Model, Types } from 'mongoose';
 
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -34,8 +34,22 @@ export class BlockchainService
 
     const offset = (page - 1) * pageSize;
 
+    const query: Record<string, unknown> = {};
+
+    if (options._id) {
+      if (!isValidObjectId(options._id)) {
+        throw new BadRequestException('INVALID_ID_FORMAT');
+      }
+
+      query['_id'] = Types.ObjectId.createFromHexString(options._id);
+    }
+
+    if (options.name) {
+      query['name'] = { $regex: new RegExp(options.name, 'i') };
+    }
+
     const [data, total] = await Promise.all([
-      this.model.find().skip(offset).limit(pageSize).exec(),
+      this.model.find(query).skip(offset).limit(pageSize).exec(),
       this.model.countDocuments().exec(),
     ]);
 

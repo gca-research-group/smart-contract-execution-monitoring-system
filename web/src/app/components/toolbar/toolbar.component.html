@@ -32,6 +32,10 @@
       }
 
       <mat-menu #menu="matMenu">
+        <div mat-menu-item>
+          <div>{{ currentUser()?.name }}</div>
+          <div>{{ currentUser()?.email }}</div>
+        </div>
         <button mat-menu-item class="toolbar-right-menu" (click)="logout()">
           <app-icon icon="logout" />
           <span>{{ 'logout' | translate }}</span>

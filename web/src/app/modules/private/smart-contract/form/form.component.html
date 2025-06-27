@@ -75,7 +75,9 @@
                       </span>
                       <app-icon-button
                         icon="delete"
-                        (click)="removeClauseArgument(clauseIndex, argumentIndex)"
+                        (click)="
+                          removeClauseArgument(clauseIndex, argumentIndex)
+                        "
                         tooltip="delete"
                       />
                     </mat-panel-title>
@@ -103,8 +105,6 @@
       </div>
     }
   </div>
-
-  <app-file-uploader class="col" formControlName="files" />
 
   <app-button
     label="save"

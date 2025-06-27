@@ -30,7 +30,9 @@ export class AuthController {
     this.authService.setRefreshTokenToResponse(response, data.refreshToken);
 
     return {
-      user: data.user,
+      name: data.name,
+      id: data.id,
+      email: data.email,
       accessToken: data.accessToken,
     };
   }

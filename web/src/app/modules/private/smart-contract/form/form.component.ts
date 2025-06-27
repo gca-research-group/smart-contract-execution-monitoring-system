@@ -67,7 +67,6 @@ export class FormComponent extends BaseFormDirective<
     _id: FormControl<string | null>;
     name: FormControl<string | null>;
     blockchainPlatform: FormControl<string | null>;
-    files: FormControl<string[]>;
     clauses: FormArray;
   }
 > {
@@ -84,7 +83,6 @@ export class FormComponent extends BaseFormDirective<
       blockchainPlatform: new FormControl('HYPERLEDGER_FABRIC', [
         Validators.required,
       ]),
-      files: new FormControl(),
       clauses: this.formBuilder.array([]),
     });
   }

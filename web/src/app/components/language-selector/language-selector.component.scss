@@ -1,6 +1,13 @@
 ng-select {
   min-width: 64px;
-  padding-bottom: 4px;
+}
+
+::ng-deep .languages {
+  .ng-option, .ng-option-label {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 :host ::ng-deep {

@@ -1,24 +1,11 @@
-<ng-select
-  appendTo="body"
-  [placeholder]="'blockchain-platform' | translate"
-  [multiple]="false"
-  [clearable]="false"
-  required
-  class="blockchain-platforms"
+<ng-template #name let-item>
+  <img [src]="item.image" [alt]="item.name" style="height: 32px" />
+  &nbsp;{{ item.name }}
+</ng-template>
+
+<app-select
+  label="blockchain-platform"
+  [items]="items"
   [formControl]="formControl"
-  appearance="outline"
->
-  @for (
-    blockchainPlatform of blockchainPlatforms;
-    track blockchainPlatform.id
-  ) {
-    <ng-option [value]="blockchainPlatform.id">
-      <img
-        [src]="blockchainPlatform.image"
-        [alt]="blockchainPlatform.name"
-        style="height: 32px"
-      />
-      &nbsp;{{ blockchainPlatform.name }}
-    </ng-option>
-  }
-</ng-select>
+  [template]="name"
+/>

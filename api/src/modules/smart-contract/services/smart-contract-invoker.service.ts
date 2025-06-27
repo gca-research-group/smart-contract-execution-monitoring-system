@@ -1,3 +1,5 @@
+import { Network } from '@hyperledger/fabric-gateway';
+
 import { Injectable } from '@nestjs/common';
 
 import { ContractInvokerDto } from '@app/dtos';
@@ -17,7 +19,10 @@ export class SmartContractInvokerService {
 
     const service = BlockchainConnectionFactory.getService(blockchain.platform);
 
-    const connection = await service.connect(blockchain.parameters);
+    const connection = await BlockchainConnectionFactory.getConnection<
+      Network,
+      unknown
+    >(blockchain.id, blockchain.platform, blockchain.parameters);
 
     try {
       const result = await service.invoke(

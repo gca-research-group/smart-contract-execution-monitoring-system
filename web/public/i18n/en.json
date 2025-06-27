@@ -1,5 +1,6 @@
 {
   "add": "Add",
+  "all": "All",
   "argument": "Argument",
   "arguments": "Arguments",
   "blockchain-connection": "Blockchain Connections",
@@ -18,6 +19,7 @@
   "execute": "Execute",
   "execution-result": "Execution Result",
   "execution-results": "Execution Results",
+  "fail": "Fail",
   "home": "Home",
   "id": "Id",
   "login": "Login",
@@ -27,6 +29,7 @@
   "page-size": "Page Size",
   "page": "Page",
   "parameters": "Parameters",
+  "pending": "Pending",
   "profile": "Profile",
   "refresh": "Refresh",
   "results": "Results",
@@ -36,6 +39,8 @@
   "smart-contract-executions": "Smart Contract Executions",
   "smart-contract": "Smart Contract",
   "smart-contracts": "Smart Contracts",
+  "status": "Status",
+  "success": "Success",
   "test-blockchain-connection": "Test the blockchain connection",
   "type": "Type",
   "updatedAt": "Updated At"

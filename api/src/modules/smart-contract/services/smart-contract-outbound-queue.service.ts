@@ -1,13 +1,19 @@
 import amqp, { ChannelWrapper } from 'amqp-connection-manager';
 import { Channel, ConfirmChannel } from 'amqplib';
 
-import { Injectable, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 
 import { UpdateSmartContractExecutionDto } from '@app/dtos/smart-contract-execution';
 
 import { SmartContractExecutionService } from './smart-contract-execution.service';
 
 export const SMART_CONTRACT_OUTBOUND_QUEUE = 'smart-contract-outbound-queue';
+export const SMART_CONTRACT_OUTBOUND_DEAD_QUEUE =
+  'smart-contract-outbound-dead-queue';
 
 @Injectable()
 export class SmartContractOutboundQueueService<T = unknown> {
@@ -23,14 +29,27 @@ export class SmartContractOutboundQueueService<T = unknown> {
   private connect() {
     const connection = amqp.connect([process.env.RABBITMQ_URI!]);
     this.channelWrapper = connection.createChannel({
-      setup: (channel: Channel) =>
-        channel.assertQueue(SMART_CONTRACT_OUTBOUND_QUEUE, { durable: true }),
+      setup: async (_channel: Channel) => {},
     });
   }
 
   async onModuleInit() {
     try {
       await this.channelWrapper.addSetup(async (channel: ConfirmChannel) => {
+        await channel.prefetch(250);
+
+        await channel.assertQueue(SMART_CONTRACT_OUTBOUND_DEAD_QUEUE, {
+          durable: true,
+        });
+
+        await channel.assertQueue(SMART_CONTRACT_OUTBOUND_QUEUE, {
+          durable: true,
+          arguments: {
+            'x-dead-letter-exchange': '',
+            'x-dead-letter-routing-key': SMART_CONTRACT_OUTBOUND_DEAD_QUEUE,
+          },
+        });
+
         await channel.consume(SMART_CONTRACT_OUTBOUND_QUEUE, (message) => {
           if (message) {
             const data = JSON.parse(message.content.toString()) as {
@@ -47,10 +66,15 @@ export class SmartContractOutboundQueueService<T = unknown> {
                 status: data.status,
               } as UpdateSmartContractExecutionDto)
               .then(() => {
-                channel.ack(message);
+                try {
+                  channel.ack(message);
+                } catch (error) {
+                  this.logger.error('Error ack message:', error);
+                }
               })
               .catch((err) => {
                 this.logger.error('Error processing message:', err);
+                channel.nack(message, false, false);
               });
           }
         });
@@ -71,7 +95,7 @@ export class SmartContractOutboundQueueService<T = unknown> {
       );
     } catch (error) {
       this.logger.error(error);
-      throw error;
+      throw new InternalServerErrorException(error);
     }
   }
 }

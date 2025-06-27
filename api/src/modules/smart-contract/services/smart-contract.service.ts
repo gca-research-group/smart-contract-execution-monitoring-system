@@ -46,9 +46,15 @@ export class SmartContractService
       query['name'] = { $regex: new RegExp(options.name, 'i') };
     }
 
+    if (options.blockchainPlatform) {
+      query['blockchainPlatform'] = {
+        $regex: new RegExp(options.blockchainPlatform, 'i'),
+      };
+    }
+
     const [data, total] = await Promise.all([
       this.model.find(query).skip(offset).limit(pageSize).exec(),
-      this.model.countDocuments().exec(),
+      this.model.countDocuments(query).exec(),
     ]);
 
     const totalPages = Math.ceil(total / pageSize);

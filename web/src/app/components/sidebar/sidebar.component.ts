@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDrawerMode, MatSidenavModule } from '@angular/material/sidenav';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { IconComponent } from '@app/components/icon';
 import { Sidebar } from '@app/models';
@@ -40,6 +40,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   private sidebarService = inject(SidebarService);
 
   private onDestroy$ = new Subject();
+
+  private router = inject(Router);
 
   isMobile = inject(IS_MOBILE);
 
@@ -73,9 +75,16 @@ export class SidebarComponent implements OnInit, OnDestroy {
           this.opened = !value;
         }
       });
+
+    this.setCurrentIndexBasedOnCurrentRoute();
   }
 
   ngOnDestroy(): void {
     this.onDestroy$.unsubscribe();
+  }
+
+  setCurrentIndexBasedOnCurrentRoute() {
+    const url = this.router.url.substring(1).split('?')[0];
+    this.currentIndex = this.items().findIndex(item => item.url === url);
   }
 }

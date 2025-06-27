@@ -50,7 +50,7 @@ export class BlockchainService
 
     const [data, total] = await Promise.all([
       this.model.find(query).skip(offset).limit(pageSize).exec(),
-      this.model.countDocuments().exec(),
+      this.model.countDocuments(query).exec(),
     ]);
 
     const totalPages = Math.ceil(total / pageSize);

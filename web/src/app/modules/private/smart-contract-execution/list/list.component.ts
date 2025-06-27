@@ -2,40 +2,22 @@ import { TranslateModule } from '@ngx-translate/core';
 import { interval, Subscription, tap } from 'rxjs';
 
 import { NgStyle } from '@angular/common';
-import {
-  Component,
-  OnDestroy,
-  Pipe,
-  PipeTransform,
-  TemplateRef,
-  viewChild,
-} from '@angular/core';
+import { Component, OnDestroy, TemplateRef, viewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
+import { BlockchainPlatformSelectorComponent } from '@app/components/blockchain-platform-selector';
 import { DeleteDialogComponent } from '@app/components/delete-dialog';
 import { IconButtonComponent } from '@app/components/icon-button';
 import { InputComponent } from '@app/components/input';
 import { SmartContractExecutionResultDialogComponent } from '@app/components/smart-contract-execution-result-dialog';
+import { SmartContractExecutionStatusSelectorComponent } from '@app/components/smart-contract-execution-status-selector';
 import { TableComponent } from '@app/components/table';
 import { BaseListDirective } from '@app/directives/base';
 import { Column, ColumnType, SmartContractExecution } from '@app/models';
+import { StatusColorPipe } from '@app/pipes';
 import { SmartContractExecutionService } from '@app/services/smart-contract-execution';
 import { BREADCRUMB, CRUD_SERVICE } from '@app/tokens';
-
-@Pipe({ name: 'statusColor' })
-class StatusColorPipe implements PipeTransform {
-  transform(key: string) {
-    switch (key) {
-      case 'PENDING':
-        return 'orange';
-      case 'SUCCESS':
-        return 'green';
-      default:
-        return 'red';
-    }
-  }
-}
 
 const COLUMNS: Column[] = [
   {
@@ -86,8 +68,10 @@ const COLUMNS: Column[] = [
 
     TranslateModule,
 
+    BlockchainPlatformSelectorComponent,
     IconButtonComponent,
     InputComponent,
+    SmartContractExecutionStatusSelectorComponent,
     TableComponent,
 
     StatusColorPipe,
@@ -144,6 +128,9 @@ export class ListComponent
 
   protected updateForm() {
     this.form.addControl('id', new FormControl());
+    this.form.addControl('smartContractName', new FormControl());
+    this.form.addControl('blockchainPlatform', new FormControl());
+    this.form.addControl('status', new FormControl());
   }
 
   protected updateColumns() {

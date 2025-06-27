@@ -4,6 +4,7 @@ import { Component, TemplateRef, viewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
+import { BlockchainPlatformSelectorComponent } from '@app/components/blockchain-platform-selector';
 import { IconButtonComponent } from '@app/components/icon-button';
 import { InputComponent } from '@app/components/input';
 import { TableComponent } from '@app/components/table';
@@ -52,9 +53,10 @@ const COLUMNS: Column[] = [
 
     TranslateModule,
 
-    TableComponent,
-    InputComponent,
+    BlockchainPlatformSelectorComponent,
     IconButtonComponent,
+    InputComponent,
+    TableComponent,
   ],
   providers: [
     {
@@ -91,6 +93,7 @@ export class ListComponent extends BaseListDirective<
   protected updateForm() {
     this.form.addControl('id', new FormControl());
     this.form.addControl('name', new FormControl());
+    this.form.addControl('blockchainPlatform', new FormControl());
   }
 
   protected updateColumns() {

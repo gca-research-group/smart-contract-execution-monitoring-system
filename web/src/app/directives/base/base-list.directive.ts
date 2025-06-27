@@ -1,5 +1,5 @@
 import { ToastrService } from 'ngx-toastr';
-import { debounceTime } from 'rxjs';
+import { debounceTime, Subject, takeUntil } from 'rxjs';
 
 import {
   Directive,
@@ -44,6 +44,8 @@ export abstract class BaseListDirective<T, R extends CrudService<T>>
 
   protected breadCrumb = inject(BREADCRUMB);
 
+  protected onDestroy$ = new Subject();
+
   data: T[] = [];
   total = 0;
 
@@ -67,6 +69,7 @@ export abstract class BaseListDirective<T, R extends CrudService<T>>
 
   ngOnDestroy(): void {
     this.breadcrumbService.reset();
+    this.onDestroy$.unsubscribe();
   }
 
   private buildForm() {
@@ -91,13 +94,15 @@ export abstract class BaseListDirective<T, R extends CrudService<T>>
   }
 
   private listenFormChanges() {
-    this.form.valueChanges.pipe(debounceTime(300)).subscribe(() => {
-      this.search();
-      void this.router.navigate([], {
-        queryParams: this.form.value as Record<string, string>,
-        queryParamsHandling: 'merge',
+    this.form.valueChanges
+      .pipe(debounceTime(300), takeUntil(this.onDestroy$))
+      .subscribe(() => {
+        this.search();
+        void this.router.navigate([], {
+          queryParams: this.form.value as Record<string, string>,
+          queryParamsHandling: 'merge',
+        });
       });
-    });
   }
 
   private updateTableSize() {
@@ -145,6 +150,7 @@ export abstract class BaseListDirective<T, R extends CrudService<T>>
   findAll() {
     this.service
       .findAll(removeEmptyKeys(this.form.value as Record<string, FormControl>))
+      .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {
           this.data = [...this.data, ...response.data];

@@ -52,6 +52,8 @@ export class SmartContractSelectorComponent extends BaseSelectorDirective {
               blockchainPlatform: item.blockchainPlatform,
             })) as Selector[],
           );
+
+          this.formControl.updateValueAndValidity();
         },
       });
   }

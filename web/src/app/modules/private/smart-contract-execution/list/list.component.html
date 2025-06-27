@@ -6,6 +6,22 @@
     [min]="1"
     class="col"
   />
+
+  <app-input
+    formControlName="smartContractName"
+    label="smart-contract"
+    class="col"
+  />
+
+  <app-blockchain-platform-selector
+    formControlName="blockchainPlatform"
+    class="col"
+  />
+
+  <app-smart-contract-execution-status-selector
+    formControlName="status"
+    class="col"
+  />
 </form>
 
 <app-table
@@ -65,7 +81,7 @@
     <div
       [attr.data-status]="element.status"
       [ngStyle]="{
-        backgroundColor: (element.status | statusColor)
+        backgroundColor: (element.status | statusColor),
       }"
       style="height: 16px; width: 16px; border-radius: 50%"
     ></div>

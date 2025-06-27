@@ -1,10 +1,10 @@
 <form [formGroup]="form" class="mb-3 d-flex" style="gap: 8px" #filters>
-  <app-input
-    formControlName="id"
-    label="id"
+  <app-input formControlName="id" label="id" class="col" />
+  <app-input formControlName="name" label="name" class="col" />
+  <app-blockchain-platform-selector
+    formControlName="blockchainPlatform"
     class="col"
   />
-  <app-input formControlName="name" label="name" class="col" />
 </form>
 
 <app-table

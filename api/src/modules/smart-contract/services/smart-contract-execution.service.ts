@@ -1,6 +1,6 @@
-import { Model } from 'mongoose';
+import { isValidObjectId, Model, Types } from 'mongoose';
 
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import {
@@ -24,6 +24,7 @@ export class SmartContractExecutionService
       UpdateSmartContractExecutionDto
     >
 {
+  private readonly logger = new Logger(SmartContractExecutionService.name);
   constructor(
     @InjectModel(SmartContractExecution.name)
     private model: Model<SmartContractExecutionDocument>,
@@ -34,9 +35,35 @@ export class SmartContractExecutionService
 
     const offset = (page - 1) * pageSize;
 
+    const query: Record<string, unknown> = {};
+
+    if (options._id) {
+      if (!isValidObjectId(options._id)) {
+        throw new BadRequestException('INVALID_ID_FORMAT');
+      }
+
+      query['_id'] = Types.ObjectId.createFromHexString(options._id);
+    }
+
+    if (options.blockchainPlatform) {
+      query['payload.blockchain.platform'] = {
+        $regex: new RegExp(options.blockchainPlatform, 'i'),
+      };
+    }
+
+    if (options.status && options.status !== 'ALL') {
+      query['status'] = options.status;
+    }
+
+    if (options.smartContractName) {
+      query['payload.smartContract.name'] = {
+        $regex: new RegExp(options.smartContractName, 'i'),
+      };
+    }
+
     const [data, total] = await Promise.all([
-      this.model.find().skip(offset).limit(pageSize).exec(),
-      this.model.countDocuments().exec(),
+      this.model.find(query).skip(offset).limit(pageSize).exec(),
+      this.model.countDocuments(query).exec(),
     ]);
 
     const totalPages = Math.ceil(total / pageSize);

@@ -45,7 +45,7 @@ describe('BlockchainPlatformSelectorComponent', () => {
   });
 
   it('should select the blockchain', () => {
-    component.blockchainPlatforms.forEach((value, index) => {
+    component.items.forEach((value, index) => {
       triggerKeyDownEvent(getNgSelectElement(fixture), 32);
       fixture.detectChanges();
       fixture.debugElement
@@ -58,7 +58,7 @@ describe('BlockchainPlatformSelectorComponent', () => {
   });
 
   it('should set the blockchain', () => {
-    const selected = component.blockchainPlatforms[0];
+    const selected = component.items[0];
     component.formControl = new FormControl(selected.id);
 
     fixture.detectChanges();

@@ -52,6 +52,8 @@ export class BlockchainSelectorComponent extends BaseSelectorDirective {
               platform: item.platform,
             })) as Selector[],
           );
+
+          this.formControl.updateValueAndValidity();
         },
       });
   }

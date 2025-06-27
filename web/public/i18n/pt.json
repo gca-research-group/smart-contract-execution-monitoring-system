@@ -1,5 +1,6 @@
 {
   "add": "Adicionar",
+  "all": "Todos",
   "argument": "Argumento",
   "arguments": "Argumentos",
   "blockchain-connection": "Conexões com as blockchains",
@@ -18,6 +19,7 @@
   "execute": "Executar",
   "execution-result": "Resultado da Execução",
   "execution-results": "Resultados da Execução",
+  "fail": "Falha",
   "home": "Home",
   "id": "Id",
   "login": "Login",
@@ -27,6 +29,7 @@
   "page-size": "Itens por página",
   "page": "Página",
   "parameters": "Parametros",
+  "pending": "Pendente",
   "profile": "Perfil",
   "refresh": "Atualizar",
   "results": "Resultados",
@@ -36,7 +39,9 @@
   "smart-contract-executions": "Execuções dos Contratos Inteligentes",
   "smart-contract": "Contrato Inteligente",
   "smart-contracts": "Contratos Inteligentes",
+  "status": "Status",
+  "success": "Sucesso",
   "test-blockchain-connection": "Testar conexão com a blockchain",
   "type": "Tipo",
-  "updatedAt": "Data de Atualizaçao"
+  "updatedAt": "Data de Atualização"
 }
